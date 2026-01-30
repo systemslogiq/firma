@@ -1,0 +1,11 @@
+﻿{
+  "Info": {
+    "Class": "clsDbConnection",
+    "Description": "Database connections used within the project used to prime Access' internal cache during import."
+  },
+  "Items": {
+    "ODBC;Driver=SQL SERVER;SERVER=OHSV-SQL01\\SQL19DEV;DATABASE=Firma": {
+      "ODBC;DRIVER=SQL SERVER;SERVER=OHSV-SQL01\\SQL19DEV;DATABASE=Firma;Trusted_Connection=yes": "A_Stichwort"
+    }
+  }
+}

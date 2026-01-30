@@ -1,0 +1,10 @@
+﻿{
+  "Info": {
+    "Class": "clsDbProjProperty",
+    "Description": "Project Properties (Access)"
+  },
+  "Items": {
+    "VCS Build Path": "C:\\projects",
+    "VCS Source Path": "S:\\GESCH\\Access\\VersionControl"
+  }
+}

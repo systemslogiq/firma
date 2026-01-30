@@ -1,0 +1,13 @@
+﻿{
+  "Info": {
+    "Class": "clsDbTableDef",
+    "Description": "Linked Table"
+  },
+  "Items": {
+    "Name": "T_Txt",
+    "Connect": "ODBC;DRIVER=SQL SERVER;SERVER=OHSV-SQL01\\SQL19DEV;DATABASE=Firma;Trusted_Connection=yes",
+    "SourceTableName": "dbo.T_Txt",
+    "Attributes": 537001984,
+    "PrimaryKey": "[NrTxt]"
+  }
+}

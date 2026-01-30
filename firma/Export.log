@@ -1,0 +1,399 @@
+﻿-------------------------------------
+Beginning Export of Source Files
+firma.accdb
+VCS Version 4.1.2
+Full Path: C:\projects\firma.accdb
+Export Folder: S:\GESCH\Access\VersionControl\
+Performing Full Export
+30.01.26 22:22:02
+-------------------------------------
+Scanning source files...
+No vbe forms found in this database.
+No saved specs found in this database.
+No imex specs found in this database.
+No queries found in this database.
+No table data found in this database.
+No table data macros found in this database.
+No relations found in this database.
+No hidden attributes found in this database.
+-------------------------------------
+Exporting db connections...   
+  Database Connection
+[1]
+-------------------------------------
+Exporting project...          
+  firma.accdb
+[1]
+-------------------------------------
+Exporting vb project...       
+  Firma_260122
+[1]
+-------------------------------------
+Exporting vbe references...   
+  ADOX
+[14]
+-------------------------------------
+Exporting proj properties...  
+  Current Project Properties (Access)
+[2]
+-------------------------------------
+Exporting modules...          
+  mdlB2B
+  mdl_DB
+  mdlTlb
+  mdlRibbon
+  mdl_Filter
+  mdlDMS
+  mdl_ShellExecute
+  mdl_Outlook
+  StopWatch
+  tcpClient
+  mdlCB
+  mdlOffice
+  mdlTelefonie
+  mdl_language
+  mdl_Printer
+  mdlADO
+  mdlERechnung
+  mdlRTFtoHTML
+  mdl_OH
+  mdl_Etikette
+  mdl_CreateUserAuthTable
+[21]
+-------------------------------------
+Exporting commandbars...      
+  tlbOHrightMouse
+  cbpgStichwort
+  tlbOHR
+
+-------------------------------------
+ERROR: Unhandled error, likely before `On Error` directive
+Error -2147467259: Automatisierungsfehler
+Unbekannter Fehler  Source: .Unknown.LogUnhandledErrors
+-------------------------------------
+  tlbOHrightMouseTab
+[4]
+-------------------------------------
+Exporting shared images...    
+  Barcode
+  1_Barcode
+  2_Barcode
+  3_Barcode
+  4_Barcode
+  5_Barcode
+  6_Barcode
+  7_Barcode
+  8_Barcode
+  9_Barcode
+  10_Barcode
+  11_Barcode
+  12_Barcode
+  13_Barcode
+[14]
+-------------------------------------
+Exporting themes...           
+  Office
+[1]
+-------------------------------------
+Exporting db properties...    
+  Database Properties (DAO)
+[56]
+-------------------------------------
+Exporting tables...           
+  A_Stichwort
+  A_StichwortVG
+  T_Ablage
+  T_Adresse
+  T_ArtAdresse
+  T_Artikel
+  T_Audit
+  T_Begriff
+  T_Chronik
+  T_Filter
+  T_Funktion
+  T_ID
+  T_Land
+  T_language
+  T_Leistung
+  T_Lexikon
+  T_q
+  T_QK
+  T_Stichwort
+  T_Txt
+  T_Verlauf
+  T_VG
+  T_VGDet
+  T_WarenGruppe
+  T_Zuord
+  tblDoc
+  tblTmp
+  vwProvision
+  vwServername
+  vwUB_VGRahmenvertrag
+  vwUB_VGtxt
+  vwUB_VGÜbersicht
+  vwWarengruppeRabatt
+[33]
+-------------------------------------
+Exporting forms...            
+  T_Adresse
+    Sanitized in 0,009 seconds.
+  pfrmeRechnung
+    Sanitized in 0,003 seconds.
+  F_Adresse
+    Sanitized in 0,072 seconds.
+  frmF
+    Sanitized in 0,002 seconds.
+  F_Ablage
+    Sanitized in 0,047 seconds.
+  pfrmCheckVG
+    Sanitized in 0,004 seconds.
+  pfrmClone
+    Sanitized in 0,005 seconds.
+  F_WarenGruppe
+    Sanitized in 0,011 seconds.
+  F_Begriff
+    Sanitized in 0,009 seconds.
+  pfrmZuord
+    Sanitized in 0,006 seconds.
+  F_QK
+    Sanitized in 0,014 seconds.
+  pfrmAdresseCheck
+    Sanitized in 0,014 seconds.
+  frmTank
+    Sanitized in 0,017 seconds.
+  T_Artikel
+    Sanitized in 0,011 seconds.
+  PF_Artikel
+    Sanitized in 0,011 seconds.
+  F_Q
+    Sanitized in 0,010 seconds.
+  F_Chronik
+    Sanitized in 0,011 seconds.
+  F_Artikel
+    Sanitized in 0,035 seconds.
+  UF_txtQK
+    Sanitized in 0,003 seconds.
+  UF_txt
+    Sanitized in 0,010 seconds.
+  PF_Export
+    Sanitized in 0,007 seconds.
+  F_Audit
+    Sanitized in 0,010 seconds.
+  PF_Stichwort
+    Sanitized in 0,016 seconds.
+  PF_Kalender
+    Sanitized in 0,021 seconds.
+  frmProjekt
+    Sanitized in 0,009 seconds.
+  frmSchlagwort
+    Sanitized in 0,010 seconds.
+  UF_Stichwort
+    Sanitized in 0,013 seconds.
+  PF_Tab
+    Sanitized in 0,013 seconds.
+  PF_Land
+    Sanitized in 0,007 seconds.
+  F_VG
+    Sanitized in 0,090 seconds.
+  PF_NeuAdresse
+    Sanitized in 0,008 seconds.
+  PF_NeuVG
+    Sanitized in 0,018 seconds.
+  F_Language
+    Sanitized in 0,007 seconds.
+  PF_Leistung
+    Sanitized in 0,008 seconds.
+  F_Leistung
+    Sanitized in 0,026 seconds.
+  frmStatistik
+    Sanitized in 0,008 seconds.
+  PF_Navigator
+    Sanitized in 0,006 seconds.
+  F_Lexikon
+    Sanitized in 0,017 seconds.
+  PF_Lager
+    Sanitized in 0,008 seconds.
+  Menu
+    Sanitized in 0,014 seconds.
+  PF_Filter
+    Sanitized in 0,006 seconds.
+  F_Filter
+    Sanitized in 0,012 seconds.
+  pfrmTxt
+    Sanitized in 0,002 seconds.
+  pfrmRT
+    Sanitized in 0,004 seconds.
+  PF_MsgBox
+    Sanitized in 0,007 seconds.
+  PF_Rabatt
+    Sanitized in 0,004 seconds.
+  frmB2B
+    Sanitized in 0,005 seconds.
+[47]
+-------------------------------------
+Exporting macros...           
+  Autokeys
+    Sanitized in 0,002 seconds.
+  Autoexec
+    Sanitized in 0,000 seconds.
+[2]
+-------------------------------------
+Exporting reports...          
+  B_ArtikelPreise
+    Sanitized in 0,005 seconds.
+  B_Lagerliste
+    Sanitized in 0,004 seconds.
+  B_Begriff
+    Sanitized in 0,003 seconds.
+  B_QHandbuch
+    Sanitized in 0,025 seconds.
+  rptGelangensbestaetigung
+    Sanitized in 0,004 seconds.
+  B_Adresse
+    Sanitized in 0,005 seconds.
+  B_Ablage
+    Sanitized in 0,007 seconds.
+  B_FirmenPersonenliste
+    Sanitized in 0,003 seconds.
+  B_Brief
+    Sanitized in 0,007 seconds.
+  B_OrdnerRücken
+    Sanitized in 0,004 seconds.
+  UB_VGRahmenvertrag
+    Sanitized in 0,005 seconds.
+  B_Chronik
+    Sanitized in 0,003 seconds.
+  B_Artikel
+    Sanitized in 0,007 seconds.
+  B_VGTotal
+    Sanitized in 0,008 seconds.
+  B_Audit
+    Sanitized in 0,003 seconds.
+  B_VGTotalQuer
+    Sanitized in 0,009 seconds.
+  UB_VGtxt
+    Sanitized in 0,002 seconds.
+  UB_VGGesamtÜbersicht
+    Sanitized in 0,005 seconds.
+  UB_Stichwort
+    Sanitized in 0,002 seconds.
+  B_BegriffListe
+    Sanitized in 0,002 seconds.
+  B_EtiketteKleinVG
+    Sanitized in 0,002 seconds.
+  UB_StichwortVG
+    Sanitized in 0,003 seconds.
+  B_Weihnachtskarte
+    Sanitized in 0,029 seconds.
+  B_AdressListe
+    Sanitized in 0,004 seconds.
+  B_Info
+    Sanitized in 0,010 seconds.
+  B_EtiketteKlein
+    Sanitized in 0,002 seconds.
+  B_VG21
+    Sanitized in 0,043 seconds.
+  B_Etikette2
+    Sanitized in 0,002 seconds.
+  rptKontrakt
+    Sanitized in 0,008 seconds.
+  UB_VGDet
+    Sanitized in 0,005 seconds.
+  B_SollIst
+    Sanitized in 0,006 seconds.
+  B_Etikettegross
+    Sanitized in 0,002 seconds.
+  UB_Rapport
+    Sanitized in 0,002 seconds.
+  rptAnalysenzertifikat
+    Sanitized in 0,059 seconds.
+  B_Rapport
+    Sanitized in 0,007 seconds.
+  B_EtiketteX
+    Sanitized in 0,003 seconds.
+  B_Artikelkurz
+    Sanitized in 0,004 seconds.
+  B_VG
+    Sanitized in 0,042 seconds.
+[38]
+-------------------------------------
+Exporting doc properties...   
+  Database Documents
+[2]
+-------------------------------------
+Exporting nav pane groups...  
+  Groups
+[2]
+-------------------------------------
+Done. (17,24 seconds)
+
+--------------------------------------------------
+                PERFORMANCE REPORTS
+--------------------------------------------------
+Category                      Count     Seconds
+--------------------------------------------------
+Forms                         47        6,54
+Reports                       38        6,08
+Modules                       21        1,85
+CommandBars                   4         1,32
+Tables                        33        0,52
+Shared Images                 14        0,25
+Macros                        2         0,17
+DB Properties                 56        0,14
+Doc Properties                2         0,06
+VBE References                14        0,05
+DB Connections                1         0,04
+Nav Pane Groups               2         0,04
+Proj Properties               2         0,04
+Project                       1         0,03
+Themes                        1         0,02
+VB Project                    1         0,02
+Hidden Attributes             0         0,01
+Table Data Macros             0         0,00
+Relations                     0         0,00
+IMEX Specs                    0         0,00
+Table Data                    0         0,00
+VBE Forms                     0         0,00
+Queries                       0         0,00
+Saved Specs                   0         0,00
+--------------------------------------------------
+TOTALS:                       239       17,19
+--------------------------------------------------
+
+--------------------------------------------------
+Operations                    Count     Seconds
+--------------------------------------------------
+Write File                    308       6,85
+Read File Bytes               109       2,26
+App.SaveAsText()              87        1,84
+Sanitize File                 87        1,03
+Convert to JSON               5584      0,91
+Save CommandBar Images        3         0,58
+Get File Property Hash        168       0,50
+Increment Progress            336       0,50
+Read File                     108       0,43
+modFileAccess.VerifyPath      413       0,20
+Read File DevMode             85        0,14
+Scan DB Objects               1         0,12
+Export VBE Module             21        0,10
+Get VBA Hash                  106       0,09
+Compute SHA256                576       0,08
+Sanitize VBA Code             103       0,07
+Delete File                   109       0,06
+Console Updates               7         0,06
+Write Binary File             14        0,05
+Get Modified Date             424       0,03
+Check for linked table        33        0,02
+Export Theme                  1         0,00
+modFileAccess.GetUncPath      72        0,00
+Quick Count Objects           1         0,00
+Quick Count Files             1         0,00
+Close Open Objects            1         0,00
+Clear Orphaned Files          9         0,00
+Clear Files by Ext            6         0,00
+--------------------------------------------------
+Other Operations                        1,34
+--------------------------------------------------
+
+

@@ -1,0 +1,33 @@
+﻿{
+  "Info": {
+    "Class": "clsDbReport",
+    "Description": "B_SollIst Print Settings"
+  },
+  "Items": {
+    "Device": {
+      "DriverName": "winspool",
+      "DeviceName": "Adobe PDF",
+      "Port": "Documents\\*.pdf",
+      "Default": false
+    },
+    "Printer": {
+      "Orientation": "Portrait"
+    },
+    "Margins": {
+      "LeftMargin": 0.7875,
+      "TopMargin": 1.1812,
+      "RightMargin": 0.3938,
+      "BotMargin": 0.3938,
+      "DataOnly": false,
+      "Width": 6.3069,
+      "Height": 0.1986,
+      "DefaultSize": true,
+      "Columns": 1,
+      "ColumnSpacing": 0.25,
+      "RowSpacing": 0,
+      "ItemLayout": "Horizontal Columns",
+      "FastPrint": 1,
+      "Datasheet": 1
+    }
+  }
+}

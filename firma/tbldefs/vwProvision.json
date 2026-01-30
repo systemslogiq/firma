@@ -1,0 +1,13 @@
+﻿{
+  "Info": {
+    "Class": "clsDbTableDef",
+    "Description": "Linked Table"
+  },
+  "Items": {
+    "Name": "vwProvision",
+    "Connect": "ODBC;DRIVER=SQL SERVER;SERVER=OHSV-SQL01\\SQL19DEV;DATABASE=Firma;Trusted_Connection=yes",
+    "SourceTableName": "dbo.vwProvision",
+    "Attributes": 537001984,
+    "PrimaryKey": "[NrVG]"
+  }
+}
