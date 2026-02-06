@@ -2729,24 +2729,41 @@ Function isWeekday(ByVal InputDate As Variant) As Variant       'Samstag- und So
         isWeekday = InputDate
     End If
 End Function
-Function Alter(dteBirthdate As Date) As Long
+Function Alter(ByVal vBirthdate As Variant) As Variant
+    Dim dteBirthdate As Date
+    Dim dteToday As Date
+    Dim dteBirthdayThisYear As Date
     Dim lngAge As Long
-    ' Sicherstellen, dass der eingegebene Wert ein Datum ist.
-    If Not IsDate(dteBirthdate) Then
-        dteBirthdate = Date
+
+    ' Null/leer/ungültig: kein Alter berechnen.
+    If IsNull(vBirthdate) Then Exit Function
+    If Trim(CStr(vBirthdate)) = "" Then Exit Function
+    If Not IsDate(vBirthdate) Then Exit Function
+
+    dteBirthdate = DateValue(CDate(vBirthdate))
+    dteToday = Date
+
+    ' Zukunftsdatum: ebenfalls keine Berechnung.
+    If dteBirthdate > dteToday Then Exit Function
+
+    lngAge = DateDiff("yyyy", dteBirthdate, dteToday)
+
+    ' Schaltjahr-Regel explizit behandeln (29.02. -> 28.02. in Nicht-Schaltjahren).
+    If Month(dteBirthdate) = 2 And Day(dteBirthdate) = 29 And Not OH_IsLeapYear(Year(dteToday)) Then
+        dteBirthdayThisYear = DateSerial(Year(dteToday), 2, 28)
+    Else
+        dteBirthdayThisYear = DateSerial(Year(dteToday), Month(dteBirthdate), Day(dteBirthdate))
     End If
-    ' Sicherstellen, dass das Geburtsdatum nicht in der Zukunft liegt.
-    ' Wenn dies der Fall ist, wird das Datum von heute verwendet.
-    If dteBirthdate > Date Then
-        dteBirthdate = Date
-    End If
-    ' Berechnen der Differenz in Jahren zwischen heute und dem Geburtsdatum.
-    lngAge = DateDiff("yyyy", dteBirthdate, Date)
-    ' Wenn das Geburtsdatum nicht in diesem Jahr stattgefunden hat, wird 1 vom Alter abgezogen.
-    If DateSerial(Year(Date), Month(dteBirthdate), Day(dteBirthdate)) > Date Then
+
+    If dteBirthdayThisYear > dteToday Then
         lngAge = lngAge - 1
     End If
+
     Alter = lngAge
+End Function
+
+Private Function OH_IsLeapYear(ByVal lngYear As Long) As Boolean
+    OH_IsLeapYear = ((lngYear Mod 4 = 0) And (lngYear Mod 100 <> 0)) Or (lngYear Mod 400 = 0)
 End Function
 Function Primo(Optional dteDate As Date) As Date
 ' OHNEMUS, Donnerstag, 22. Juni 2006
