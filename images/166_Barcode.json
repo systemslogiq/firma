@@ -1,0 +1,12 @@
+﻿{
+  "Info": {
+    "Class": "clsDbSharedImage",
+    "Description": "Shared Image Gallery Item"
+  },
+  "Items": {
+    "Name": "166_Barcode",
+    "FileName": "Barcode.png",
+    "Extension": "png",
+    "ContentHash": "670f7ff"
+  }
+}

@@ -1,0 +1,28 @@
+﻿{
+  "Info": {
+    "Class": "clsDbReport",
+    "Description": "B_Adresse Print Settings"
+  },
+  "Items": {
+    "Printer": {
+      "Orientation": "Landscape",
+      "PaperSize": "A4"
+    },
+    "Margins": {
+      "LeftMargin": 0.2035,
+      "TopMargin": 0.1972,
+      "RightMargin": 0.2271,
+      "BotMargin": 0.2396,
+      "DataOnly": false,
+      "Width": 5.5125,
+      "Height": 0.1354,
+      "DefaultSize": false,
+      "Columns": 2,
+      "ColumnSpacing": 0.25,
+      "RowSpacing": 0,
+      "ItemLayout": "Vertical Columns",
+      "FastPrint": 1,
+      "Datasheet": 1
+    }
+  }
+}

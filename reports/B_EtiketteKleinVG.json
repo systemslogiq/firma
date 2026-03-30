@@ -1,0 +1,28 @@
+﻿{
+  "Info": {
+    "Class": "clsDbReport",
+    "Description": "B_EtiketteKleinVG Print Settings"
+  },
+  "Items": {
+    "Printer": {
+      "Orientation": "Portrait",
+      "PaperSize": "A4"
+    },
+    "Margins": {
+      "LeftMargin": 0.3153,
+      "TopMargin": 0.3153,
+      "RightMargin": 0.3153,
+      "BotMargin": 0.3153,
+      "DataOnly": false,
+      "Width": 2.3681,
+      "Height": 1.4146,
+      "DefaultSize": true,
+      "Columns": 3,
+      "ColumnSpacing": 0.25,
+      "RowSpacing": 0,
+      "ItemLayout": "Horizontal Columns",
+      "FastPrint": 1,
+      "Datasheet": 1
+    }
+  }
+}

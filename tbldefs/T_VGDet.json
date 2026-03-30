@@ -1,0 +1,13 @@
+﻿{
+  "Info": {
+    "Class": "clsDbTableDef",
+    "Description": "Linked Table"
+  },
+  "Items": {
+    "Name": "T_VGDet",
+    "Connect": "ODBC;DRIVER=SQL SERVER;SERVER=OHSV-SQL01\\SQL19DEV;DATABASE=Firma;Trusted_Connection=yes",
+    "SourceTableName": "dbo.T_VGDet",
+    "Attributes": 537001984,
+    "PrimaryKey": "[NrVGDet]"
+  }
+}

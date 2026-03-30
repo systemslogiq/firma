@@ -1,0 +1,28 @@
+﻿{
+  "Info": {
+    "Class": "clsDbReport",
+    "Description": "B_EtiketteX Print Settings"
+  },
+  "Items": {
+    "Printer": {
+      "Orientation": "Portrait",
+      "PaperSize": "A4"
+    },
+    "Margins": {
+      "LeftMargin": 0.2333,
+      "TopMargin": 0.1667,
+      "RightMargin": 0.2403,
+      "BotMargin": 0.1694,
+      "DataOnly": false,
+      "Width": 7.7556,
+      "Height": 1.5,
+      "DefaultSize": true,
+      "Columns": 1,
+      "ColumnSpacing": 0,
+      "RowSpacing": 0,
+      "ItemLayout": "Horizontal Columns",
+      "FastPrint": 1,
+      "Datasheet": 1
+    }
+  }
+}

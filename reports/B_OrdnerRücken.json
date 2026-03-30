@@ -1,0 +1,28 @@
+﻿{
+  "Info": {
+    "Class": "clsDbReport",
+    "Description": "B_OrdnerRücken Print Settings"
+  },
+  "Items": {
+    "Printer": {
+      "Orientation": "Landscape",
+      "PaperSize": "A4"
+    },
+    "Margins": {
+      "LeftMargin": 0.3938,
+      "TopMargin": 0.1972,
+      "RightMargin": 0.3938,
+      "BotMargin": 0.1972,
+      "DataOnly": false,
+      "Width": 1.9292,
+      "Height": 7.4812,
+      "DefaultSize": false,
+      "Columns": 5,
+      "ColumnSpacing": 0.1979,
+      "RowSpacing": 0,
+      "ItemLayout": "Horizontal Columns",
+      "FastPrint": 1,
+      "Datasheet": 1
+    }
+  }
+}

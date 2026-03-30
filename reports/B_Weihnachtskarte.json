@@ -1,0 +1,28 @@
+﻿{
+  "Info": {
+    "Class": "clsDbReport",
+    "Description": "B_Weihnachtskarte Print Settings"
+  },
+  "Items": {
+    "Printer": {
+      "Orientation": "Landscape",
+      "PaperSize": "A4"
+    },
+    "Margins": {
+      "LeftMargin": 0.3938,
+      "TopMargin": 0.25,
+      "RightMargin": 0.2431,
+      "BotMargin": 0.1799,
+      "DataOnly": false,
+      "Width": 5.0007,
+      "Height": 7.7542,
+      "DefaultSize": true,
+      "Columns": 2,
+      "ColumnSpacing": 0.591,
+      "RowSpacing": 0,
+      "ItemLayout": "Vertical Columns",
+      "FastPrint": 1,
+      "Datasheet": 1
+    }
+  }
+}
