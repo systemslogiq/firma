@@ -18,11 +18,11 @@ ErrMsg:
 End Sub
 Private Sub Form_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
-    lgid = Nz(Me!nrID, 0)
+    Dim lgID As Long
+    lgID = Nz(Me!nrID, 0)
     blC = True
     Me.Requery
-    OH_FB Me, "NrID =  " & lgid, "Rabatt"
+    OH_FB Me, "NrID =  " & lgID, "Rabatt"
 ErrEnd:
     Exit Sub
 ErrMsg:
@@ -34,17 +34,17 @@ Private Sub Form_AfterDelConfirm(status As Integer)
 End Sub
 Public Sub lstPF_RabattAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgact As Long
     Dim strQ As String
-    Dim N As Long
-    lgid = Nz(Me!nrID, 0)
+    Dim n As Long
+    lgID = Nz(Me!nrID, 0)
     lgact = Nz(Me!lstPF_RabattAct, 0)
     t = Nz(Me!lstPF_RabattAct.column(1), "")
     DoCmd.Hourglass True
     Select Case lgact
     Case 11, 20, 21, 30, 31
-        If lgid = 0 Then
+        If lgID = 0 Then
             s = "Es ist kein Datensatz aktiviert!"
             GoTo ErrM
         End If
@@ -53,7 +53,7 @@ On Error GoTo ErrMsg
     strQ = "EXECUTE spa_Artikel " & _
                 "@x = 'lstPF_RabattAct'" & _
                 ",@a = " & lgact & _
-                ",@i = " & lgid
+                ",@i = " & lgID
 
     Select Case lgact
     Case 10 '  Schliessen (ohne Speichern)
@@ -74,11 +74,11 @@ On Error GoTo ErrMsg
             GoTo ErrM
         End If
         OH_r r, strQ
-        N = r!CT
+        n = r!CT
         s = r!msg
         MsgBox s, vbInformation, t
         DoCmd.Close acForm, Me.Name
-        If N > 0 And OH_isloaded("F_Artikel") Then '2509024 Input Michi
+        If n > 0 And OH_isloaded("F_Artikel") Then '2509024 Input Michi
             OH_RQ Forms!F_Artikel!lstRabatt
         End If
     Case 20, 21 ' weiterer Rabatt, Rabatt kopieren

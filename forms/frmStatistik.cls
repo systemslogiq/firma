@@ -135,7 +135,7 @@ On Error GoTo ErrMsg
     Dim varEnd As Variant
     Dim countMonth As Integer
     Dim countQK As Integer
-    Dim N As Long
+    Dim n As Long
     Dim lgV As Long
     Dim lgB As Long
     Dim wrk As Workbook
@@ -235,7 +235,7 @@ On Error GoTo ErrMsg
             End Select
            'Link to the source data range.
             i = ws.UsedRange.Rows.count
-            N = ws.UsedRange.Columns.count
+            n = ws.UsedRange.Columns.count
             .SetSourceData Source:=ws.UsedRange
             .Axes(xlValue).TickLabels.NumberFormat = "#.##0"
             Select Case lgQK

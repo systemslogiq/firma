@@ -62,7 +62,7 @@ ErrM:
     MsgBox s, vbCritical, "LETZTER ANRUF"
     GoTo ErrEnd
 End Function
-Public Function OH_DialTelefon(lgid As Long, _
+Public Function OH_DialTelefon(lgID As Long, _
                               ctlNumber As control, _
                               strName As String)
 On Error GoTo ErrMsg
@@ -112,7 +112,7 @@ On Error GoTo ErrMsg
             GoTo ErrM
         End If
     Case "3"
-        OH_DialOutlookContact lgid, strNr, strName
+        OH_DialOutlookContact lgID, strNr, strName
     Case "4"
         'http://www.vbarchiv.net/tipps/details.php?id=2023
         ' Skype-Chat bzw. Skype-Telefonie starten

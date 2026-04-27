@@ -616,7 +616,7 @@ On Error GoTo ErrMsg
         strSQL = strQ & "1"
         OH_r r
         s = r!msg
-        If r!OK = 0 Then
+        If r!ok = 0 Then
             GoTo ErrM
         End If
         i = r!Anzahl
@@ -927,7 +927,7 @@ ErrM:
 End Sub
 Private Function OH_Fillcc(ctl As control, Optional bcc As Boolean)
 On Error GoTo ErrMsg
-    Dim N As Long
+    Dim n As Long
     Dim ctlCC As control
     Set ctlCC = Me!CC
     If bcc Then
@@ -951,7 +951,7 @@ On Error GoTo ErrMsg
             End If
             GoTo ErrEnd
         End If
-        N = 1
+        n = 1
     Case "lstKontakt"
             strSQL = "EXEC spA_Adresse " & _
                         "@x = 'EmailfromID' " & _
@@ -969,17 +969,17 @@ On Error GoTo ErrMsg
         GoTo ErrEnd
     Case "lstM"
         i = Me!countM
-        N = 1
+        n = 1
     Case "lstdet"
         i = Me!countRec
-        N = 0
+        n = 0
     Case Else
         GoTo ErrEnd
     End Select
     If i = 0 Then
         MsgBox "Sie haben keine Adressen zur Auswahl!", vbInformation, t
     Else
-        For i = N To ctl.ListCount - 1
+        For i = n To ctl.ListCount - 1
             strSQL = "EXEC spA_Adresse " & _
                         "@x = 'EmailfromID'" & _
                         ",@i = " & Nz(ctl.column(0, i), 0) & _
@@ -1673,11 +1673,11 @@ ErrMsg:
 End Sub
 Private Sub lstKontaktAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strA As String
     Dim strQ As String
     Dim c As control
-    Dim N As Long
+    Dim n As Long
     DoCmd.Hourglass True
     Set ctl = Me!lstKontakt
     Set c = Me!lstKontaktAct
@@ -1686,14 +1686,14 @@ On Error GoTo ErrMsg
             ctl.column(5) & vbNewLine & _
             vbTab & "als" & vbNewLine & _
             ctl.column(6) & vbNewLine & vbNewLine
-    lgid = Nz(ctl.column(0), 0)
+    lgID = Nz(ctl.column(0), 0)
     t = Me!namen & " " & c.column(1)
     OH_A "@x = 'lstkontaktact'" & _
         ", @a = " & c
     strQ = strSQL
     Select Case c
     Case 35, 36, 37, 40
-        If lgid = 0 Then
+        If lgID = 0 Then
             s = "Bitte in der Liste rechts einen Datensatz markieren!"
             GoTo ErrM
         End If
@@ -1745,12 +1745,12 @@ On Error GoTo ErrMsg
             s = strA & _
                     "Zum Ändern können Sie jetzt zur entsprechenden Adresse wechseln!"
             If MsgBox(s, vbOKCancel + vbDefaultButton2 + vbQuestion, t) = vbOK Then
-                OH_OF "F_Adresse", lgid
+                OH_OF "F_Adresse", lgID
             End If
         Else
-            lgid = Me!NrFunktion
+            lgID = Me!NrFunktion
             strSQL = strQ & _
-                ", @i = " & lgid & _
+                ", @i = " & lgID & _
                 ", @b = " & Me!lstKontakt.column(1)
             s = "lfd. Nr. " & Me!lstKontakt.column(2) & ": " & Me!lstKontakt.column(3) & vbNewLine & Me!lstKontakt.column(4)
             Select Case c
@@ -1763,10 +1763,10 @@ On Error GoTo ErrMsg
                      GoTo ErrM
                  End If
                  s = "Bitte geben Sie eine Zahl zwischen 1 und " & i & " ein!"
-                 N = Val(InputBox(s, t, 1))
-                 If N >= 1 And N <= i Then
+                 n = Val(InputBox(s, t, 1))
+                 If n >= 1 And n <= i Then
                      strSQL = strSQL & _
-                             ", @n = " & N
+                             ", @n = " & n
                      OH_EX
                      OH_RQ Me!lstKontakt
                      SysCmd acSysCmdSetStatus, "Sortierung: neu erstellt"
@@ -1797,8 +1797,8 @@ On Error GoTo ErrMsg
         End If
     Case 40, 41
         If c = 40 Then
-            lgid = ctl.column(1)
-            If lgid = 0 Then
+            lgID = ctl.column(1)
+            If lgID = 0 Then
                 s = strA & _
                         "Löschen können Sie im Register <Adressen managen>"
                 If MsgBox(s, vbOKCancel + vbExclamation, t) = vbOK Then
@@ -1809,11 +1809,11 @@ On Error GoTo ErrMsg
             strA = ctl.column(2) & " " & ctl.column(3)
         Else
             strA = Me!namen
-            lgid = Me!f0
+            lgID = Me!f0
         End If
         If MsgBox(strA, vbQuestion + vbOKCancel, t) = vbOK Then
             strSQL = strQ & _
-                ", @i = " & lgid
+                ", @i = " & lgID
             OH_EX
             OH_RQ ctl
         End If
@@ -2158,15 +2158,15 @@ ErrMsg:
     Resume ErrEnd
 End Sub
 Private Sub lstVGAct_AfterUpdate()
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgact As Long
     Set ctl = Me!lstVG
-    lgid = Nz(ctl.column(0), 0)
+    lgID = Nz(ctl.column(0), 0)
     t = Me!lstVGAct.column(1)
     lgact = Nz(Me!lstVGAct, 0)
     Select Case lgact
     Case 11, 12, 30, 40, 50, 51
-    If lgid = 0 Then
+    If lgID = 0 Then
             s = "Bitte in der Liste rechts den entsprechenden Datensatz markieren!"
             GoTo ErrM
         End If
@@ -2209,9 +2209,9 @@ Private Sub lstVGAct_AfterUpdate()
                 ", @a = " & Me!NrAdrZuord & _
                 ", @u = " & lguser
             OH_r r
-            lgid = r!NrVG
+            lgID = r!NrVG
         End If
-        OH_OF "F_VG", lgid
+        OH_OF "F_VG", lgID
         If lgact = 10 Then
             DoCmd.openForm "PF_NeuVG", , , , , , "A" & Me!NrFunktion
         Else
@@ -2225,19 +2225,19 @@ Private Sub lstVGAct_AfterUpdate()
             End If
         End If
     Case 12 'ergänze den markierten Vorgang...
-        OH_OF "F_VG", lgid
-        DoCmd.openForm "PF_NeuVG", , , , , , "X" & lgid
+        OH_OF "F_VG", lgID
+        DoCmd.openForm "PF_NeuVG", , , , , , "X" & lgID
     Case 30
         lstVG_DblClick (0)
     Case 40
         strSQL = "spI_Marker" & _
                 " @Tag = 'VG'," & _
-                " @ID = " & lgid & "," & _
+                " @ID = " & lgID & "," & _
                 " @art = 'M'"
         OH_EX
         OH_RQ Me!lstVG
-        If Me!lstVG <> lgid Then
-            Me!lstVG = lgid
+        If Me!lstVG <> lgID Then
+            Me!lstVG = lgID
         End If
     Case 50, 51 'verschiebe Vorgang...'
         i = Me!lstVG.ListCount - 1
@@ -2293,16 +2293,16 @@ End Sub
 Private Sub lstArtikelAct_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgArtikel As Long
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgact As Long
     Dim strR As String
     Dim strT As String
     Dim strQ As String
     Dim strB As String
     Dim lgR As Long
-    Dim N As Long
+    Dim n As Long
     Set ctl = Me!LstArtikel
-    lgid = Nz(ctl.column(0), 0)
+    lgID = Nz(ctl.column(0), 0)
     t = Me!LstArtikelAct.column(1)
     lgact = Nz(Me!LstArtikelAct, 0)
     lgArtikel = Nz(ctl.column(0), 0)
@@ -2340,7 +2340,7 @@ On Error GoTo ErrMsg
             Me.PageArtikel.Caption = "Artikel mit Rabatt"
         End If
     Case 12, 13, 30, 40, 52, 53
-        If lgid = 0 Then
+        If lgID = 0 Then
             s = "Bitte in der Liste rechts den entsprechenden Datensatz markieren!"
             GoTo ErrM
         End If
@@ -2358,12 +2358,12 @@ On Error GoTo ErrMsg
                     " @x = 'Neuer Artikel mit Lieferant'," & _
                     " @i = " & Me!NrAdrZuord
             OH_r r
-            lgid = r(0)
+            lgID = r(0)
         End If
-        OH_OF "F_Artikel", lgid
+        OH_OF "F_Artikel", lgID
         Forms!F_Artikel!regd = 1
     Case 12
-        OH_OF "F_Artikel", lgid
+        OH_OF "F_Artikel", lgID
         Forms!F_Artikel!regd = 1
         OH_Copy
     Case 30
@@ -2374,7 +2374,7 @@ On Error GoTo ErrMsg
                 " @ID = " & lgArtikel & "," & _
                 " @art = 'M'"
         OH_EX
-        OH_RQ Me!LstArtikel, lgid
+        OH_RQ Me!LstArtikel, lgID
     Case 50
     Case 51
         If Me!FP = 0 Then
@@ -2424,15 +2424,15 @@ errnochmal:
             s = "Bitte eine Zahl > 0 und <= 100 eingeben"
             GoTo ErrM
         End If
-        N = 0
+        n = 0
         For i = 0 To Me!LstArtikel.ListCount - 1
             If Me!LstArtikel.column(6, i) = strT Then
-                N = N + 1
+                n = n + 1
             End If
         Next i
         i = vbNo
-        If N > 1 Then
-            s = "Sollen alle " & N & " Artikel mit dem Rabatt " & strT & " geändert werden?" & vbNewLine & vbNewLine & _
+        If n > 1 Then
+            s = "Sollen alle " & n & " Artikel mit dem Rabatt " & strT & " geändert werden?" & vbNewLine & vbNewLine & _
                 "JA" & vbTab & "Alle ändern" & vbNewLine & _
                 "Nein" & vbTab & "Nur der markierte Artikel"
             i = MsgBox(s, vbQuestion + vbYesNoCancel, t)
@@ -2442,17 +2442,17 @@ errnochmal:
             ", @b = " & i & _
             ", @n  = " & lgR
         OH_EX
-        OH_RQ Me!LstArtikel, lgid
+        OH_RQ Me!LstArtikel, lgID
     Case 53
         t = "Artikel mit Rabatt aufheben"
-        N = -1
+        n = -1
         For i = 0 To Me!LstArtikel.ListCount - 1
-            N = N + 1
+            n = n + 1
         Next i
         s = "Löschen mit ==>JA"
-        If N > 1 Then
+        If n > 1 Then
             s = s & vbNewLine & vbNewLine & _
-                "Sollen alle " & N & " Artikel mit Rabatt gelöscht werden?" & vbNewLine & _
+                "Sollen alle " & n & " Artikel mit Rabatt gelöscht werden?" & vbNewLine & _
                 "==>JA ALLE"
         End If
         s = InputBox(s, t, "NEIN")
@@ -2466,7 +2466,7 @@ errnochmal:
             ", @n = " & Me!NrFunktion & _
             ", @f = '" & s & "'"
         OH_EX
-        OH_RQ Me!LstArtikel, lgid
+        OH_RQ Me!LstArtikel, lgID
     Case 60
         OH_EX strQ
         OH_OF "F_Adresse", , 10
@@ -2481,11 +2481,11 @@ errnochmal:
         Case vbCancel
             GoTo ErrEnd
         Case vbYes
-            lgid = Me!NrFunktion
+            lgID = Me!NrFunktion
         Case vbNo
-            lgid = 0
+            lgID = 0
         End Select
-        strSQL = strQ & ",@i = " & lgid
+        strSQL = strQ & ",@i = " & lgID
         OH_EXCEL strSQL, "Rabatt-Liste aus Firma"
     End Select
 ErrEnd:
@@ -2713,12 +2713,12 @@ ErrM:
 End Sub
 Public Sub lstOutlookAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strf As String
     Dim strE As String
     Dim strQ As String
     Dim lgact As Long
-    Dim N As Long
+    Dim n As Long
     DoCmd.Hourglass True
     lgact = Nz(Me!lstOutlookAct, 0)
     Set ctl = Me!lstOutlook
@@ -2731,11 +2731,11 @@ On Error GoTo ErrMsg
     t = Me!lstOutlookAct.column(1)
     Select Case lgact
     Case 0
-        N = 0
+        n = 0
         For Each x In ctl.ItemsSelected
-            lgid = Val(Nz(ctl.column(0, x), 0))
-            If lgid > 0 Then
-                OH_OF "F_Adresse", lgid
+            lgID = Val(Nz(ctl.column(0, x), 0))
+            If lgID > 0 Then
+                OH_OF "F_Adresse", lgID
             Else
                 strE = ctl.column(1, x)
                 Me!txtFind = strE
@@ -2746,7 +2746,7 @@ On Error GoTo ErrMsg
             End If
             GoTo ErrEnd
         Next x
-        If N = 0 Then
+        If n = 0 Then
             s = "Bitte rechts eine Adresse markieren!"
             GoTo ErrM
         End If
@@ -2786,43 +2786,43 @@ On Error GoTo ErrMsg
         OH_A "lstOutlook", strSQL
     Case 30     'markierte Kontakte in Outlook abgleichen
                 'Schleife durch Liste
-        N = OH_InsertID_LST(Me!lstOutlook, True, True)
-        If N = 0 Then
+        n = OH_InsertID_LST(Me!lstOutlook, True, True)
+        If n = 0 Then
             s = "Bitte rechts mindestens eine Adresse markieren!"
             GoTo ErrM
         Else
-            s = "markierte Adressen (" & N & ") nach Outlook schicken?"
+            s = "markierte Adressen (" & n & ") nach Outlook schicken?"
             If MsgBox(s, vbOKCancel + vbQuestion + vbDefaultButton2, t) = vbCancel Then
                 GoTo ErrEnd
             End If
         End If
-        N = OH_SyncAddContactOutlook(0, 1)
-        If N > 0 Then   'das erfolgreiche Synchronisieren eintragen in Stichworte
+        n = OH_SyncAddContactOutlook(0, 1)
+        If n > 0 Then   'das erfolgreiche Synchronisieren eintragen in Stichworte
             OH_A "@x = 'OutlookKontakt' , @a = 2,@u = " & lguser
             OH_EX
             regD_Change
         End If
     Case 35
         Set ctl = Me!lstOutlook
-        N = 0
+        n = 0
         For Each x In ctl.ItemsSelected
-            N = N + 1
+            n = n + 1
         Next x
-        If N = 0 Then
+        If n = 0 Then
             s = "Bitte rechts mindestens eine Adresse markieren!"
             GoTo ErrM
         End If
-        s = "markierte Adressen (" & N & ") " & vbNewLine & _
+        s = "markierte Adressen (" & n & ") " & vbNewLine & _
                     "in Outlook unwiderruflich löschen?"
         If MsgBox(s, vbOKCancel + vbQuestion + vbDefaultButton2, t) = vbCancel Then
             GoTo ErrEnd
         End If
-        N = 0
+        n = 0
         For Each x In ctl.ItemsSelected
-           N = N + OH_SyncContactOutlook(Val(ctl.column(0, x)), Nz(ctl.column(2), ""), 35)
+           n = n + OH_SyncContactOutlook(Val(ctl.column(0, x)), Nz(ctl.column(2), ""), 35)
         Next x
-        If N > 0 Then
-            s = "markierte Adressen (" & N & ")" & vbNewLine & _
+        If n > 0 Then
+            s = "markierte Adressen (" & n & ")" & vbNewLine & _
                     "wurden in Outlook unwiderruflich gelöscht!"
             MsgBox s, vbInformation, t
         Else
@@ -2922,7 +2922,7 @@ End Sub
 Private Sub lstWichtigeInfoAct_AfterUpdate() '251014 neu nach ULIS Einwand
 On Error GoTo ErrMsg
     Dim lgact As Long
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strQ As String
     Dim strWichtigeInfoTitel As String
     Dim strWichtigeInfo As String
@@ -2930,11 +2930,11 @@ On Error GoTo ErrMsg
     strWichtigeInfoTitel = OH_RPL(Me!wichtigeInfoTitel)
     strWichtigeInfo = OH_RPL(Me!wichtigeInfo)
     lgact = Nz(Me!lstWichtigeInfoAct, 0)
-    lgid = Nz(Me!lstWichtigeInfo.column(0), 0)
+    lgID = Nz(Me!lstWichtigeInfo.column(0), 0)
     OH_A "@x = 'lstWichtigeInfoAct'" & _
         ",@a = " & lgact & _
         ",@i = " & Nz(Me!NrFunktion, 0) & _
-        ",@n = " & lgid & _
+        ",@n = " & lgID & _
         ",@f = '" & strWichtigeInfoTitel & _
         "',@d = '" & strWichtigeInfo & "'"
     strQ = strSQL
@@ -2966,12 +2966,12 @@ On Error GoTo ErrMsg
             GoTo ErrEnd
         End If
         OH_r r
-        lgid = r!ID
-        OH_RQ Me!lstWichtigeInfo, lgid
+        lgID = r!ID
+        OH_RQ Me!lstWichtigeInfo, lgID
         lstWichtigeInfo_AfterUpdate
         Me!btnwichtigeInfoSave.Enabled = False
     Case 40, 41
-        If lgact = 41 And lgid > 0 Then
+        If lgact = 41 And lgID > 0 Then
             s = "Bitte bestätigen"
             If MsgBox(s, vbQuestion + vbOKCancel, t) = vbCancel Then
                 GoTo ErrEnd
@@ -2998,17 +2998,17 @@ ErrM:
 End Sub
 Private Sub lstWichtigeInfo_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strWichtigeInfoTitel As String
     Dim strWichtigeInfo As String
-    lgid = Nz(Me!lstWichtigeInfo.column(0), 0)
-    If lgid = 0 Then
+    lgID = Nz(Me!lstWichtigeInfo.column(0), 0)
+    If lgID = 0 Then
         strWichtigeInfoTitel = ""
         strWichtigeInfo = ""
     Else
         OH_A "@x = 'lstWichtigeInfoAct'" & _
             ",@a = 20 " & _
-            ",@i = " & lgid
+            ",@i = " & lgID
         OH_r r
         strWichtigeInfoTitel = Nz(r!Stichwort, "")
         strWichtigeInfo = Nz(r!BemStichwort, "")
@@ -3513,10 +3513,10 @@ ErrMsg:
 End Sub
 Public Sub lstM_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
-    lgid = Nz(Me!lstM, 0)
-    If lgid > 0 Then
-        OH_SetRS Me, lgid
+    Dim lgID As Long
+    lgID = Nz(Me!lstM, 0)
+    If lgID > 0 Then
+        OH_SetRS Me, lgID
     End If
     Me!lstM.SetFocus
     Select Case Me!lstMdo
@@ -4749,7 +4749,7 @@ End Sub
 Private Sub Email_Exit(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim strE As String  ' hier wird die Email Domäne eingetragen
-    Dim lgid As Long    ' ID Funktion dieser Adresse
+    Dim lgID As Long    ' ID Funktion dieser Adresse
     If Nz(Me!EMail, "") = "" Then
         GoTo ErrEnd
     End If
@@ -4759,10 +4759,10 @@ On Error GoTo ErrMsg
     If Me.Dirty Then
         OH_Valid_Mail_URL Nz(Me!EMail), , Me!EMail
         strE = Mid(Me!EMail, InStr(Me!EMail, "@"), Len(Me!EMail))
-        lgid = Me!NrFunktion
+        lgID = Me!NrFunktion
         strSQL = "Exec dbo.spa_adresse" & _
                     " @x = 'CheckDomain'," & _
-                    " @i = " & lgid & "," & _
+                    " @i = " & lgID & "," & _
                     " @f = '" & strE & "'"
         OH_r r  'Antwort = 0 wenn keine Änderung
                 '        > 0 für Anzahl gleicher Domainen
@@ -4776,7 +4776,7 @@ On Error GoTo ErrMsg
             If i = vbYes Then
                 strSQL = "Exec dbo.spa_adresse" & _
                          " @x = 'CheckDomain'," & _
-                         " @i = " & lgid & "," & _
+                         " @i = " & lgID & "," & _
                          " @a = " & r!NrAdrZuord & "," & _
                          " @f = '" & strE & "'"
                 OH_EX
@@ -5281,7 +5281,7 @@ Public Sub lstTxtMemo_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgA As Long
     Dim lgC As Long
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strT As String
     DoCmd.Hourglass True
     t = Me!lstTxtMemo.column(1)
@@ -5368,10 +5368,10 @@ On Error GoTo ErrMsg
         OH_A "@x = 'Standardtext', " & _
               "@f = '" & Me!StandardText & "'", , Me
         OH_r r
-        lgid = r!ID
+        lgID = r!ID
         lgC = r!NrBoss
         OH_OF "F_Lexikon"
-        Forms!F_Lexikon.OH_FindLex lgC, lgid
+        Forms!F_Lexikon.OH_FindLex lgC, lgID
    Case 76, 77
         If Me!lstTxtMemo = 76 Then
             s = "Email"
@@ -5741,12 +5741,12 @@ ErrMsg:
     MsgBox Err & " " & Err.Description, vbCritical, "F_Adresse.OH_Postadr"
     Resume ErrEnd
 End Function
-Public Function OH_newOutlookContact(lgid As Long)
+Public Function OH_newOutlookContact(lgID As Long)
 On Error GoTo ErrMsg
     Dim strf As String
     Dim lgF As Long
     OH_A "@x = 'OH_newOutlookContact'," & _
-        " @i = " & lgid & "," & _
+        " @i = " & lgID & "," & _
         " @a = 0"
     OH_r rx
     If rx.BOF Then
@@ -5754,7 +5754,7 @@ On Error GoTo ErrMsg
         GoTo ErrMsg1
     End If
     If rx!ogAdresse > 0 Then
-        DoCmd.openForm "PF_NeuAdresse", , , , , , "o" & lgid
+        DoCmd.openForm "PF_NeuAdresse", , , , , , "o" & lgID
     End If
 ErrEnd:
     OH_ResetRS rx
@@ -5816,12 +5816,12 @@ ErrMsg:
 End Sub
 Private Sub lstAudit_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgid As Long
-    lgid = Nz(Me!lstAudit, 0)
-    If lgid = 0 Then
+    Dim lgID As Long
+    lgID = Nz(Me!lstAudit, 0)
+    If lgID = 0 Then
         GoTo ErrEnd
     End If
-    OH_OF "F_Audit", lgid
+    OH_OF "F_Audit", lgID
 ErrEnd:
     Exit Sub
 ErrMsg:
@@ -5898,7 +5898,7 @@ Private Sub lstDSGVOact_AfterUpdate()
 On Error GoTo ErrMsg
 Dim lgact As Long
 Dim strQ As String
-Dim lgid As Long
+Dim lgID As Long
     OH_SaveRS Me
     t = "DSGVO: " & Nz(Me!lstDSGVOact.column(1), "") & " ==> " & Me!Vorname & " " & Me!Nachname
     lgact = Nz(Me!lstDSGVOact, 10)
@@ -5943,8 +5943,8 @@ Dim lgid As Long
             s = InputBox(s, t, "<Entfernen>")
         Case Else
 DSGVOagain:
-            lgid = Nz(Me!lstDSGVO.column(0), 0)
-            If lgid > 0 Then
+            lgID = Nz(Me!lstDSGVO.column(0), 0)
+            If lgID > 0 Then
                 s = "<ALLE>" & vbTab & "Alle " & r!CT & "DSGVO-Einträge entfernen?" & vbNewLine & _
                     "<Markiert> en Eintrag entfernen"
             Else
@@ -5958,7 +5958,7 @@ DSGVOagain:
         Case "<Alle>", "<Markiert>", "<Entfernen>", "Alle", "Markiert", "Entfernen"
             strSQL = strQ & _
                 ",@f ='" & s & _
-                "',@b = " & lgid
+                "',@b = " & lgID
             OH_EX
             OH_RQ Me!lstDSGVO
             Me!lstDSGVOact = 0

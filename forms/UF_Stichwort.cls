@@ -279,7 +279,7 @@ ErrMsg:
 End Sub
 Public Sub btnNeu_Click() '200309 Input Gerd
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strGR As String
     OH_SaveRS Me
     strGR = "Technische Daten"
@@ -298,8 +298,8 @@ On Error GoTo ErrMsg
             "', @Gr = '" & strGR & _
             "',@o = '-'"
     OH_r r
-    lgid = r!ID
-    OH_RQf Me, lgid
+    lgID = r!ID
+    OH_RQf Me, lgID
     Me!Stichwort.SetFocus
 ErrEnd:
     Exit Sub
@@ -425,13 +425,13 @@ End Sub
 Private Sub StichwortGr_AfterUpdate()
 On Error GoTo ErrMsg
     'bei Änderung der Stichwortgruppe soll man weitere betroffene Stichwort gleichzeitig ändern können.
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strQ As String
     Dim strGR As String
     Dim strGrOld As String
     Dim lgGr As Long
     Dim lgGrleer As Long
-    lgid = Nz(Me!NrStichwort, 0)
+    lgID = Nz(Me!NrStichwort, 0)
     strGR = Nz(Me!StichwortGr, "")
     strGrOld = Nz(Me!StichwortGr.OldValue, "")
     t = "Stichwort-Gruppe " & strGrOld & " ==> " & strGR
@@ -440,7 +440,7 @@ On Error GoTo ErrMsg
     End If
     strQ = "Exec dbo.spA_Stichwort " & _
               " @x = 'CheckStichwortGr'" & _
-              ", @i = " & lgid & _
+              ", @i = " & lgID & _
               ", @cID = '" & Parent!ID.Tag & _
               "', @id = " & Parent!ID & _
               ", @f  = '" & strGR
@@ -480,7 +480,7 @@ On Error GoTo ErrMsg
         GoTo ErrEnd
     End Select
     OH_SaveRS Me
-    OH_RQf Me, lgid
+    OH_RQf Me, lgID
 ErrEnd:
     Exit Sub
 ErrMsg:

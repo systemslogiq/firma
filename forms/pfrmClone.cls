@@ -111,7 +111,11 @@ On Error GoTo ErrMsg
     f!lstVGIDAct = 400
     f!txtFind = strP
     f.txtFind_AfterUpdate
-
+    If f!projektNr <> strP Then '260425
+        s = "Hinweis" & vbNewLine & _
+            strP & " wird nicht angezeigt"
+        MsgBox s, vbCritical, "neue Projekt-Nr????"
+    End If
     DoCmd.Close acForm, Me.Name
 ErrEnd:
     Exit Sub

@@ -5,7 +5,7 @@ Attribute VB_Exposed = False
 
 Option Compare Database
 Option Explicit
-Dim lgid As Long
+Dim lgID As Long
 Dim strAblageZertifikate As String
 Private Sub Form_Error(DataErr As Integer, Response As Integer)
     Response = OH_Form_error(DataErr)
@@ -13,12 +13,12 @@ End Sub
 Private Sub Form_Load()
 On Error GoTo ErrMsg
     DoCmd.Hourglass True
-    OH_A "lstB2BEx", , Me
-    i = Me!lstB2BEx.ListCount
-    OH_A "lstB2BExAct", "@i = " & i, Me
     Me!lstB2BExAct = 12
     lstB2BExAct_AfterUpdate
     Me!lstB2BEx = Me!lstB2BEx.column(0)
+    OH_A "lstB2BEx", , Me
+    i = Me!lstB2BEx.ListCount
+    OH_A "lstB2BExAct", "@i = " & i, Me
     OH_Move Me, 10, 10, 460, 250
     s = "Übersicht von Lagerabrufen, bei denen NNT die ausgelieferte Menge bereits mitgeteilt hat."
     Me.Caption = s
@@ -82,9 +82,10 @@ End Sub
 Public Sub lstB2BExAct_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgVG38 As Long
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgVG As Long
     Dim lgact As Long
+    Dim lgN As Long
     Dim lgct As Long
     Dim strQ As String
     Dim strQx As String
@@ -94,6 +95,7 @@ On Error GoTo ErrMsg
     Dim oFolder As Outlook.Folder
     Dim oMail As Outlook.MailItem
     Dim strFile As String
+    Dim strProjektNr As String
     Dim lgW As Long
     Dim rB2B As ADODB.Recordset
     Dim rB2Bx As ADODB.Recordset
@@ -101,17 +103,17 @@ On Error GoTo ErrMsg
     Dim lgSendMail As Long '0 = nur Display, 1 = Direkt versenden, 2 nur display und in DMS speichern, 3 direkt versenden und in DMS speichern
     DoCmd.Hourglass True
     lgact = Nz(Me!lstB2BExAct, 0)
-    lgid = Nz(Me!lstB2BEx, 0)
+    lgID = Nz(Me!lstB2BEx, 0)
     lgVG = Nz(Me!lstB2BEx.column(3), 0)
     OH_A "@x = 'lstB2BExAct'" & _
         ", @a = " & lgact & _
-        ", @i = " & lgid & _
+        ", @i = " & lgID & _
         ", @u = " & lguser, , Me
     strQ = strSQL
     t = Nz(Me!lstB2BExAct.column(1), "")
     Select Case lgact
     Case 10, 20, 21, 30, 31, 32, 33, 34
-        If lgid = 0 Then
+        If lgID = 0 Then
             s = "Bitte eine Zeile markieren"
             GoTo ErrM
         End If
@@ -124,21 +126,21 @@ On Error GoTo ErrMsg
         If i <> 0 Then
             GoTo ErrM
         End If
-        If s <> "" And r!OK = "JA" Then
+        If s <> "" And r!ok = "JA" Then
             MsgBox s, vbExclamation, t
         End If
-        OH_RQ Me!lstB2BEx, lgid
+        OH_RQ Me!lstB2BEx, lgID
     Case 12
         lgW = Me!lstB2BExAct.left
         With Me!lstB2B
             .Visible = Not .Visible
             If .Visible Then
                 lgW = Me!lstB2B.left
-                lgid = Nz(Me!lstB2BEx, 0)
-                If lgid = 0 Then
-                    lgid = Me!lstB2BEx.column(0, 1)
+                lgID = Nz(Me!lstB2BEx, 0)
+                If lgID = 0 Then
+                    lgID = Me!lstB2BEx.column(0, 1)
                 End If
-                Me!lstB2BEx = lgid
+                Me!lstB2BEx = lgID
                 lstB2BEx_AfterUpdate
             End If
         End With
@@ -162,7 +164,7 @@ On Error GoTo ErrMsg
             "57er Lagerabruf" & vbNewLine & _
             "37er Lieferschein" & vbNewLine
         If lgact = 20 Then
-            s = s & "51er Rechnung"
+            s = s & "51er Rechnung (nur wenn Datum erreicht)"
         End If
         s = s & vbNewLine & vbNewLine & _
             "bereits erstellte Vorgänge werden nicht nochmal erzeugt!" & vbNewLine & _
@@ -193,6 +195,39 @@ On Error GoTo ErrMsg
             End Select
             lstB2BExAct_AfterUpdate
         End If
+    Case 22 'Zollpapiere aus Outlook holen...'
+        s = "Durchsuche Outlook nach Zollpapieren und ordne sie den entsprechenden Projekten zu!" & vbNewLine & _
+            "(Ergebnis steht links unten in der Statuszeile)"
+        If MsgBox(s, vbQuestion + vbOKCancel, t) = vbCancel Then
+            GoTo ErrEnd
+        End If
+        OH_r rB2Bx
+        lgct = 0
+        While Not rB2Bx.EOF
+            strProjektNr = Nz(rB2Bx!projektNr, "")
+            lgVG = Nz(rB2Bx!NrVG38, 0)
+            If lgVG > 0 Then
+                Set oMail = Nothing
+                Set oMail = OH_OutlookFindZollpapiere(strProjektNr, rB2Bx!outlookFolder, rB2Bx!PartSenderAdress)
+                If Not oMail Is Nothing Then
+                    lgN = OH_Mail_to_DMS(0, lgVG, 100, , oMail)
+                    If lgN > 0 Then
+                        strSQL = "Update vwid set idt1 = 'Zollpapiere'"
+                        OH_EX
+                        OH_FileCopyMove 0, "DMS"
+                        lgct = lgct + 1
+                    End If
+                End If
+            End If
+            rB2Bx.MoveNext
+        Wend
+        If lgct > 0 Then
+            Me!lstB2BExAct = 40
+            lstB2BExAct_AfterUpdate
+            SysCmd acSysCmdSetStatus, lgct & "* Zollpapier-Email zugeordnet!"
+        Else
+            SysCmd acSysCmdSetStatus, "Keine Zollpapiere gefunden!"
+        End If
     Case 25, 26
         strM = ""
         OH_A "@x = 'Ablage Outlook'", , Me
@@ -201,8 +236,8 @@ On Error GoTo ErrMsg
         OH_r rB2B, strQ
         While Not rB2B.EOF
             lgSendMail = 2
-            lgid = rB2B!ID
-            lgVG38 = rB2B!nrVG38
+            lgID = rB2B!ID
+            lgVG38 = rB2B!NrVG38
             If lgact = 26 Then
                 If rB2B!MailinDMS = 0 Then
                     lgSendMail = 1
@@ -218,7 +253,7 @@ On Error GoTo ErrMsg
                 End If
             End If
             strAttach = ""
-            strSQL = strQ & ", @nrvg37 = " & lgid
+            strSQL = strQ & ", @nrvg37 = " & lgID
             OH_r rB2By
             While Not rB2By.EOF
                 For i = 1 To 4 '3
@@ -264,16 +299,16 @@ On Error GoTo ErrMsg
                 Next i
             rB2By.MoveNext
             Wend
-            OH_OF "F_VG", lgid
+            OH_OF "F_VG", lgID
             Set f = Forms!F_VG
-            If f!NrVG = lgid Then
-                If Not OH_PDFOutlook(lgid, strAttach, strB2B_OutlookFolder, lgSendMail) Then
-                    s = strM & vbNewLine & "Erstelle Outlook-Mail mit ID = " & lgid & vbNewLine & vbNewLine & _
+            If f!NrVG = lgID Then
+                If Not OH_PDFOutlook(lgID, strAttach, strB2B_OutlookFolder, lgSendMail) Then
+                    s = strM & vbNewLine & "Erstelle Outlook-Mail mit ID = " & lgID & vbNewLine & vbNewLine & _
                         "ist etwas schief gelaufen"
                     GoTo ErrM
                 Else
                     strQx = strQ & _
-                            ",@NrVG = " & lgid & _
+                            ",@NrVG = " & lgID & _
                             ",@nrVG38 =" & lgVG38
                     OH_r rB2Bx, strQx
                     strM = strM & rB2Bx!msg
@@ -285,7 +320,7 @@ On Error GoTo ErrMsg
                         If lgSendMail = 3 Then
                             lgSendMail = 1
                         End If
-                        If OH_CheckGelangensbestätigung(lgid, , strB2B_OutlookFolder, lgSendMail) = True Then
+                        If OH_CheckGelangensbestätigung(lgID, , strB2B_OutlookFolder, lgSendMail) = True Then
                             strM = strM & vbNewLine & _
                                 "mit Gelangsbestätigung"
                         End If
@@ -294,7 +329,7 @@ On Error GoTo ErrMsg
             End If
             rB2B.MoveNext
         Wend
-        OH_RQ Me!lstB2BEx, lgid
+        OH_RQ Me!lstB2BEx, lgID
         t = "Ergebnis"
         MsgBox strM, vbExclamation, t
     Case 30, 31, 32, 33, 34 '30er
@@ -326,13 +361,12 @@ On Error GoTo ErrMsg
         GoTo ErrEnd
     Case 61
         OH_EX strQ
-        OH_RQ Me!lstB2BEx, lgid
+        OH_RQ Me!lstB2BEx, lgID
     Case 100
         DoCmd.Close acForm, Me.Name
         GoTo ErrEnd
     End Select
     Me!lstB2BExAct = 0
-
 ErrEnd:
     DoCmd.Hourglass False
     Exit Sub

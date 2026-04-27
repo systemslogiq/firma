@@ -14,9 +14,9 @@ Begin Form
     Width =23974
     DatasheetFontWeight =700
     ItemSuffix =296
-    Right =28170
+    Right =24945
     Bottom =11865
-    TimerInterval =15000
+    TimerInterval =1000
     OnUnload ="[Event Procedure]"
     Tag ="Menu"
     RecSrcDt = Begin
@@ -24,7 +24,6 @@ Begin Form
     End
     Caption ="MENU"
     OnOpen ="[Event Procedure]"
-    OnTimer ="[Event Procedure]"
     OnActivate ="[Event Procedure]"
     OnDeactivate ="[Event Procedure]"
     OnError ="[Event Procedure]"

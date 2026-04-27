@@ -24,10 +24,10 @@ Begin Form
     Width =6237
     DatasheetFontHeight =11
     ItemSuffix =17
-    Left =-7306
+    Left =32655
     Top =3030
-    Right =20609
-    Bottom =15225
+    Right =-8191
+    Bottom =14895
     Tag ="Clone"
     RecSrcDt = Begin
         0x3a92cb07b2f8e340
@@ -47,7 +47,7 @@ Begin Form
         Begin Label
             BackStyle =0
             FontSize =11
-            FontName ="Calibri"
+            FontName ="Aptos"
             ThemeFontIndex =1
             BackThemeColorIndex =1
             BorderThemeColorIndex =1
@@ -61,7 +61,7 @@ Begin Form
             Height =283
             FontSize =11
             FontWeight =400
-            FontName ="Calibri"
+            FontName ="Aptos"
             ForeThemeColorIndex =2
             ForeShade =50.0
             GridlineThemeColorIndex =1
@@ -78,7 +78,7 @@ Begin Form
             Width =1701
             LabelX =-1701
             FontSize =11
-            FontName ="Calibri"
+            FontName ="Aptos"
             AsianLineBreak =1
             BackThemeColorIndex =1
             BorderThemeColorIndex =3
@@ -95,7 +95,7 @@ Begin Form
             Height =1417
             LabelX =-1701
             FontSize =11
-            FontName ="Calibri"
+            FontName ="Aptos"
             AllowValueListEdits =1
             InheritValueList =1
             ThemeFontIndex =1
@@ -112,7 +112,7 @@ Begin Form
             Width =1701
             LabelX =-1701
             FontSize =11
-            FontName ="Calibri"
+            FontName ="Aptos"
             AllowValueListEdits =1
             InheritValueList =1
             ThemeFontIndex =1

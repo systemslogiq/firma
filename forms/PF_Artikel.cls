@@ -76,10 +76,10 @@ ErrMsg:
     MsgBox Err.number & " " & Err.Description, vbCritical, "PF_Artikel.lstArtikel_afterupdate"
     Resume ErrEnd
 End Sub
-Public Function OH_SetArtikel(lgid As Long)
+Public Function OH_SetArtikel(lgID As Long)
 On Error GoTo ErrMsg
     OH_A "@x = 'IDArtikel'," & _
-         " @i = " & lgid, , Me
+         " @i = " & lgID, , Me
     OH_r r
     Me!Lager = r!Lager
     Me!Verfügbar = r!Verfügbar

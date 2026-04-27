@@ -82,13 +82,13 @@ End Sub
 Private Sub lstDet_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim strA As String
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgArt As Long
     Dim strf As String
     strA = Nz(Me!lstDet.column(3))
     DoEvents
     t = "Doppel-Klick auf Audit-Liste"
-    lgid = Val(Nz(Me!keycol, 0))
+    lgID = Val(Nz(Me!keycol, 0))
     Select Case strA
     Case "Anmeldung", "Abmeldung"
         s = strA & vbNewLine & _
@@ -129,9 +129,9 @@ On Error GoTo ErrMsg
                 Select Case strf
                 Case "pF_Land"
                     DoCmd.openForm "PF_Land"
-                    OH_FB Forms!PF_Land, "NrLand= " & lgid
+                    OH_FB Forms!PF_Land, "NrLand= " & lgID
                 Case Else
-                    OH_OF strf, lgid, lgArt
+                    OH_OF strf, lgID, lgArt
                 End Select
             End If
         Else
@@ -160,7 +160,7 @@ Private Sub btnArchiv_Click()
 On Error GoTo ErrMsg
     Dim strFile As String
     Dim strf As String
-    Dim N As Long
+    Dim n As Long
     t = "Archivieren von Änderungen, Löschungen"
     If OH_CheckAdmin("+" & t) = False Then
         s = Me!btnArchiv.ControlTipText & vbNewLine & _
@@ -170,18 +170,18 @@ On Error GoTo ErrMsg
         x = InputBox(s, t, 30)
         Select Case x
         Case ""
-            N = 0
+            n = 0
         Case "Alle"
-            N = 1000000
+            n = 1000000
             s = "Alle Daten"
         Case Else
-            N = Val(x)
-            s = "älter als " & N & " Tag(e)"
+            n = Val(x)
+            s = "älter als " & n & " Tag(e)"
         End Select
-        If N = 0 Then
+        If n = 0 Then
             GoTo ErrEnd
         End If
-        strSQL = "Exec dbo.spa_Audit @x = 'Archivcount', @i = " & N
+        strSQL = "Exec dbo.spa_Audit @x = 'Archivcount', @i = " & n
         OH_r r
         i = r!AnzahlArchiv 'Anzahl zu archivierender Datensätze
         If i = 0 Then
@@ -195,7 +195,7 @@ On Error GoTo ErrMsg
             Case vbYes
                 strSQL = "Exec dbo.spa_Audit" & _
                         " @x = 'Archiv'" & _
-                        ", @i = " & N
+                        ", @i = " & n
                 OH_r r
                 s = "Anzahl" & vbTab & "was" & vbNewLine & _
                         "===================================" & vbNewLine & _
@@ -207,7 +207,7 @@ On Error GoTo ErrMsg
             Case vbNo
                 strSQL = "Exec dbo.spA_Audit" & _
                         " @x = 'lstdet'" & _
-                        ", @i = " & N
+                        ", @i = " & n
                 OH_A "lstdet", strSQL
                 Me!lstDet.SetFocus
             End Select

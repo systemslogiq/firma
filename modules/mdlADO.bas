@@ -141,7 +141,7 @@ Public Function OH_GetCnnString() As String
     Dim strODBC As String
     Dim strProvider As String
     Dim strUID As String
-    Dim strPWD As String
+    Dim strPwd As String
     Dim strDriver As String
     Dim rDAO As DAO.Recordset
     Dim tdf As DAO.TableDef
@@ -174,6 +174,7 @@ Public Function OH_GetCnnString() As String
     rDAO.Close
     Set rDAO = Nothing
 
+buildConnStr:  '260421 Anpassungen sql server authentication
     strProvider = "sqloledb"
     'strProvider = "MSOLEDBSQL" 'FUNKTIONIERT NICHT BEI ANGELIKA trotz installation von "K:\1Firma\SQL\Anpassungen\251230\msoledbsql.msi"
 
@@ -184,61 +185,95 @@ Public Function OH_GetCnnString() As String
         ";DATABASE=" & strDB & _
         ";Encrypt=Yes " & _
         ";TrustServerCertificate=Yes"
-'    strODBC = "ODBC" & _
-'        ";DRIVER=" & strDriver & _
-'        ";SERVER=" & strServer & _
-'        ";DATABASE=" & strDB
     strProvider = "Provider=" & strProvider & _
         ";Data Source=" & strServer & _
         ";Initial Catalog=" & strDB & _
         ";Encrypt=Yes " & _
         ";TrustServerCertificate=Yes"
 
+    '260421 Anpassungen sql server authentication
     If blUseSQLAuth Then
-       ' Nur abfragen, wenn noch nicht gespeichert
-       If Len(glstrUser) = 0 Then
-           glstrUser = InputBox("Bitte geben Sie Ihren Benutzernamen ein:", "SQL-Authentifizierung")
-       End If
-       strUID = glstrUser
-        If Len(strUID) = 0 Then
-            MsgBox "Benutzername ist erforderlich.", vbExclamation, "Fehler"
-            OH_GetCnnString = "STOP"
-            GoTo ErrEnd
+        ' 1. Versuch: Credentials aus Windows Credential Manager laden
+        If Len(glstrUser) = 0 Or Len(glstrPW) = 0 Then
+            SqlCred_Load glstrUser, glstrPW
         End If
 
-       If Len(glstrPW) = 0 Then
-           glstrPW = InputBox("Bitte geben Sie Ihr Passwort ein:", "SQL-Authentifizierung")
-       End If
-       strPWD = glstrPW
-        If Len(strPWD) = 0 Then
-            MsgBox "Passwort ist erforderlich.", vbExclamation, "Fehler"
-            OH_GetCnnString = "STOP"
-            GoTo ErrEnd
+        ' 2. Fallback: fehlt Benutzer oder Passwort -> maskiertes Login-Formular
+        If Len(glstrUser) = 0 Or Len(glstrPW) = 0 Then
+            If Not SqlLogin_Prompt(glstrUser, glstrPW) Then
+                ' User hat Abbrechen geklickt
+                OH_GetCnnString = "STOP"
+                GoTo ErrEnd
+            End If
         End If
 
-        If Len(strUID) = 0 Or Len(strPWD) = 0 Then
-            MsgBox "Benutzername und Passwort sind erforderlich.", vbExclamation, "Fehler"
-            OH_GetCnnString = "STOP"
-            GoTo ErrEnd
+        strUID = glstrUser
+        strPwd = glstrPW
+
+        ' 3. Wenn noch nicht im Credential Manager vorhanden -> speichern
+        If Not SqlCred_Exists() Then
+            SqlCred_Save strUID, strPwd
         End If
 
-        ' Verbindungszeichenfolgen zusammenstellen
-        ' Die Option "TrustServerCertificate=yes" akzeptiert das Serverzertifikat auch dann,
-        ' wenn es nicht vollständig verifiziert werden kann. Diese Option ist nützlich,
-        ' um Verbindungsprobleme mit SSL-Zertifikaten zu umgehen, sollte jedoch in
-        ' produktiven Umgebungen mit Vorsicht verwendet werden, da sie ein potenzielles Sicherheitsrisiko darstellen kann.
-        strODBC = "DRIVER=" & strDriver & ";SERVER=" & strServer & ";DATABASE=" & strDB & ";UID=" & strUID & ";PWD=" & strPWD & ";Encrypt=yes;TrustServerCertificate=yes;"
-        strProvider = strODBC
+        ' ODBC-String (fuer Linked Tables / Pass-Through)
+        strODBC = "DRIVER={" & strDriver & "}" & _
+                  ";SERVER=" & strServer & _
+                  ";DATABASE=" & strDB & _
+                  ";UID=" & strUID & _
+                  ";PWD=" & strPwd & _
+                  ";Encrypt=yes;TrustServerCertificate=yes;"
+
+        ' OLE-DB-Provider waehlen: MSOLEDBSQL wenn installiert, sonst SQLOLEDB
+        Dim strProvName As String
+        If OH_ProviderInstalled("MSOLEDBSQL") Then
+            strProvName = "MSOLEDBSQL"
+        Else
+            strProvName = "SQLOLEDB"
+        End If
+
+        ' OLE-DB-String (KOMPLETT neu zusammensetzen  KEIN "Provider=" & strProvider!)
+        strProvider = "Provider=" & strProvName & ";" & _
+                      "Data Source=" & strServer & ";" & _
+                      "Initial Catalog=" & strDB & ";" & _
+                      "User ID=" & strUID & ";" & _
+                      "Password=" & strPwd & ";" & _
+                      "Encrypt=yes;" & _
+                      "TrustServerCertificate=yes;"
     Else
-    ' Windows-Authentifizierung
-      strODBC = strODBC & ";Trusted_Connection=yes"
-      strProvider = strProvider & ";Integrated Security=SSPI;"
+        ' Windows-Authentifizierung
+        strODBC = strODBC & ";Trusted_Connection=yes"
+        strProvider = strProvider & ";Integrated Security=SSPI;"
     End If
 
 tryconnect: '====================================================================================================
 
     strM = OH_ConnectionSet(strProvider)
     If strM <> "OK" Then
+     ' --- Login-Fehler gesondert behandeln (SQL Server: Fehler 18456 / SQLSTATE 28000) ---  '260421 Anpassungen sql server authentication
+        If blUseSQLAuth And ( _
+               InStr(strM, "18456") > 0 _
+            Or InStr(strM, "28000") > 0 _
+            Or InStr(LCase$(strM), "login failed") > 0 _
+            Or InStr(LCase$(strM), "anmeldung") > 0) Then
+
+            ' Falsches gespeichertes Passwort verwerfen
+            SqlCred_Delete
+            glstrUser = ""
+            glstrPW = ""
+
+            s = strM & vbNewLine & vbNewLine & _
+                "Anmeldung am SQL-Server fehlgeschlagen." & vbNewLine & _
+                "Benutzername und Passwort erneut eingeben?"
+            i = MsgBox(s, vbExclamation + vbOKCancel, strT)
+            Select Case i
+            Case vbOK
+                GoTo buildConnStr
+            Case Else
+                GoTo errstop
+            End Select
+        End If
+
+        ' --- sonstige Verbindungsfehler (Netzwerk/Server weg): bisheriges Verhalten ---
         s = strM & vbNewLine & vbNewLine & _
             "Die Verbindung zum Server wurde unterbrochen!" & vbNewLine & vbNewLine & _
             "OK" & vbTab & "VERBINDUNG WIEDERHERSTELLEN " & vbNewLine & _
@@ -272,7 +307,7 @@ tryconnect: '===================================================================
         '"ODBC;" Prefix ist erforderlich
         'Treibername in geschweiften Klammern
         'Keine Encrypt/TrustServerCertificate Parameter für Pass-Through
-        strConnODBC = "ODBC;DRIVER=" & strDriver & ";SERVER=" & strServer & ";DATABASE=" & strDB & ";UID=" & strUID & ";PWD=" & strPWD & ";"
+        strConnODBC = "ODBC;DRIVER=" & strDriver & ";SERVER=" & strServer & ";DATABASE=" & strDB & ";UID=" & strUID & ";PWD=" & strPwd & ";"
     Else
         strConnODBC = strODBC
     End If
@@ -368,7 +403,7 @@ Public Function OH_LinkTable(strConn) As Boolean
 On Error GoTo ErrMsg
     Dim strf As String
     Dim tdf As DAO.TableDef
-    Dim N As Long
+    Dim n As Long
     t = "Verlinken der Tabellen"
     DoCmd.Hourglass True
     OH_LinkTable = False 'Default Value
@@ -397,9 +432,9 @@ On Error GoTo ErrMsg
                         db.Execute (strSQL)
                     End Select
                 End If
-                N = N + 1
+                n = n + 1
                 DoEvents
-                SysCmd acSysCmdSetStatus, strDB & "  " & N & "  Refresh Link to : " & tdf.Name & " " & strConn
+                SysCmd acSysCmdSetStatus, strDB & "  " & n & "  Refresh Link to : " & tdf.Name & " " & strConn
            End If
        End If
     Next tdf
@@ -435,7 +470,7 @@ Public Function OH_ConnectionSet(strConnection As String) As String
         Set con = Nothing
     End If
     Set con = New ADODB.Connection
-    con.CommandTimeout = 5
+    con.CommandTimeout = 30
     SysCmd acSysCmdSetStatus, "Verbinde zum Server " & strConnection
     On Error Resume Next
     con.Open strConnection
@@ -521,3 +556,13 @@ Private Sub OH_SleepMs(ByVal ms As Long)
         DoEvents
     Loop
 End Sub
+Public Function OH_ProviderInstalled(ByVal strProv As String) As Boolean
+    On Error Resume Next
+    Dim oShell As Object
+    Dim regVal As String
+    Set oShell = CreateObject("WScript.Shell")
+    Err.Clear
+    regVal = oShell.RegRead("HKEY_CLASSES_ROOT\" & strProv & "\CLSID\")
+    OH_ProviderInstalled = (Err.number = 0) And (Len(regVal) > 0)
+    Err.Clear
+End Function

@@ -10,7 +10,7 @@ Dim strS As String
 Private Sub Form_Open(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim lgA As Long
-    Dim lgid As Long
+    Dim lgID As Long
     DoCmd.Hourglass True
     Set f = Forms!F_VG
     f.regd = 5 'Focus auf Artikelliste setzen

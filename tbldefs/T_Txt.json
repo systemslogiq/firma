@@ -5,7 +5,7 @@
   },
   "Items": {
     "Name": "T_Txt",
-    "Connect": "ODBC;DRIVER=SQL SERVER;SERVER=OHSV-SQL01\\SQL19DEV;DATABASE=Firma;Trusted_Connection=yes",
+    "Connect": "ODBC;DRIVER=SQL SERVER;SERVER=OHSV-SQL01\\SQL19DEV;DATABASE=Firma;Encrypt=Yes ;TrustServerCertificate=Yes;Trusted_Connection=yes",
     "SourceTableName": "dbo.T_Txt",
     "Attributes": 537001984,
     "PrimaryKey": "[NrTxt]"

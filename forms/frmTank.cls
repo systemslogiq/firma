@@ -93,7 +93,7 @@ On Error GoTo ErrMsg
     lgX = Me!reV.top + Me!reV.Height 'Basis der x-Achse
 
     While Not r.EOF
-        i = r!N
+        i = r!n
         If Me!ogTank = 2 Then
             Me!lblleer.Visible = True
             Me.lblleer.Caption = 0
@@ -192,9 +192,9 @@ Private Sub btnNext_Click()
 End Sub
 Private Sub lstTankAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgact As Long
-    Dim N As Long
+    Dim n As Long
     Dim d As Date
     Dim iCols As Long
     Dim iCol As Long
@@ -245,9 +245,9 @@ NochmalDatum:
         Me!lstTankAct = 0
         lstTankAct_AfterUpdate
     Case 10
-        lgid = Nz(Me!lstVerlauf.column(1), 0)
-        If lgid > 0 Then
-            OH_OF "F_VG", lgid
+        lgID = Nz(Me!lstVerlauf.column(1), 0)
+        If lgID > 0 Then
+            OH_OF "F_VG", lgID
         End If
     Case 99
         DoCmd.Close acForm, Me.Name
@@ -295,14 +295,14 @@ NochmalDatum:
             GoTo ErrM
         End If
         iCol = 5 '250903 Input Alex 2 weitere Spalten in EXCEL, vorher icol = 3
-        N = 0
+        n = 0
         strProject = wp.cells(3, iCol)
         While Val(strProject) > 0
             wp.Activate
             wp.Select
             wp.cells(3, iCol).Select
             DoCmd.Hourglass True
-            N = N + 1
+            n = n + 1
             For i = 1 To 2
                 Select Case i
                 Case 1
@@ -315,7 +315,7 @@ NochmalDatum:
                             ",@a = 55 " & _
                             ",@b = " & strProject & _
                             ",@s1 = '" & s & "'"
-                SysCmd acSysCmdSetStatus, N & "  Berechne " & s & " " & strProject
+                SysCmd acSysCmdSetStatus, n & "  Berechne " & s & " " & strProject
                 OH_EX
             Next i
             strSQL = "Exec dbo.spI_Statistik " & _
@@ -323,16 +323,16 @@ NochmalDatum:
                         ",@a = 20 " & _
                         ",@b = " & strProject & _
                         ",@s1 = 'Einkauf'"
-            If xlwrk.Sheets.count < N Then
+            If xlwrk.Sheets.count < n Then
                 Set ws = xlwrk.Sheets.Add(After:=xlwrk.Sheets(xlwrk.Sheets.count))
             Else
-                Set ws = xlwrk.Sheets(N)
+                Set ws = xlwrk.Sheets(n)
             End If
             ws.Name = strProject
             ws.Activate
             ws.Select
             ws.cells(1, 1).Select
-            SysCmd acSysCmdSetStatus, N & "  Berechne EXCEL " & strProject
+            SysCmd acSysCmdSetStatus, n & "  Berechne EXCEL " & strProject
             OH_r rx, strSQL
             If rx.BOF = False Then '<R96>
                 rx.MoveFirst
@@ -415,9 +415,9 @@ ErrM:
 End Sub
 Private Sub lstVerlauf_Afterupdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
-    lgid = Nz(Me!lstVerlauf.column(1), 0)
-    If lgid > 0 Then
+    Dim lgID As Long
+    lgID = Nz(Me!lstVerlauf.column(1), 0)
+    If lgID > 0 Then
         lgStart = CLng(CDate(Me!lstVerlauf.column(2))) - 3
         OH_SetT lgStart
         Me!t04.ForeColor = vbBlue

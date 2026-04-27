@@ -41,11 +41,11 @@
       "Type": 4
     },
     "AppIcon": {
-      "Value": "C:\\Firma\\Firma.ico",
+      "Value": "rel:Firma.ico",
       "Type": 10
     },
     "AppTitle": {
-      "Value": "Firma_260312",
+      "Value": "Firma_260423",
       "Type": 10
     },
     "Auto Compact": {
@@ -93,7 +93,7 @@
       "Type": 3
     },
     "Name": {
-      "Value": "rel:Firma.ACCDB",
+      "Value": "rel:firma.accdb",
       "Type": 12
     },
     "NavPane Category": {
@@ -101,7 +101,7 @@
       "Type": 4
     },
     "NavPane Closed": {
-      "Value": 1,
+      "Value": 0,
       "Type": 4
     },
     "NavPane Sort By": {

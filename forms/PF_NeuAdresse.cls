@@ -355,7 +355,7 @@ On Error GoTo ErrMsg
     Dim lgCount As Long
     Dim vararray As Variant
     Dim strL As String
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strA(1 To 2) As String
     strSQL = "Exec dbo.spa_Adresse " & _
             " @x = 'CheckDoppelAdresse', " & _
@@ -384,7 +384,7 @@ On Error GoTo ErrMsg
                    strVorname & " " & strName
         strA(2) = "doppelte Adressen anzeigen"
         OH_msgbox s, Array(strA(1), strA(2)), vbCritical, t, strhelp, , , strSQL, 3, "0;50"
-        lgid = Val(strMSG(3))
+        lgID = Val(strMSG(3))
         Select Case strMSG(2)
         Case strA(1)
         Case strA(2)

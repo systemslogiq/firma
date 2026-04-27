@@ -19,7 +19,7 @@ Public Function OH_tlbPrint(Optional lgPrint As Long = 0)
 On Error GoTo ErrMsg
     Dim frmP As Form
     Dim strEmailCC As String
-    Dim N As Long
+    Dim n As Long
     Dim IDA As Long
     Dim strEnr As String
     Dim strEnr1 As String
@@ -330,14 +330,14 @@ On Error GoTo ErrMsg
         Wend
         i = InStr(strEmail, "@")
         If i > 0 Then
-            For N = i - 1 To 1 Step -1      '20180212: Emailadresse kann aus nur einem Zeichen vor dem @ bestehen. i - 2 geändert in i -1
-                If Mid(strEmail, N, 1) = " " Or N = 0 Then
-                    strEmail = Trim(Mid(strEmail, N))
+            For n = i - 1 To 1 Step -1      '20180212: Emailadresse kann aus nur einem Zeichen vor dem @ bestehen. i - 2 geändert in i -1
+                If Mid(strEmail, n, 1) = " " Or n = 0 Then
+                    strEmail = Trim(Mid(strEmail, n))
                     strEmail = Replace(strEmail, " ", "")
                     strEmail = Replace(strEmail, ",", ";")
                     Exit For
                 End If
-            Next N
+            Next n
         Else
             strEmail = Nz(frmP!EMail)
             If Len(strEmail) < 5 Then
@@ -559,14 +559,14 @@ againEmail:
         Select Case lgAntw
         Case 1
         Case Else
-            N = OH_PrintReport(frmP, lgAntw, "NichtDrucken")
+            n = OH_PrintReport(frmP, lgAntw, "NichtDrucken")
             strTitel = strCaption
-            If N > 1 Then
-                s = "Sie haben " & N & " Adressen ausgewählt!" & vbNewLine & _
+            If n > 1 Then
+                s = "Sie haben " & n & " Adressen ausgewählt!" & vbNewLine & _
                         "Wie möchten Sie vorgehen?"
                 x = OH_msgbox(s, _
-                    Array("> " & left(frmP!Nachname, 10) & " mit " & N - 1 & " CC", _
-                          strCaption & " einzeln an " & N & " Adressen"), _
+                    Array("> " & left(frmP!Nachname, 10) & " mit " & n - 1 & " CC", _
+                          strCaption & " einzeln an " & n & " Adressen"), _
                      vbQuestion, strTitel, _
                      "Sie möchten mehr als einen Datensatz ausdrucken!" & vbNewLine & vbNewLine & _
                      "Sind Sie sich sicher????")
@@ -695,10 +695,10 @@ againEmail:
             If Len(strEnr1) = 0 Then
                 MsgBox "es fehlt die " & strCaption & " von " & frmP!Vorname & "" & frmP!Nachname, vbCritical, strTitel
             Else
-                For N = 1 To lgE
+                For n = 1 To lgE
                     If lgE > 1 Then
-                        strEmail = strEmailNr(N)
-                        lge1 = N
+                        strEmail = strEmailNr(n)
+                        lge1 = n
                     End If
                     strSignatur = ""
 
@@ -716,7 +716,7 @@ againEmail:
                         Nz(frmP!OutlookVorlage, ""), _
                         frmP, _
                         ""
-                Next N
+                Next n
             End If
         End If
         GoTo ErrEnd
@@ -1079,7 +1079,7 @@ On Error GoTo ErrMsg
     Dim lgQK As Long
     Dim strQK As String
     Dim rP As ADODB.Recordset
-    Dim N As Integer
+    Dim n As Integer
     Dim strf As String
     Dim strP As String
     Dim strE As String
@@ -1227,7 +1227,7 @@ Public Function OH_MailDocument(frmP As Form, _
                                 Optional strB2bFolder As String, _
                                 Optional lgSendMail As Long = 0) As Boolean
 On Error GoTo ErrMsg
-    Dim N As Long
+    Dim n As Long
     Dim strAttaches As String
     Dim strAtt() As String
     Dim strBetreff As String
@@ -1252,7 +1252,7 @@ On Error GoTo ErrMsg
     strA(1) = Nz(r!Anrede, "")
     'Signatur holen
     'wenn man mit jemanden per Du ist, soll man bei einem Email entscheiden können, wie die Anrede erfolgen soll
-    N = frmP!NrFunktion
+    n = frmP!NrFunktion
     Select Case frmP!NrQK
     Case 30
         strSQL = "Exec spa_VG " & _
@@ -1271,7 +1271,7 @@ On Error GoTo ErrMsg
                 GoTo ErrEnd
             Case vbYes
                 strA(1) = strA(3)
-                N = r!ID
+                n = r!ID
                 If strCC = "" Then '180623
                     strCC = strEmail
                 Else
@@ -1300,17 +1300,17 @@ On Error GoTo ErrMsg
     End If
     If strAttaches <> "" Then 'Gibt's die Files??
         strAtt = Split(strAttaches, ";")
-        For N = 0 To UBound(strAtt)
-            If Len(Dir(strAtt(N))) = 0 Then
+        For n = 0 To UBound(strAtt)
+            If Len(Dir(strAtt(n))) = 0 Then
                 t = "Kontrolle der Attachments"
-                s = "Beilage" & vbNewLine & strAtt(N) & vbNewLine & _
+                s = "Beilage" & vbNewLine & strAtt(n) & vbNewLine & _
                     "EXISITIERT NICHT!"
                 MsgBox s, vbInformation, t
-                strAttaches = Replace(strAttaches, strAtt(N), "")
+                strAttaches = Replace(strAttaches, strAtt(n), "")
             End If
-        Next N
+        Next n
     End If
-    '251209 gibt es das Textfeld Versnadart mit Mail-Adressee?
+    '251209 gibt es das Textfeld Versandart mit Mail-Adressee?
     strSQL = "Select txt,txtv from A_txtVG " & _
         " where txt in('Versandart') " & _
         " and charindex('@',txtv)>0 and NrVG = " & frmP!NrVG
@@ -1318,21 +1318,21 @@ On Error GoTo ErrMsg
     If Not r.BOF Then
         strEmail = r!txtV
         i = InStr(strEmail, "@")
-        For N = i - 1 To 1 Step -1      '20180212: Emailadresse kann aus nur einem Zeichen vor dem @ bestehen. i - 2 geändert in i -1
-            If Mid(strEmail, N, 1) = " " Or N = 0 Then
-                strEmail = Trim(Mid(strEmail, N))
+        For n = i - 1 To 1 Step -1      '20180212: Emailadresse kann aus nur einem Zeichen vor dem @ bestehen. i - 2 geändert in i -1
+            If Mid(strEmail, n, 1) = " " Or n = 0 Then
+                strEmail = Trim(Mid(strEmail, n))
                 strEmail = Replace(strEmail, " ", "")
                 strEmail = Replace(strEmail, ",", ";")
                 Exit For
             End If
-        Next N
+        Next n
     End If
 
     OH_MailDocument = OH_OutlookMail _
         (strEmail, _
          strBetreff, _
         strBody, _
-        N, _
+        n, _
         strAttaches, _
         strCC, _
         lgSendMail, _

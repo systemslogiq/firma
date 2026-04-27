@@ -7,7 +7,7 @@ Option Explicit
 Private Sub Report_Open(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim lgH As Long
-    Dim N As Long
+    Dim n As Long
     strSQL = "Exec dbo.spa_Ablage " & _
             " @x = '+Logo Ordner'" & _
             ",@i = " & EFNrFktn
@@ -43,19 +43,19 @@ nochmal:
     OH_SetFont Me, glstrFont
     Cancel = OH_B(Me)
     Me!ReOrdner.Height = lgH / 10 * 567
-    N = Me!x6.top - Me!x1.top
+    n = Me!x6.top - Me!x1.top
     i = lgH * 56.7 - Me!x1.top - Me!x6.Height
-    i = i * 10 / N
-    For N = 1 To 6
-        If N <> 6 Then
-            Me("x" & N).Height = Me("x" & N).Height * i / 10
+    i = i * 10 / n
+    For n = 1 To 6
+        If n <> 6 Then
+            Me("x" & n).Height = Me("x" & n).Height * i / 10
         Else
             Me!x6.top = lgH * 56.7 - Me!x6.Height - 50
         End If
-        If N > 1 And N < 6 Then
-            Me("x" & N).top = Me("x" & N - 1).top + Me("x" & N - 1).Height
+        If n > 1 And n < 6 Then
+            Me("x" & n).top = Me("x" & n - 1).top + Me("x" & n - 1).Height
         End If
-    Next N
+    Next n
 ErrEnd:
     Exit Sub
 ErrMsg:

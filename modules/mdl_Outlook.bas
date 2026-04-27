@@ -40,7 +40,7 @@ Dim objAccount As Outlook.Account
 'strBody    Text des Mails
 'strBeilage Beilagen (Trennzeichen ist ";")
     On Error GoTo ErrMsg
-    Dim N As Integer
+    Dim n As Integer
     Dim lgType As Integer
     Dim strSignatur As String
     Dim strFilter As String
@@ -57,6 +57,10 @@ Dim objAccount As Outlook.Account
     Dim strSQL_DMS As String
     Dim oExisting As Outlook.MailItem
     Dim oB2B_Folder As Outlook.Folder
+    Dim oAcc As Outlook.Account
+    Dim oAccMatch As Outlook.Account
+    Dim strDomain As String
+
     t = "Erstelle Mail"
     DoCmd.Hourglass True
     If strB2bFolder <> "" Then
@@ -170,7 +174,7 @@ Dim objAccount As Outlook.Account
     End Select
 nextStep:
     If Len(strBeilage) = 0 Then
-        N = 0
+        n = 0
     Else
         strB = Trim(Replace(strBeilage, ";;", ";"))
         If left(strB, 1) = ";" Then
@@ -215,8 +219,8 @@ nextStep:
 'Ersetzungstexte
 'ersetze z.B. <Anrede> oder <EmailAdresse>
     i = InStr(strBody, "<")
-    N = InStr(strBody, ">")
-    If N > i And i > 0 Then
+    n = InStr(strBody, ">")
+    If n > i And i > 0 Then
         Select Case strForm
         Case "F_VG"
             i = f!NrVG
@@ -243,8 +247,45 @@ nextStep:
             strAbsender = glstrAbsender
         End If
     End If
+'    If strAbsender <> "" Then
+'        myItem.SentOnBehalfOfName = strAbsender
+'    End If
+    'strAbsender Alias '20260423
     If strAbsender <> "" Then
-        myItem.SentOnBehalfOfName = strAbsender
+        Set oAccMatch = Nothing
+
+        ' 1. Direkter Match auf SMTP-Primäradresse
+        For Each oAcc In myOlApp.Session.Accounts
+            If LCase(Nz(oAcc.SmtpAddress, "")) = LCase(strAbsender) Then
+                Set oAccMatch = oAcc
+                Exit For
+            End If
+        Next oAcc
+
+        ' 2. Kein direkter Match -> Alias: IMAP/POP-Konto per Domain-Match suchen
+        If oAccMatch Is Nothing Then
+            strDomain = Mid(strAbsender, InStr(strAbsender, "@") + 1)
+            For Each oAcc In myOlApp.Session.Accounts
+                If oAcc.AccountType = olImap Or oAcc.AccountType = olPop3 Then
+                    If InStr(1, Nz(oAcc.SmtpAddress, ""), strDomain, vbTextCompare) > 0 Then
+                        Set oAccMatch = oAcc
+                        Exit For
+                    End If
+                End If
+            Next oAcc
+        End If
+
+        On Error Resume Next
+        If Not oAccMatch Is Nothing Then
+            Set myItem.SendUsingAccount = oAccMatch
+        End If
+        ' Von-Header immer setzen (auch bei direktem Match schadet es nicht)
+        With myItem.PropertyAccessor
+            .SetProperty "http://schemas.microsoft.com/mapi/proptag/0x0064001F", "SMTP"
+            .SetProperty "http://schemas.microsoft.com/mapi/proptag/0x0065001F", strAbsender
+            .SetProperty "http://schemas.microsoft.com/mapi/proptag/0x0042001F", strAbsender
+        End With
+        On Error GoTo ErrMsg
     End If
     Select Case lgSendMail    '2 nur display und in DMS speichern, 3 direkt versenden und in DMS speichern
     Case 2, 3
@@ -323,9 +364,9 @@ Public Function OH_OutlookAppointment(strRecipient As String, _
             .Start = Now
         End If
         If IsDate(strEnd) = True Then
-            .end = strEnd
+            .End = strEnd
         Else
-            .end = Now() + 2 / 24
+            .End = Now() + 2 / 24
         End If
         .body = strBody
         If strLocation = "" Then
@@ -389,14 +430,14 @@ Function OH_SyncAddContactOutlook(ByVal lgOpen As Long, _
     Dim objContact      As Object
     Dim intCntr         As Integer
     Dim objNewContact   As ContactItem
-    Dim lgid            As Long
+    Dim lgID            As Long
     Dim strN            As String
     Dim lgNew           As Long
     Dim lgOld           As Long
     Dim lgDel           As Long
     Dim objItems        As Outlook.ItemProperties
     Dim objItem         As Outlook.ItemProperty
-    Dim N               As Long
+    Dim n               As Long
     Dim strG            As String
     Dim lgct            As Long
     Dim lgG             As Long
@@ -637,7 +678,7 @@ ErrMsg:
     DoCmd.Hourglass False
     Resume ErrEnd
 End Function
-Function OH_SyncContactOutlook(lgid As Long, _
+Function OH_SyncContactOutlook(lgID As Long, _
                                 Optional strEmail As String, _
                                 Optional lgArt As Long = 30) As Long
 On Error GoTo ErrMsg
@@ -651,7 +692,7 @@ On Error GoTo ErrMsg
     Set fldContacts = gnspNameSpace.GetDefaultFolder(olFolderContacts)
     DoCmd.Hourglass True
     OH_SyncContactOutlook = 0
-    Set objContact = fldContacts.Items.Find("[CustomerID] = " & lgid)
+    Set objContact = fldContacts.Items.Find("[CustomerID] = " & lgID)
     If TypeName(objContact) = "Nothing" And strEmail <> "" Then
         Set objContact = fldContacts.Items.Find("[Email1Address] = '" & strEmail & "'") '<R77>
     End If
@@ -659,7 +700,7 @@ On Error GoTo ErrMsg
         Select Case lgArt
         Case 30
             If Len(objContact.CustomerID) = 0 Then
-                objContact.CustomerID = lgid
+                objContact.CustomerID = lgID
                 objContact.Save
                 OH_SyncContactOutlook = 1
             End If
@@ -684,7 +725,7 @@ Public Function OH_OpenOutlookFolder(strE As String, _
 'Beispiel für strE: Philipp\Postordner\Kunde\XYZ
 On Error GoTo ErrMsg
     Dim strFO() As String
-    Dim N As Long
+    Dim n As Long
     Dim i1 As Long
     'Outlook Ordner werden in Ihrer Hierarchie übergeben.
     'Der "tiefste" Ordner wird angezeigt
@@ -695,24 +736,24 @@ On Error GoTo ErrMsg
     Else
         GoTo ErrMsg
     End If
-    N = 0
+    n = 0
     i1 = 1
     For i = 1 To Len(strE)
         If Mid(strE, i, 1) Like "\" Then
-            N = N + 1
-            ReDim Preserve strFO(N) As String
-            strFO(N) = Mid(strE, i1, i - i1)
+            n = n + 1
+            ReDim Preserve strFO(n) As String
+            strFO(n) = Mid(strE, i1, i - i1)
             i1 = i + 1
         End If
     Next i
     If i > i1 Then
-        N = N + 1
-        ReDim Preserve strFO(N) As String
-        strFO(N) = Mid(strE, i1, i - i1)
+        n = n + 1
+        ReDim Preserve strFO(n) As String
+        strFO(n) = Mid(strE, i1, i - i1)
     End If
     Set myobjFolder = gnspNameSpace.Folders.Item(strFO(1))
     Set myParentFolder = myobjFolder
-    For i = 2 To N
+    For i = 2 To n
         Set myobjFolder = myobjFolder.Folders.Item(strFO(i))
         Set myParentFolder = myobjFolder
     Next i
@@ -726,10 +767,10 @@ ErrMsg:
         If blAnzeige Then
             OH_OpenOutlookFolder = "Outlook-Ordner fehlt"
         Else
-            OH_AddFolder strFO(N), myParentFolder, strE
+            OH_AddFolder strFO(n), myParentFolder, strE
         End If
     Case Else
-        MsgBox strFO(N) & vbNewLine & _
+        MsgBox strFO(n) & vbNewLine & _
                Err & " " & Err.Description, vbCritical, "Öffne Outlook Folder"
         Resume ErrEnd
     End Select
@@ -765,7 +806,7 @@ ErrMsg:
     MsgBox Err & " " & Err.Description, vbCritical, "Erstelle Outlook Folder"
     Resume ErrEnd
 End Function
-Function OH_DialOutlookContact(lgid As Long, _
+Function OH_DialOutlookContact(lgID As Long, _
                                Optional strNr As String, _
                                Optional strName As String) As Long
 On Error GoTo ErrMsg
@@ -777,13 +818,13 @@ On Error GoTo ErrMsg
     Set gnspNameSpace = myOlApp.GetNamespace("MAPI")
     Set fldContacts = gnspNameSpace.GetDefaultFolder(olFolderContacts)
 ' Zeiger auf Kontakteordner abrufen.
-    Set objContact = fldContacts.Items.Find("[CustomerID] = " & lgid)
+    Set objContact = fldContacts.Items.Find("[CustomerID] = " & lgID)
 'Falls Kontakt noch nicht angelegt ==> zuerst in Outlook anlegen
     If TypeName(objContact) = "Nothing" Then
         OH_ResetID
-        OH_InsertID lgid
+        OH_InsertID lgID
         OH_SyncAddContactOutlook vbNo
-        OH_DialOutlookContact lgid, strNr
+        OH_DialOutlookContact lgID, strNr
     Else
 'Telefonie über Outlook-Fenster
         'objContact.Display
@@ -811,7 +852,7 @@ On Error GoTo ErrMsg
     Dim objContacts     As Object
     Dim objContact      As ContactItem
     Dim myItems         As Outlook.Items
-    Dim lgid            As Long
+    Dim lgID            As Long
     Dim strN            As String
     ' Verweis auf den Outlook-Kontakteordner abrufen.
     Set myOlApp = New Outlook.Application
@@ -1924,7 +1965,7 @@ On Error GoTo ErrMsg
 Dim A As Outlook.Attachment
 Dim olExp As Outlook.Explorer
 Dim olSel As Outlook.Selection
-Dim N As Long
+Dim n As Long
 Dim lgMCt As Long
 Dim lgCtAttachments As Long
 Dim strXML As String
@@ -2171,23 +2212,19 @@ Function OH_GetSMTPAddress(mail As Object) As String
     Else
         OH_GetSMTPAddress = mail.SenderEmailAddress
     End If
-
     On Error GoTo 0
-
 End Function
-
-Function OH_OutlookFindZollpapiere(strProjektNr As String) As Outlook.MailItem
+Public Function OH_OutlookFindZollpapiere(strProjektNr As String, strFolder As String, strPartSenderAddress As String) As Outlook.MailItem
 On Error GoTo ErrMsg
-    Dim olFolder As Object
     Dim olItems As Object
+    Dim olFolder As Object
     Dim olItem As Object
     Dim strSenderAddress As String
-    Dim strPartSenderAddress As String
     DoCmd.Hourglass True
     OH_InitializeOutlook
-    Set olFolder = gnspNameSpace.GetDefaultFolder(olFolderInbox) ' Posteingang
-    'Set olFolder = olFolder.Folders("Delivery HVL GmbH")
-    strPartSenderAddress = "@i-clearing.be"
+    Set olFolder = gnspNameSpace.Folders(strFolder) ' Posteingang
+    Set olFolder = olFolder.Folders("Posteingang")
+    SysCmd acSysCmdSetStatus, "Suche Zollpapiere für " & strProjektNr
     Set olItems = olFolder.Items
     For Each olItem In olItems
         If TypeName(olItem) = "MailItem" Then
@@ -2196,7 +2233,7 @@ On Error GoTo ErrMsg
             If strSenderAddress <> "" Then
                 If right(Trim(olItem.Subject), Len(strProjektNr)) = strProjektNr _
                  And LCase(right(strSenderAddress, Len(strPartSenderAddress))) = strPartSenderAddress Then
-                    OH_OutlookFindZollpapiere = olItem
+                    Set OH_OutlookFindZollpapiere = olItem
                     GoTo ErrEnd
                 End If
             End If

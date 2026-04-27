@@ -103,9 +103,9 @@ Public Declare PtrSafe Function closesocket Lib "wsock32.dll" (ByVal s As Long) 
 Public Declare PtrSafe Function connect Lib "wsock32.dll" (ByVal s As Long, addr As sockaddr_in, ByVal namelen As Long) As Long
 Public Declare PtrSafe Function htons Lib "wsock32.dll" (ByVal hostshort As Long) As Integer
 Public Declare PtrSafe Function inet_addr Lib "wsock32.dll" (ByVal cp As String) As Long
-Public Declare PtrSafe Function recv Lib "wsock32.dll" (ByVal s As Long, ByVal buf As Any, ByVal buflen As Long, ByVal flags As Long) As Long
-Public Declare PtrSafe Function recvB Lib "wsock32.dll" Alias "recv" (ByVal s As Long, buf As Any, ByVal buflen As Long, ByVal flags As Long) As Long
-Public Declare PtrSafe Function send Lib "wsock32.dll" (ByVal s As Long, buf As Any, ByVal buflen As Long, ByVal flags As Long) As Long
+Public Declare PtrSafe Function recv Lib "wsock32.dll" (ByVal s As Long, ByVal buf As Any, ByVal buflen As Long, ByVal Flags As Long) As Long
+Public Declare PtrSafe Function recvB Lib "wsock32.dll" Alias "recv" (ByVal s As Long, buf As Any, ByVal buflen As Long, ByVal Flags As Long) As Long
+Public Declare PtrSafe Function send Lib "wsock32.dll" (ByVal s As Long, buf As Any, ByVal buflen As Long, ByVal Flags As Long) As Long
 Public Declare PtrSafe Function socket Lib "wsock32.dll" (ByVal af As Long, ByVal socktype As Long, ByVal protocol As Long) As Long
 Public Declare PtrSafe Function WSAStartup Lib "wsock32.dll" (ByValwVersionRequired As Long, lpWSAData As WSAData) As Long
 Public Declare PtrSafe Function WSACleanup Lib "wsock32.dll" () As Long
@@ -155,12 +155,12 @@ End Function
 Public Function RecData(dataBuf As String, ByVal maxLength As Integer) As Integer
 Dim count As Long
 Dim c As String * 1
-Dim length As Integer
+Dim Length As Integer
 Dim RECV_ERROR As Long
 Dim No_Error As Long
 Dim RecvAscii As Long
     dataBuf = ""
-    While length < maxLength
+    While Length < maxLength
         DoEvents
         count = recv(hSock, c, 1, 0) '
         If count < 1 Then '
@@ -173,7 +173,7 @@ Dim RecvAscii As Long
             RecvAscii = No_Error '
             GoTo EndRec
         End If '
-        length = length + count '............(3)
+        Length = Length + count '............(3)
         dataBuf = dataBuf + c '
     Wend
     RecvAscii = RECV_ERROR

@@ -317,7 +317,7 @@ On Error GoTo ErrMsg
                         MsgBox r!Bild & vbNewLine & _
                                 "Bild nicht vorhanden", vbExclamation, t
                     End If
-                    appWd.Selection.Goto What:=wdGoToBookmark, Name:="Bild"
+                    appWd.Selection.GoTo What:=wdGoToBookmark, Name:="Bild"
                     appWd.Selection.InlineShapes.AddPicture Filename:= _
                     r!Bild _
                     , LinkToFile:=False, SaveWithDocument:=True
@@ -376,7 +376,7 @@ On Error GoTo ErrMsg
     Dim lgFC As Long
     Dim lgVG As Long
     Dim lgQK As Long
-    Dim N As Long
+    Dim n As Long
     Dim strFilePart As String
     Dim strSignatur As String
     Dim strAnrede As String
@@ -415,15 +415,15 @@ On Error GoTo ErrMsg
         End If
     r.MoveNext
     Wend
-    N = 1
+    n = 1
     If i > 1 Then
-        N = Val(InputBox(s, t, 1))
-        If N < 1 Or N > i Then
+        n = Val(InputBox(s, t, 1))
+        If n < 1 Or n > i Then
             GoTo ErrEnd
         End If
     End If
-    i = Val(strf(N, 3))
-    strFN = strf(N, 2)
+    i = Val(strf(n, 3))
+    strFN = strf(n, 2)
     s = "Vorgang " & lgQK & vbNewLine & _
         "Es gibt bereits "
     Select Case i
@@ -444,9 +444,9 @@ On Error GoTo ErrMsg
             GoTo ErrEnd
         End Select
     End If
-    strVorlageFile = strf(N, 1)
+    strVorlageFile = strf(n, 1)
     strQ = strQ & _
-            ",@f = '" & strf(N, 2) & _
+            ",@f = '" & strf(n, 2) & _
             "',@d = '" & strVorlageFile & "'"
     strSQL = strQ & ",@a = 10"
     OH_r r
@@ -531,11 +531,11 @@ On Error GoTo ErrMsg
                 strSQL = strQ & ",@a = 20"
                 OH_r r
                 Set tbl = .ActiveDocument.Tables(1)
-                N = tbl.Rows.count
+                n = tbl.Rows.count
                 lgR = 2
                 While Not r.EOF
                     lgR = lgR + 1
-                    If lgR >= N Then
+                    If lgR >= n Then
                         tbl.Rows.Add
                     End If
                     tbl.Cell(lgR, 1).Range.Text = Nz(r!txt, "")
@@ -707,7 +707,7 @@ On Error GoTo ErrMsg
     Dim xlTab As Worksheet
     Dim ws As Worksheet
     Dim iCols As Long
-    Dim N As Long
+    Dim n As Long
     Dim Y As Long
     Dim z As Long
     Dim strN As String
@@ -942,12 +942,12 @@ Public Function OH_EXCELUpdate(strID As String, _
 On Error GoTo ErrMsg
     Dim wb As Workbook
     Dim ws As Worksheet
-    Dim N As Long
+    Dim n As Long
     Dim m As Long
     Dim Y As Long
     Dim z As Long
     Dim lgR As Long
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strT As String
     Dim nn(0 To 10) As Long
     Dim strFields() As String
@@ -982,8 +982,8 @@ On Error GoTo ErrMsg
         GoTo ErrM
     End Select
     strFields = Split(strField, ";")
-    N = UBound(strFields)
-    For Y = 0 To N
+    n = UBound(strFields)
+    For Y = 0 To n
         For z = 1 To 20
             If ws.cells(1, z) = Trim(strFields(Y)) Then
                 nn(Y) = z
@@ -1004,13 +1004,13 @@ On Error GoTo ErrMsg
     strT = "T_" & Mid(strID, 3)
     For m = 2 To lgR
         SysCmd acSysCmdSetStatus, "Zeile " & m & " von " & lgR
-        lgid = ws.cells(m, i)
+        lgID = ws.cells(m, i)
         strSQL = "Select * from " & strT & _
-                " Where " & strID & " = " & lgid
+                " Where " & strID & " = " & lgID
         lgC = lgC + 1
         OH_r r, strSQL, adLockOptimistic
         If r.BOF = False Then
-            For Y = 0 To N
+            For Y = 0 To n
                 Set c = ws.cells(m, nn(Y))
                 If r(strFields(Y)) <> c Then
                     r(strFields(Y)) = c
@@ -1137,7 +1137,7 @@ On Error GoTo ErrMsg
         Set ws = wb.Worksheets(1)
         strSheetname = ws.Name
         appEXCEL.Visible = True
-        lgUR = ws.Range("A1").end(xlDown).Row 'to determine Last Row with Data
+        lgUR = ws.Range("A1").End(xlDown).Row 'to determine Last Row with Data
         strf = ws.cells(1, 1)
         i = 0
         While strf <> ""

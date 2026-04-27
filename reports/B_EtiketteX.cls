@@ -8,7 +8,7 @@ Dim Y As Long
 Private Sub Report_Open(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim strA As String
-    Dim N As Long
+    Dim n As Long
     Dim b As Long
     Dim h As Long
     Dim l As Long
@@ -45,7 +45,7 @@ On Error GoTo ErrMsg
         While Not r.EOF
             Select Case r!Nr
             Case 2 'Anzahl Spalte
-                N = r!data
+                n = r!data
             Case 4 'breite
                 b = r!data
             Case 6 'höhe

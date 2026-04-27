@@ -181,7 +181,7 @@ End Sub
 Private Sub btnVGL_Click()
 On Error GoTo ErrMsg
     Dim strVG As String
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgBoss As Long
     strVG = Nz(Me!VG, "")
     If strVG = "" Then
@@ -193,7 +193,7 @@ On Error GoTo ErrMsg
                 " @d = 'Projekttitel', " & _
                 " @f = '" & strVG & "'"
         OH_r r
-        lgid = r!ID
+        lgID = r!ID
         lgBoss = r!NrBoss
         s = strVG & vbNewLine & _
                 "ist als Projekt-Titel im Lexikon abgelegt!" & vbNewLine & vbNewLine & _
@@ -203,7 +203,7 @@ On Error GoTo ErrMsg
                 "Vorgabe Projekt-Titel") = vbYes Then
             DoCmd.Close acForm, Me.Name
             OH_OF "F_Lexikon"
-            Forms!F_Lexikon.OH_FindLex lgBoss, lgid
+            Forms!F_Lexikon.OH_FindLex lgBoss, lgID
         End If
     End If
 ErrEnd:
@@ -612,7 +612,7 @@ On Error GoTo ErrMsg
     Dim dd As Long
     Dim mm As Long
     Dim yy As Long
-    Dim N As Long
+    Dim n As Long
     ' Idee Uli Lips: Wenn man nur den Tag/Monat eingibt, soll automatisch das passende Datum eingetragen werden
     Select Case KeyCode
     Case 13, 9
@@ -667,10 +667,10 @@ Private Sub VGID_BeforeUpdate(Cancel As Integer)
 ' OHNEMUS, Juni 2005
 On Error GoTo ErrMsg
     Dim rsVGID As ADODB.Recordset
-    Dim lgid As Long
+    Dim lgID As Long
     t = "Ändern der Projektnr."
-    lgid = Nz(Me!VGID, 0)
-    If lgid = 0 Then
+    lgID = Nz(Me!VGID, 0)
+    If lgID = 0 Then
         s = "Bitte richtige Projektnr. eingeben!"
         GoTo ErrM
     End If
@@ -841,7 +841,7 @@ End Sub
 Public Sub btnOK_Click()
 On Error GoTo ErrMsg
     Dim strT As String
-    Dim N As Long
+    Dim n As Long
     Dim lgVGid As Long
     Dim lgVGidu As Long
     Dim sgRabatt As Single
@@ -893,20 +893,20 @@ On Error GoTo ErrMsg
         strSQL = "Exec dbo.spI_VGdiv " & _
                     " @x ='maxVGID'"
         OH_r r
-        N = r!maxVGID
+        n = r!maxVGID
         Me!VGIDNeu = r!maxVGID
         lgVGidu = 0
-        If lgVGid <> N Then
+        If lgVGid <> n Then
             t = "Prüfe die neu zu vergebende Projekt-Nummer"
             s = "Hinweis" & vbNewLine & _
                 "Zwischenzeitlich hat ein anderer User bereits die neue Projekt-Nr. " & Me!VGIDNeu & vbNewLine & _
             "erstellt." & vbNewLine & vbNewLine & _
-            "Sie erhalten jetzt diese neue Nummer: " & N
+            "Sie erhalten jetzt diese neue Nummer: " & n
             If MsgBox(s, vbOKCancel + vbExclamation, t) = vbCancel Then
                 GoTo ErrEnd
             End If
         End If
-        lgVGid = N
+        lgVGid = n
     End If
     If Me!OmitArtikel Then
         If btArtikelPreis <> 2 Then

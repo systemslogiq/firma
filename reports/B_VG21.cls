@@ -71,7 +71,7 @@ ErrMsg:
 End Sub
 Private Sub Det_Format(Cancel As Integer, FormatCount As Integer)
 On Error GoTo ErrMsg
-    Dim N As Long
+    Dim n As Long
     If Me!RabattVG = 0 Then
         Me!RabattVG.Visible = False
     Else
@@ -524,7 +524,7 @@ On Error GoTo ErrMsg
     Dim strKZ As String
     Dim rsa As ADODB.Recordset
     Dim lgTop As Long
-    Dim N As Long
+    Dim n As Long
     Dim lgLeft As Long
     Dim lgHeight As Long
     Dim lgWidth As Long
@@ -783,11 +783,11 @@ On Error GoTo ErrMsg
                 If lgtopAdresse > Me!TX_EFKlein.top Then
                     Me.GKID.Height = lgtopAdresse + Me!Adresse.Height
                     Me!Adresse.top = lgtopAdresse
-                    N = lgtopAdresse - (0.7 * 567)
-                    If N < 0 Then
-                        N = 0
+                    n = lgtopAdresse - (0.7 * 567)
+                    If n < 0 Then
+                        n = 0
                     End If
-                    Me!TX_EFKlein.top = N
+                    Me!TX_EFKlein.top = n
                 End If
             End If
         End If
@@ -886,9 +886,9 @@ On Error GoTo ErrMsg
                 Me!LogoSeiteO.left = Val(Mid(strBS, InStr(strBS, "Links") + 6, 4)) * 567
                 Me!LogoSeiteO.Width = Val(Mid(strBS, InStr(strBS, "Breite") + 7, 4)) * 567
                 Me!LogoSeiteO.Height = Val(Mid(strBS, InStr(strBS, "Höhe") + 5, 4)) * 567
-                N = Val(Mid(strBS, InStr(strBS, "oberer Seitenrand") + 18, 4)) * 567
-                If N > 0 Then
-                    lgtopLogo = N
+                n = Val(Mid(strBS, InStr(strBS, "oberer Seitenrand") + 18, 4)) * 567
+                If n > 0 Then
+                    lgtopLogo = n
                 End If
             End If
         End If
@@ -910,10 +910,10 @@ On Error GoTo ErrMsg
                 Me!LogoSeiteO2.left = Val(Mid(strBS, InStr(strBS, "Links") + 6, 4)) * 567
                 Me!LogoSeiteO2.Width = Val(Mid(strBS, InStr(strBS, "Breite") + 7, 4)) * 567
                 Me!LogoSeiteO2.Height = Val(Mid(strBS, InStr(strBS, "Höhe") + 5, 4)) * 567
-                N = Val(Mid(strBS, InStr(strBS, "oberer Seitenrand") + 18, 4)) * 567
+                n = Val(Mid(strBS, InStr(strBS, "oberer Seitenrand") + 18, 4)) * 567
                 lgtopLogo2 = 1
-                If N > 0 Then
-                    lgtopLogo2 = N
+                If n > 0 Then
+                    lgtopLogo2 = n
                 End If
             End If
         End If
@@ -1051,10 +1051,10 @@ On Error GoTo ErrMsg
     If Len(Me!Barcodetxt) > 1 Then
         OH_setBarCode Me!picBC, Me!Barcodetxt
     End If
-    N = Me!Adresse.top + Me!Adresse.Height + 1 * 567
-    Me!FAXEmailInfo.top = N
-    Me!FeldDatum.top = N
-    Me.GKID.Height = N + 1 * 567
+    n = Me!Adresse.top + Me!Adresse.Height + 1 * 567
+    Me!FAXEmailInfo.top = n
+    Me!FeldDatum.top = n
+    Me.GKID.Height = n + 1 * 567
     For Each ctl In Me.GKVG.Controls
         If InStr(ctl.Tag, "lblÜberschriften") > 0 Then '250515
             If Me!MoveRecord = -1 Then 'nächste Seite

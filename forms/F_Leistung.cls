@@ -34,6 +34,12 @@ On Error GoTo ErrMsg
     OH_A "lstKunde", , Me
     OH_ControlTiptext Me
     OH_SetFontRT Me!BemLeistung
+    s = "Datum an dem die Leistung ergracht wurde, mit +/- änderbar" & vbNewLine & _
+        "Regel:" & vbNewLine & _
+        "HEUTE = grün" & vbNewLine & _
+        "Zukunft = Rot" & vbNewLine & _
+        "Vergangenheit mehr als 5 Tage = orange"
+    Me!DatumTag.ControlTipText = s
 ErrEnd:
     Exit Sub
 ErrMsg:
@@ -253,18 +259,18 @@ End Sub
 Public Sub lstA_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgA As Long
-    Dim N As Long
+    Dim n As Long
     lgA = Nz(Me!lstA, 0)
     DoCmd.Hourglass True
-    For N = 1 To 3
+    For n = 1 To 3
         OH_A "@x = 'lstA' " & _
             ", @i = " & Me!NrLeistung & _
             ", @a = " & lgA & _
-            ", @n = " & N & _
+            ", @n = " & n & _
             ", @b = " & Nz(Me!lstTopA, 100) & _
             ", @f = '" & Nz(Me!projektNr, "") & _
             "',@m = " & Nz(Me!VGID, 0), , Me
-        Select Case N
+        Select Case n
         Case 1
             OH_A "lstact", strSQL, Me
         Case 2
@@ -285,7 +291,7 @@ On Error GoTo ErrMsg
             OH_A "lstD", strSQL, Me
             Me!countM = Me!lstD.ListCount - 1
         End Select
-    Next N
+    Next n
 ErrEnd:
     OH_ResetRS r
     DoCmd.Hourglass False
@@ -305,7 +311,7 @@ On Error GoTo ErrMsg
     Dim lgA As Long
     Dim lgK As Long
     Dim lgact As Long
-    Dim N As Long
+    Dim n As Long
     Dim strP As String
     Dim strStartT As String
     Dim strStartD As String
@@ -948,10 +954,10 @@ ErrMsg:
 End Sub
 Private Sub StatusLeistung_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strS As String
     Dim strGrund As String
-    lgid = Nz(Me!NrLeistung, 0)
+    lgID = Nz(Me!NrLeistung, 0)
     s = ""
     t = Me![DatumTag] & " " & Me!AnzahlLeistung & " " & Me!LiefereinheitVG & "  Status ändern"
     If Me!StatusLeistung = 0 Then
@@ -966,7 +972,7 @@ On Error GoTo ErrMsg
     s = InputBox(s, t, strGrund)
     If s <> "" Then
         OH_A "@x = 'SetStatusLeistung' " & _
-                ",@i = " & lgid & _
+                ",@i = " & lgID & _
                 ",@f = '" & s & "'"
         OH_EX
         blID = True

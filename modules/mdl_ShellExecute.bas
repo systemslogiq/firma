@@ -471,7 +471,7 @@ End Function
 '    MsgBox s, vbExclamation, t
 '    GoTo errend
 'End Function
-Function OH_CallHTTPRequest(strURL As String, Optional strOrigin As String, Optional lgid As Long, Optional strTableName As String) As Long
+Function OH_CallHTTPRequest(strURL As String, Optional strOrigin As String, Optional lgID As Long, Optional strTableName As String) As Long
     '<R207> Function to make an HTTP POST request and handle server timeouts and retries
     ' Constants for maximum number of retries and timeout in milliseconds
     Const MAX_RETRIES As Integer = 3  ' Maximum number of retries
@@ -528,7 +528,7 @@ Function OH_CallHTTPRequest(strURL As String, Optional strOrigin As String, Opti
         ElseIf retryCount = MAX_RETRIES Then
             ' Show a message if maximum retries are reached without success
 
-            OH_LogErrorToSQLServer "TimeOut", "OH_CallHTTPRequest" & " - " & strOrigin, strTableName, lgid
+            OH_LogErrorToSQLServer "TimeOut", "OH_CallHTTPRequest" & " - " & strOrigin, strTableName, lgID
 
             MsgBox "Maximum retry attempts reached. " & _
                    "Error: " & Err.number & " - " & Err.Description, _

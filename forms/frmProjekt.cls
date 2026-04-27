@@ -5,7 +5,7 @@ Attribute VB_Exposed = False
 
 Option Compare Database
 Option Explicit
-Dim lgid As Long
+Dim lgID As Long
 Private Sub Form_Error(DataErr As Integer, Response As Integer)
     Response = OH_Form_error(DataErr)
 End Sub
@@ -42,7 +42,7 @@ On Error GoTo ErrMsg
     If Me.RecordSource = "" Then
         GoTo ErrEnd
     End If
-    lgid = Me!ID
+    lgID = Me!ID
     If glDMS <> "" Then '<R214>
         strf = Me!projektNr
         strSQL = "Execute dbo.dms_ELO " & _
@@ -103,7 +103,7 @@ End Sub
 Private Sub txtFind_AfterUpdate()
 On Error GoTo ErrMsg
     Dim strf As String
-    Dim N As Long
+    Dim n As Long
     Dim lstProjektAct As Long
     Me!txtFind.SetFocus
     Select Case Me!lstProjektAct
@@ -115,10 +115,10 @@ On Error GoTo ErrMsg
     OH_A "@x = 'RS' " & _
         ",@a = " & Nz(Me!lstProjektAct, 10) & _
         ",@f = '" & strf & "'", , Me
-    N = OH_setQdf("qdfProjekt", strSQL, True, t)
-    If N > 0 Then
+    n = OH_setQdf("qdfProjekt", strSQL, True, t)
+    If n > 0 Then
         Me.RecordSource = "qdfProjekt"
-        OH_FB Me, "ID =  " & lgid
+        OH_FB Me, "ID =  " & lgID
     End If
 ErrEnd:
     Exit Sub
@@ -155,14 +155,14 @@ End Sub
 Private Sub Info_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim lgVG As Long
-    lgVG = lgid
+    lgVG = lgID
     s = "Tragen Sie unten die gewünschte Info ein" & vbNewLine & _
         "zum Löschen ein <L> eintragen"
-    t = "Projekt " & Me!projektNr & "   ID:" & lgid
+    t = "Projekt " & Me!projektNr & "   ID:" & lgID
     s = InputBox(s, t, Nz(Me!Info))
     If s <> Nz(Me!Info) And s <> "" Then
         OH_A "@x = 'setInfo'" & _
-            ",@i = " & lgid & _
+            ",@i = " & lgID & _
             ",@f = '" & OH_RPL(s) & "'", , Me
         OH_EX
         Me.Requery
@@ -180,7 +180,7 @@ On Error GoTo ErrMsg
     Dim lgQK As Long
     Dim lgact As Long
     Dim strA As String
-    Dim N As Long
+    Dim n As Long
     DoCmd.Hourglass True
     lgact = Nz(Me!lstProjektAct, 0)
     t = Me!lstProjektAct.column(1)
@@ -280,7 +280,7 @@ End Sub
 Private Sub VGStatus_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim lgVG As Long
-    lgVG = lgid
+    lgVG = lgID
     t = "Status - Änderung" & Me!projektNr & " " & Me!QK
     Select Case Me!lstProjektAct
     Case 11
@@ -303,7 +303,7 @@ On Error GoTo ErrMsg
     Select Case Val(s)
     Case 1, 2, 3
         OH_A "@x = 'setStatus'" & _
-            ",@i = " & lgid & _
+            ",@i = " & lgID & _
             ",@f = '" & s & "'", , Me
         OH_EX
         Me.Requery

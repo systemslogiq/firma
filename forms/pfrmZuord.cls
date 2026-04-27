@@ -11,15 +11,15 @@ Private Sub Form_Open(Cancel As Integer)
 On Error GoTo ErrMsg
 Dim strOA As String
     Dim A As Long
-    Dim N As Long
+    Dim n As Long
     t = "Wiedervorlage"
     strOA = Nz(Me.OpenArgs)
     A = Mid(strOA, 2, 2)
     Select Case A
     Case Is <> 30
-        N = 0
+        n = 0
     Case Else
-        N = Mid(strOA, 4)
+        n = Mid(strOA, 4)
     End Select
     strA = "Exec dbo.spa_Adresse " & _
            "  @x = 'Wiedervorlage'"
@@ -30,7 +30,7 @@ Dim strOA As String
                 ", @a = " & A & _
                 ", @i = " & f!NrFunktion & _
                 ", @u = " & lguser & _
-                ", @n = " & N
+                ", @n = " & n
     Case "V"
         Set f = Forms!F_VG
         strSQL = strA & _
@@ -38,7 +38,7 @@ Dim strOA As String
                 ", @i = " & f!NrFunktion & _
                 ", @z = " & f!NrVG & _
                 ", @u = " & lguser & _
-                ", @n = " & N
+                ", @n = " & n
         t = "Wiedervorlage zu einem Vorgang"
     Case Else
         Cancel = True
@@ -58,7 +58,7 @@ Dim strOA As String
             ", @a = 2 " & _
             ", @b = " & A & _
             ", @u = " & lguser & _
-            ", @n = " & N
+            ", @n = " & n
 
     'Me!m.RowSource = strSQL
     OH_A "m", strSQL, Me

@@ -184,7 +184,7 @@ Private Sub btnStartExport_Click()
 On Error GoTo ErrMsg
     Dim strS As String
     Dim lgVG As String
-    Dim N As Long
+    Dim n As Long
     Dim A As String
     DoCmd.Hourglass True
     t = Me!btnStartExport.Caption
@@ -228,26 +228,26 @@ On Error GoTo ErrMsg
             i = 0
             'Überschriften
             s = ""
-            For N = 0 To r.Fields.count - 1
-                A = r.Fields(N).Name
+            For n = 0 To r.Fields.count - 1
+                A = r.Fields(n).Name
                 If s = "" Then
                     s = A
                 Else
                     s = s & ";" & A
                 End If
-            Next N
+            Next n
             Print #1, s
             While Not r.EOF
                 i = i + 1
                 s = ""
-                For N = 0 To r.Fields.count - 1
-                    A = Nz(r.Fields(N).Value, "")
+                For n = 0 To r.Fields.count - 1
+                    A = Nz(r.Fields(n).Value, "")
                     If s = "" Then
                         s = A
                     Else
                         s = s & ";" & A
                     End If
-                Next N
+                Next n
                 Print #1, s
             r.MoveNext
             Wend
@@ -303,10 +303,10 @@ End Sub
 Private Sub btnDMS_Click()
 On Error GoTo ErrMsg
     Dim strID As String
-    Dim lgid As Long
+    Dim lgID As Long
     strID = Nz(Me!lstFaktura.column(9), "")
-    lgid = Nz(Me!lstFaktura.column(0), 0)
-    If lgid = 0 Then
+    lgID = Nz(Me!lstFaktura.column(0), 0)
+    If lgID = 0 Then
         s = "Bitte markieren Sie zuerst die entsprechende Zeile"
         GoTo ErrM
     End If

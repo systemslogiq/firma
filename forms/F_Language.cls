@@ -10,7 +10,7 @@ End Sub
 Private Sub Form_Load()
 On Error GoTo ErrMsg
     Dim lgA As Long
-    Dim lgid As Long
+    Dim lgID As Long
     OH_FormHeight Me
     OH_A "lstA", , Me
     Me!lstA = "englisch"
@@ -48,7 +48,7 @@ ErrMsg:
 End Sub
 Public Sub btnSave_Click()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgNrL As Long
     Dim strX As String
     Dim strD As String
@@ -59,7 +59,7 @@ On Error GoTo ErrMsg
     If strL = "" Then
         strL = Me!lstA
     End If
-    lgid = Nz(Me!lstDet, 0)
+    lgID = Nz(Me!lstDet, 0)
     t = strL & ": " & left(Me!l1, 20)
     If Len(strL) < 8 Then
         s = "bitte eine Sprache auswählen"
@@ -81,14 +81,14 @@ On Error GoTo ErrMsg
         "',@f ='" & OH_RPL(strX) & _
         "',@lg ='" & strL & "'"
     OH_r r
-    If r!ID <> lgid Then
-        lgid = r!ID
+    If r!ID <> lgID Then
+        lgID = r!ID
     End If
-    OH_RQ Me!lstDet, lgid
-    If Nz(Me!lstDet.column(0), 0) <> lgid Then
+    OH_RQ Me!lstDet, lgID
+    If Nz(Me!lstDet.column(0), 0) <> lgID Then
         Me!txtFind = Null
         txtFind_AfterUpdate
-        OH_RQ Me!lstDet, lgid
+        OH_RQ Me!lstDet, lgID
     End If
     Me!lstDet.SetFocus
     OH_Button False
@@ -148,12 +148,12 @@ End Sub
 Public Sub lstAct_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgact As Long
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strL As String
     Dim strT As String
     Dim strQ As String
     DoCmd.Hourglass True
-    lgid = Nz(Me!lstDet, 0)
+    lgID = Nz(Me!lstDet, 0)
     t = Me!Language & " " & Me!lstact.column(1) & "  " & Me.Caption
     If Me.Dirty Then
         Me.Undo
@@ -227,7 +227,7 @@ On Error GoTo ErrMsg
             GoTo ErrEnd
         End If
         If lgact = 30 Then
-            If lgid = 0 Then
+            If lgID = 0 Then
                 s = "Bitte eine Zeile markieren"
                 GoTo ErrM
             End If

@@ -19,10 +19,10 @@ Begin Form
     Width =25764
     RowHeight =315
     ItemSuffix =145
-    Left =32655
-    Top =3030
-    Right =-8191
-    Bottom =14895
+    Left =1200
+    Top =3600
+    Right =26985
+    Bottom =16875
     TimerInterval =600000
     Tag ="B2B"
     Filter ="StatusB2B = 'noch nicht gesendet'"

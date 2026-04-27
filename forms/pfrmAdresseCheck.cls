@@ -190,7 +190,7 @@ On Error GoTo ErrMsg
     Dim strI As String
     Dim strIprev As String
     Dim strC As String
-    Dim N As Long
+    Dim n As Long
     Dim lgI As Long
     Dim Y As Long
     t = "Checke " & strCheck
@@ -250,12 +250,12 @@ On Error GoTo ErrMsg
                         Me!Firma = r!NrAdrZuord
                     End Select
                 Else
-                    N = InStr(s, ".")
-                    If N > 0 And N < lgI Then
-                        Me!Nachname = Trim(Mid(s, N + 1, lgI - N - 1))
+                    n = InStr(s, ".")
+                    If n > 0 And n < lgI Then
+                        Me!Nachname = Trim(Mid(s, n + 1, lgI - n - 1))
                         Me!Nachname = UCase(left(Me!Nachname, 1)) & LCase(Mid(Me!Nachname, 2))
                         If Me!lstArt <> 10 Then
-                            Me!Vorname = Trim(left(s, N - 1))
+                            Me!Vorname = Trim(left(s, n - 1))
                             Me!Vorname = UCase(left(Me!Vorname, 1)) & LCase(Mid(Me!Vorname, 2))
                             If Len(Nz(Me!Vorname, "")) < 3 Then
                                 For i = 0 To 5
@@ -268,9 +268,9 @@ On Error GoTo ErrMsg
                             Else
                                 For i = 0 To 5
                                     s = Nz(Me!lstA.column(0, i), "")
-                                    N = InStr(s, " " & Me!Nachname)
-                                    If N > 1 Then
-                                        Me!Vorname = Trim(left(s, N))
+                                    n = InStr(s, " " & Me!Nachname)
+                                    If n > 1 Then
+                                        Me!Vorname = Trim(left(s, n))
                                         Exit For
                                     End If
                                 Next i
@@ -311,19 +311,19 @@ On Error GoTo ErrMsg
                         InStr(s, "Fon") + _
                         InStr(s, "P. ")
                     If i > 0 Then
-                        N = 0
-                        For N = 1 To Len(s)
-                            Select Case Mid(s, N, 1)
+                        n = 0
+                        For n = 1 To Len(s)
+                            Select Case Mid(s, n, 1)
                             Case "+", "0"
                                 Exit For
                             Case Else
-                                If Val(Mid(s, N, 1)) > 0 Then
+                                If Val(Mid(s, n, 1)) > 0 Then
                                     Exit For
                                 End If
                             End Select
-                        Next N
-                        If N > 0 Then
-                            s = Mid(s, N)
+                        Next n
+                        If n > 0 Then
+                            s = Mid(s, n)
                         End If
                     End If
                 End If
@@ -342,8 +342,8 @@ On Error GoTo ErrMsg
                 i = InStr(s, "mobil") + InStr(s, "handy") + InStr(s, "M. ")
             End Select
             If i > 0 Then
-                For N = 0 To 9
-                    If InStr(s, N) > 0 Then
+                For n = 0 To 9
+                    If InStr(s, n) > 0 Then
                         For i = 0 To 250
                             strC = Chr(i)
                             Select Case strC
@@ -362,7 +362,7 @@ On Error GoTo ErrMsg
                         OH_Repl strI
                         Exit For
                     End If
-                Next N
+                Next n
             End If
         Case "TelefonDirekt"
             If InStr(s, "Direkt:") > 0 Or InStr(s, "Direct:") > 0 Then
@@ -465,12 +465,12 @@ On Error GoTo ErrMsg
                 s = Replace(s, "PLZ", "")
                 s = Trim(Replace(s, ":", ""))
                 i = 0
-                For N = 1 To Len(s)
-                    If IsNumeric(Mid(s, N, 1)) Then
+                For n = 1 To Len(s)
+                    If IsNumeric(Mid(s, n, 1)) Then
                         i = i + 1
                         Select Case i
                         Case 4, 5 '4 =CH 5 '=DE
-                            If Mid(s, N + 1, 1) = " " Then
+                            If Mid(s, n + 1, 1) = " " Then
                                 Me!PLZStrasse = left(s, i)
                                 Me!Ort = Trim(Mid(s, i + 1, 100))
                                 Exit For
@@ -479,7 +479,7 @@ On Error GoTo ErrMsg
                     Else
                         i = 0
                     End If
-                Next N
+                Next n
             End If
         Case "Strasse"
             If Len(s) > 5 Then

@@ -15,12 +15,14 @@ Begin Form
     Width =6554
     DatasheetFontHeight =10
     ItemSuffix =12
-    Right =27915
-    Bottom =11865
+    Left =13215
+    Top =1080
+    Right =19650
+    Bottom =6300
     BeforeDelConfirm ="[Event Procedure]"
     ShortcutMenuBar ="tlbOHrightMouse"
     RecSrcDt = Begin
-        0x82d4b113f075e640
+        0x5d5b79f6ad84e640
     End
     OnCurrent ="[Event Procedure]"
     BeforeUpdate ="[Event Procedure]"

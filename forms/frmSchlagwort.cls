@@ -98,11 +98,11 @@ ErrMsg:
 End Sub
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgNr As Long
     Dim lgNrNext As Long
     Dim lgNrMax As Long
-    lgid = Nz(Me!lstSchlagwort)
+    lgID = Nz(Me!lstSchlagwort)
     Dim strAC As String
  '   MsgBox KeyCode
  SysCmd acSysCmdSetStatus, KeyCode
@@ -196,11 +196,11 @@ ErrMsg:
 End Sub
 Private Function OH_SaveSchlagwort() '250210 Speichern über UMWEG OH_SaveSchlagwort, da DIREKTES speichern auf 172.31.42.179 (KIENE) nicht funzt!
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strf As String
     Dim strQ As String
-    Dim N As Long
-    lgid = Nz(Me!lstSchlagwort, 0)
+    Dim n As Long
+    lgID = Nz(Me!lstSchlagwort, 0)
     t = "Daten speichern"
     If Me!cboSchlagwort <> 0 Then
         If Nz(Me!Schlagwort, "") = "" Or Nz(Me!bemSchlagwort, "") = "" Then
@@ -210,14 +210,14 @@ On Error GoTo ErrMsg
     End If
     strSQL = "Execute dbo.DMS" & _
             " @x = 'SaveSchlagwort'" & _
-            ",@id = " & lgid & _
+            ",@id = " & lgID & _
             ",@b = " & Format(Me!cboSchlagwort, 0) & _
             ",@f = '" & OH_RPL(Me!Schlagwort) & _
             "',@d  = '" & OH_RPL(Me!bemSchlagwort) & "'"
     OH_r r
-    N = r!CT
-    Me!btnSave.Visible = N > 0
-    OH_RQ Me!lstSchlagwort, lgid
+    n = r!CT
+    Me!btnSave.Visible = n > 0
+    OH_RQ Me!lstSchlagwort, lgID
     Me!Schlagwort.SetFocus
 ErrEnd:
     OH_ResetRS rx
@@ -293,7 +293,7 @@ ErrM:
 End Sub
 Public Sub lstSchlagwortAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Dim lgA As Long
     Dim strQ As String
     Dim strID As String
@@ -311,11 +311,11 @@ On Error GoTo ErrMsg
     End If
     strD = Nz(f!lstExplorerSource, "DMS")
     lgA = Me!lstSchlagwortAct
-    lgid = Nz(Me!lstSchlagwort.column(0), 0)
+    lgID = Nz(Me!lstSchlagwort.column(0), 0)
     strSQL = "Exec dbo.dms " & _
             " @x = 'lstSchlagwortAct'" & _
             ",@a = " & lgA & _
-            ",@id = " & lgid & _
+            ",@id = " & lgID & _
             ",@i = " & Me!NrFunktion & _
             ",@b = " & Me!NrVG
     strQ = strSQL
@@ -361,7 +361,7 @@ On Error GoTo ErrMsg
         End If
         OH_r r
         lgA = r!CT
-        OH_RQ Me!lstSchlagwort, lgid
+        OH_RQ Me!lstSchlagwort, lgID
         OH_nextRecord
         Me!Schlagwort.SetFocus
         Me!btnSave.Visible = lgA > 0
@@ -465,15 +465,15 @@ End Sub
 Private Sub tv_OLEDragDrop(data As Object, Effect As Long, Button As Integer, Shift As Integer, x As Single, Y As Single)
 On Error GoTo ErrMsg
     Dim varD As Variant
-    Dim N As Long
+    Dim n As Long
     'https://www.vbforums.com/showthread.php?603290-Resoved-OLEDragDrop-Data-GetFormat-File-Types
     If (data.GetFormat(-16370) = True) Then 'e-mail attachment
         OH_Mail_to_DMS Me!NrFunktion, Me!NrVG, 11, False
     Else
         If (data.GetFormat(15) = True) Then 'e-mail attachment
             For Each varD In data.Files()
-                N = N + 1
-                s = OH_RPL(data.Files(N))
+                n = n + 1
+                s = OH_RPL(data.Files(n))
                 strSQL = "EXEC dbo.dms " & _
                         "  @x = 'AddtoAblage' " & _
                         ", @f ='" & s & _

@@ -14,13 +14,14 @@ Begin Form
     Width =27240
     DatasheetFontHeight =10
     ItemSuffix =91
-    Right =24690
+    Right =28170
     Bottom =11865
     Tag ="VG"
     ShortcutMenuBar ="tlbOHrightMouse"
     RecSrcDt = Begin
-        0xe06ab113f075e640
+        0xf2f778f6ad84e640
     End
+    UniqueTable ="T_VG"
     Caption ="Vorgänge"
     OnDelete ="[Event Procedure]"
     BeforeUpdate ="[Event Procedure]"
@@ -147,8 +148,8 @@ Begin Form
                             Width =18360
                             Height =5595
                             Name ="pageVorgang"
-                            Caption ="99 ITV001 Fehler - 53045.002 - Noord Natie Terminals N.V - Frigutec OAT+ 50/50 l"
-                                "ilac"
+                            Caption ="38 Lagerabruf - 54852.003 - Noord Natie Terminals N.V - Frigutec® OAT-EVO lilac "
+                                "8"
                             LayoutCachedLeft =5886
                             LayoutCachedTop =420
                             LayoutCachedWidth =24246
@@ -181,7 +182,6 @@ Begin Form
                                     Width =3001
                                     Height =255
                                     FontWeight =700
-                                    BackColor =255
                                     Name ="NrQK"
                                     ControlSource ="NrQK"
                                     RowSourceType ="Table/Query"
@@ -260,13 +260,14 @@ Begin Form
                                     Top =420
                                     Width =1224
                                     Height =340
+                                    FontWeight =700
                                     TabIndex =3
                                     ForeColor =10040115
                                     Name ="btnVG"
-                                    Caption ="Art"
+                                    Caption ="B2B"
                                     OnClick ="[Event Procedure]"
                                     FontName ="Arial"
-                                    ControlTipText ="Öffne Vorgangsart 99 ITV001 Fehler\015\012ggf. zum Anpassen der Texte"
+                                    ControlTipText ="Öffne Übersicht Lagerabrufe B2B"
 
                                     LayoutCachedLeft =6035
                                     LayoutCachedTop =420
@@ -340,7 +341,6 @@ Begin Form
                                     Height =255
                                     FontWeight =700
                                     TabIndex =6
-                                    BackColor =255
                                     Name ="VGID"
                                     ControlSource ="VGID"
                                     RowSourceType ="Table/Query"
@@ -372,7 +372,6 @@ Begin Form
                                     Height =255
                                     FontWeight =700
                                     TabIndex =7
-                                    BackColor =255
                                     Name ="VGIDu"
                                     ControlSource ="VGIDu"
                                     RowSourceType ="Table/Query"
@@ -1739,6 +1738,7 @@ Begin Form
                                     OldBorderStyle =1
                                     OverlapFlags =215
                                     TextAlign =3
+                                    BackStyle =0
                                     Left =21772
                                     Top =3941
                                     Width =1286
@@ -1746,6 +1746,7 @@ Begin Form
                                     FontWeight =700
                                     TabIndex =57
                                     BorderColor =255
+                                    ForeColor =9737364
                                     Name ="SumVGTotA"
                                     Format ="Standard"
                                     BeforeUpdate ="[Event Procedure]"
@@ -1982,7 +1983,6 @@ Begin Form
                                     End
                                 End
                                 Begin CommandButton
-                                    Visible = NotDefault
                                     TabStop = NotDefault
                                     OverlapFlags =223
                                     Left =19688
@@ -1992,7 +1992,7 @@ Begin Form
                                     TabIndex =65
                                     ForeColor =0
                                     Name ="btnVGDat2"
-                                    Caption ="Einlagerung"
+                                    Caption ="Auslagerung"
                                     OnClick ="[Event Procedure]"
                                     FontName ="Arial"
                                     ControlTipText ="Kalender öffnen"
@@ -2022,7 +2022,7 @@ Begin Form
                                     Format ="Standard"
                                     AfterUpdate ="[Event Procedure]"
                                     FontName ="Arial"
-                                    ControlTipText ="Fehlerbetrag"
+                                    ControlTipText ="BestellBetrag"
                                     AsianLineBreak =0
 
                                     LayoutCachedLeft =23165
@@ -2153,7 +2153,6 @@ Begin Form
                                     LayoutCachedHeight =1612
                                 End
                                 Begin TextBox
-                                    Visible = NotDefault
                                     AutoTab = NotDefault
                                     FELineBreak = NotDefault
                                     SpecialEffect =0
@@ -2171,7 +2170,7 @@ Begin Form
                                     AfterUpdate ="[Event Procedure]"
                                     OnDblClick ="[Event Procedure]"
                                     FontName ="Arial"
-                                    ControlTipText ="Datum 2 Einlagerung\015\012Tageseingabe ==> Datum wird automatisch generiert aus"
+                                    ControlTipText ="Datum 2 Auslagerung\015\012Tageseingabe ==> Datum wird automatisch generiert aus"
                                         " dem aktuellen Monat\015\012Doppel-Klick==> heutiges Datum eintragen, wenn noch "
                                         "nichts eingetragen ist"
                                     AsianLineBreak =0
@@ -2182,7 +2181,6 @@ Begin Form
                                     LayoutCachedHeight =5273
                                 End
                                 Begin TextBox
-                                    Visible = NotDefault
                                     AutoTab = NotDefault
                                     FELineBreak = NotDefault
                                     SpecialEffect =0
@@ -2201,7 +2199,7 @@ Begin Form
                                     FontName ="Arial"
                                     OnKeyPress ="[Event Procedure]"
                                     OnLostFocus ="[Event Procedure]"
-                                    ControlTipText ="Datum 2 Einlagerung"
+                                    ControlTipText ="Datum 2 Auslagerung"
                                     AsianLineBreak =0
 
                                     LayoutCachedLeft =22012
@@ -2464,6 +2462,7 @@ Begin Form
                                     Width =2162
                                     Height =255
                                     TabIndex =83
+                                    BackColor =7247359
                                     Name ="VGStatus"
                                     ControlSource ="VGStatus"
                                     RowSourceType ="Table/Query"
@@ -2596,7 +2595,6 @@ Begin Form
                                     LayoutCachedHeight =1022
                                 End
                                 Begin CommandButton
-                                    Visible = NotDefault
                                     TabStop = NotDefault
                                     OverlapFlags =215
                                     Left =11545
@@ -3579,9 +3577,9 @@ Begin Form
                                     TabIndex =11
                                     Name ="SpinButtonAnzahlVG"
                                     OleData = Begin
-                                        0x00160000d0cf11e0a1b11ae1000000000000000000000000000000003e000300 ,
-                                        0xfeff090006000000000000000000000001000000000000000000000000100000 ,
-                                        0x0700000001000000feffffff0000000001000000ffffffffffffffffffffffff ,
+                                        0x00100000d0cf11e0a1b11ae1000000000000000000000000000000003e000300 ,
+                                        0xfeff090006000000000000000000000001000000020000000000000000100000 ,
+                                        0x0400000001000000feffffff0000000003000000ffffffffffffffffffffffff ,
                                         0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
                                         0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
                                         0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
@@ -3630,7 +3628,7 @@ Begin Form
                                         0xffffffff52006f006f007400200045006e007400720079000000000000000000 ,
                                         0x0000000000000000000000000000000000000000000000000000000000000000 ,
                                         0x0000000016000500ffffffffffffffff05000000b06f1779f2b7ce1197ef00aa ,
-                                        0x006d27760000000000000000000000005053da83eaedd3010600000080010000 ,
+                                        0x006d2776000000000000000000000000c07be82ecdc4dc010600000080010000 ,
                                         0x00000000010043006f006d0070004f0062006a00000000000000000000000000 ,
                                         0x0000000000000000000000000000000000000000000000000000000000000000 ,
                                         0x00000000120002010200000003000000ffffffff000000000000000000000000 ,
@@ -3700,54 +3698,6 @@ Begin Form
                                         0x0010000000456d626564646564204f626a6563740013000000466f726d732e53 ,
                                         0x70696e427574746f6e2e3100f439b27100000000000000000000000066656c64 ,
                                         0x0010000000021400880800006400000000000000d1010000210200006d732e53 ,
-                                        0x70696e427574746f6e2e3100f439b27100000000000000000000000000000000 ,
-                                        0x0000000001000002000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x00000000fefffffffeffffff03000000fefffffffefffffffeffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ,
-                                        0xffffffff03004100630063006500730073004f0062006a005300690074006500 ,
-                                        0x4400610074006100000000000000000000000000000000000000000000000000 ,
-                                        0x0000000026000200ffffffffffffffffffffffff000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000100000038000000 ,
-                                        0x0000000002004f006c0065005000720065007300300030003000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x00000000180002010100000004000000ffffffff000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000024000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000ffffffffffffffffffffffff000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000ffffffffffffffffffffffff000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x00000000000000000400000001000000ffffffff000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000038000000000000000100000000000000000000000000000000000000 ,
-                                        0x0000000038000000000000000000000000000000000000000000000000000000 ,
-                                        0x000000000100feff030a0000ffffffffb06f1779f2b7ce1197ef00aa006d2776 ,
-                                        0x1d0000004d6963726f736f667420466f726d7320322e302d4472656866656c64 ,
-                                        0x0010000000456d626564646564204f626a6563740013000000466f726d732e53 ,
-                                        0x70696e427574746f6e2e3100f439b27100000000000000000000000066656c64 ,
-                                        0x0010000000021400880800006300000000000000d1010000210200006d732e53 ,
                                         0x70696e427574746f6e2e3100f439b27100000000000000000000000000000000 ,
                                         0x0000000001000002000000000000000000000000000000000000000000000000 ,
                                         0x0000000000000000000000000000000000000000000000000000000000000000 ,
@@ -4629,7 +4579,6 @@ Begin Form
                                     LayoutCachedHeight =5943
                                 End
                                 Begin CommandButton
-                                    Visible = NotDefault
                                     TabStop = NotDefault
                                     OverlapFlags =247
                                     Left =9167
@@ -4949,7 +4898,7 @@ Begin Form
                     BackColor =16773098
                     Name ="lstDet"
                     RowSourceType ="Table/Query"
-                    ColumnWidths ="0;737;340;0;0;3742;0"
+                    ColumnWidths ="0;737;340;0;0;2268;0"
                     AfterUpdate ="[Event Procedure]"
                     OnDblClick ="[Event Procedure]"
                     FontName ="Arial"
@@ -4957,8 +4906,8 @@ Begin Form
                     OnKeyUp ="[Event Procedure]"
                     Tag ="54900"
                     ShortcutMenuBar ="cbEmpty"
-                    ControlTipText ="Liste der gefilterten (30) Daten für VG\015\012Verwenden Sie die Pfeiltasten, um"
-                        " zu blättern.\015\012Nutzen Sie die CTRL-/SHIFT-Tasten für die Markierung"
+                    ControlTipText ="Liste der gefilterten (1) Daten für VG\015\012Verwenden Sie die Pfeiltasten, um "
+                        "zu blättern.\015\012Nutzen Sie die CTRL-/SHIFT-Tasten für die Markierung"
 
                     LayoutCachedLeft =45
                     LayoutCachedTop =6522
@@ -5003,7 +4952,7 @@ Begin Form
                     Height =270
                     FontWeight =600
                     TabIndex =3
-                    BackColor =-2147483633
+                    BackColor =13172735
                     BorderColor =128
                     ForeColor =128
                     Name ="txtFind"
@@ -5060,7 +5009,7 @@ Begin Form
                     Height =270
                     FontWeight =600
                     TabIndex =5
-                    BackColor =12910525
+                    BackColor =-2147483633
                     Name ="countRec"
                     OnDblClick ="[Event Procedure]"
                     FontName ="Arial"
@@ -5117,7 +5066,7 @@ Begin Form
                                     AfterUpdate ="[Event Procedure]"
                                     FontName ="Arial"
                                     ShortcutMenuBar ="cbEmpty"
-                                    ControlTipText ="Liste der Vorgänge pro Unternummer 53045.002\015\012 sortiert nach NRVG DESC\015"
+                                    ControlTipText ="Liste der Vorgänge pro Unternummer 54852.003\015\012 sortiert nach NRVG DESC\015"
                                         "\012Klick zeigt oben der Vorgang an"
 
                                     LayoutCachedLeft =12286
@@ -6235,7 +6184,7 @@ Begin Form
                                     ColumnHeads = NotDefault
                                     OverlapFlags =247
                                     IMESentenceMode =3
-                                    ColumnCount =5
+                                    ColumnCount =6
                                     Left =9168
                                     Top =6765
                                     Width =14742
@@ -6244,10 +6193,12 @@ Begin Form
                                     BackColor =15066597
                                     Name ="lstExplorer"
                                     RowSourceType ="Table/Query"
-                                    ColumnWidths ="0;5103;1134;1134;3969"
+                                    ColumnWidths ="851;851;2835;5670;907;1418"
                                     OnDblClick ="[Event Procedure]"
                                     FontName ="Arial"
                                     ShortcutMenuBar ="cbEmpty"
+                                    ControlTipText ="Liste der in ELO abgelegten Dokumente\015\012Doppelklick öffnet ELO und zeigt da"
+                                        "s markierte Dokument"
 
                                     LayoutCachedLeft =9168
                                     LayoutCachedTop =6765
@@ -6528,7 +6479,7 @@ Begin Form
                                     BackColor =15066597
                                     Name ="lstB2B"
                                     RowSourceType ="Table/Query"
-                                    ColumnWidths ="0;1134;1701;5670;1134;1134;1134;1134"
+                                    ColumnWidths ="567;1134;1701;5670;1134;1134;1134;1134"
                                     OnDblClick ="[Event Procedure]"
                                     DefaultValue ="10"
                                     FontName ="Arial"
@@ -6584,8 +6535,6 @@ Begin Form
                     BackColor =12975858
                     Name ="comtxtFind"
                     RowSourceType ="Value List"
-                    RowSource ="A: Sucht in Adressen;N: Projekt-Nummern;S: Stichworte;D0: Vorgangs-Datum;D1: Dat"
-                        "um 1;D2: Datum 2;LN: lfd.-Nr.;FA: Firmenname"
                     ColumnWidths ="1701"
                     AfterUpdate ="[Event Procedure]"
                     FontName ="Arial"
@@ -6960,7 +6909,7 @@ Begin Form
                     Width =3585
                     Height =255
                     TabIndex =18
-                    BackColor =-2147483633
+                    BackColor =13172735
                     Name ="comFirma"
                     RowSourceType ="Table/Query"
                     ColumnWidths ="0"

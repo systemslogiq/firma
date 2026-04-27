@@ -4,9 +4,9 @@
     "Description": "VBE Project"
   },
   "Items": {
-    "Name": "Firma_260312",
+    "Name": "Firma_260423",
     "Description": "Ohnemus Firmendatenbank accdb",
-    "FileName": "Firma.ACCDB",
+    "FileName": "firma.accdb",
     "HelpFile": "",
     "HelpContextId": 0,
     "ConditionalCompilationArguments": "",

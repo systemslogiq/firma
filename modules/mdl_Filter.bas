@@ -39,14 +39,14 @@ On Error GoTo ErrMsg
     'bilde einen Filter mit dem aktuellen Control und
     'gehe wieder zum Ausgangsdatensatz zurück
     'OH071222
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strID As String
     Dim frmSF As Form
     Dim strNot As String
     Dim strFtr As String
     Set frmSF = OH_tlbStartForm
     strNot = " "
-    lgid = frmSF!f0
+    lgID = frmSF!f0
     strID = frmSF!f0.ControlSource
     Select Case lgArt
     Case 100
@@ -86,7 +86,7 @@ On Error GoTo ErrMsg
     If frmSF.FilterOn = False Then
         frmSF.FilterOn = True
     End If
-    OH_FB frmSF, strID & " = " & lgid, ctl.Name
+    OH_FB frmSF, strID & " = " & lgID, ctl.Name
 ErrEnd:
     Exit Function
 ErrMsg:
@@ -176,7 +176,7 @@ On Error GoTo ErrMsg
     Dim strFrm As String
     Dim strN As String
     Dim strCS As String
-    Dim lgid As Long
+    Dim lgID As Long
     Dim strField As String
     Dim strW As String
     Dim strIsText As String

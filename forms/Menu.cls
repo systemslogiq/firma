@@ -9,34 +9,35 @@ Dim xWV As Long
 Dim xWI As Long
 Dim blClose As Boolean
 Dim strLastPathP As String
-Private Sub Form_Timer()
-On Error GoTo ErrMsg
-    Dim strStop As String
-    Static inProgress As Boolean
-    SysCmd acSysCmdSetStatus, "Timer Menu " & Now
-    If inProgress Then Exit Sub
-
-    If Not OH_SqlPing_DAO(1) Then
-        inProgress = True
-        strStop = OH_GetCnnString
-        If strStop = "Stop" Then
-            OH_ApplicationQuit
-        End If
-        inProgress = False
-    End If
-ErrEnd:
-    Exit Sub
-ErrMsg:
-    Select Case Err
-    Case Else
-        s = Err & " " & Err.Description
-        t = Err.Source & " Form_Timer"
-        Resume ErrM
-    End Select
-ErrM:
-    MsgBox s, vbCritical, t
-    GoTo ErrEnd
-End Sub
+'Private Sub Form_Timer()
+'On Error GoTo ErrMsg
+'''Timer stört B2B-HAndling==>ausschalten
+'    Dim strStop As String
+'    Static inProgress As Boolean
+'    SysCmd acSysCmdSetStatus, "Timer Menu " & Now
+'    If inProgress Then Exit Sub
+'
+'    If Not OH_SqlPing_DAO(1) Then
+'        inProgress = True
+'        strStop = OH_GetCnnString
+'        If strStop = "Stop" Then
+'            OH_ApplicationQuit
+'        End If
+'        inProgress = False
+'    End If
+'ErrEnd:
+'    Exit Sub
+'ErrMsg:
+'    Select Case Err
+'    Case Else
+'        s = Err & " " & Err.Description
+'        t = Err.Source & " Form_Timer"
+'        Resume ErrM
+'    End Select
+'ErrM:
+'    MsgBox s, vbCritical, t
+'    GoTo ErrEnd
+'End Sub
 
 Public Sub Form_Open(Cancel As Integer)
 On Error GoTo ErrMsg
@@ -75,7 +76,8 @@ On Error GoTo ErrMsg
     If InStr(strVersion, "TEST") > 0 Then
         Me.Det.BackColor = vbYellow
     End If
-    Me.TimerInterval = 5000 'imer-Intervall z.B. 15000 (15 Sekunden).
+    '''Timer stört B2B-HAndling==>ausschalten
+    'Me.TimerInterval = 1000 'Timer-Intervall z.B. 15000 (15 Sekunden).
 ErrEnd:
     Exit Sub
 ErrMsg:
@@ -231,7 +233,7 @@ ErrMsg:
 End Sub
 Public Sub lstA_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim N As Long
+    Dim n As Long
     Dim strL As String
     Dim strf As String
     Dim strA As String
@@ -367,12 +369,12 @@ On Error GoTo ErrMsg
             GoTo ErrM
         End If
         s = "Letzte Auswertung vom  " & r!letzteBerechnung & vbNewLine & vbNewLine & s
-        N = Val(InputBox(s, t, 3))
+        n = Val(InputBox(s, t, 3))
         DoCmd.Hourglass True
-        Select Case N
+        Select Case n
         Case 1
         Case 2, 3
-            If N = 3 Then
+            If n = 3 Then
                 strf = strf & ",@a = " & Year(Date) - 1
             End If
             strf = strf & ",@i = "
@@ -386,12 +388,12 @@ On Error GoTo ErrMsg
                 strA & vbNewLine & _
             "Soll das EXCEL-File geöffnet werden?"
             If MsgBox(s, vbOKCancel + vbQuestion, t) = vbOK Then
-                N = 1
+                n = 1
             End If
         Case Else
             GoTo ErrEnd
         End Select
-        If N = 1 Then
+        If n = 1 Then
             DoCmd.Hourglass True
             OH_LaunchDocument 1, strA
         End If
@@ -437,9 +439,9 @@ NochmalDatum:
             strSQL = strQ & ", @a = 2"
             OH_r r
             i = r!ctv
-            N = r!ctd
-            If i <> N Then
-                s = "Es gibt " & i & " Vorgänge, aber nur " & N & " Dateien." & vbNewLine & _
+            n = r!ctd
+            If i <> n Then
+                s = "Es gibt " & i & " Vorgänge, aber nur " & n & " Dateien." & vbNewLine & _
                     "Bitte die fehlenden Dateien im DMS ablegen!" & vbNewLine & _
                     "Trotzdem weitermachen?"
                 If MsgBox(s, vbExclamation + vbYesNo + vbDefaultButton2, t) = vbNo Then
@@ -498,7 +500,7 @@ End Sub
 
 Private Sub lstAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgid As Long
+    Dim lgID As Long
     Select Case Me!lstact
     Case 10, 11 '10 = Mitarbeiter anzeigen (Adresse)
                 '11 = Mandand anzeigen (Adresse)
@@ -525,34 +527,34 @@ On Error GoTo ErrMsg
         With Me!lstGebTag
             For Each x In .ItemsSelected
                 OH_InsertID .column(0, x)
-                If lgid = 0 Then
-                    lgid = .column(0, x)
+                If lgID = 0 Then
+                    lgID = .column(0, x)
                 End If
             Next x
         End With
-        If lgid = 0 Then
+        If lgID = 0 Then
             With Me!lstGebTag
                 For i = 1 To .ListCount - 1
                     OH_InsertID .column(0, i)
-                    If lgid = 0 Then
-                        lgid = .column(0, i)
+                    If lgID = 0 Then
+                        lgID = .column(0, i)
                     End If
                 Next i
             End With
         End If
-        If lgid = 0 Then
+        If lgID = 0 Then
             MsgBox "Mindestens 1 Geburtstags-Kind muss in der Liste enthalten sein!", _
                     vbInformation, "Markiere mehrere mit mit Shift /Strg-Taste"
         Else
-            OH_OF "F_Adresse", lgid
+            OH_OF "F_Adresse", lgID
             Set frm = Forms!F_Adresse
             frm!txtFind = Null
             frm!lstA = Me!comGebTag.column(2)
             frm.lstA_AfterUpdate
-            If frm!NrFunktion <> lgid Then
+            If frm!NrFunktion <> lgID Then
                 With frm!lstDet
                     For i = 0 To .ListCount - 1
-                        .Selected(i) = lgid = .column(0, i)
+                        .Selected(i) = lgID = .column(0, i)
                     Next i
                 End With
                 frm.lstDet_AfterUpdate
