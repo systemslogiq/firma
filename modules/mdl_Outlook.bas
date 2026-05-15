@@ -430,7 +430,7 @@ Function OH_SyncAddContactOutlook(ByVal lgOpen As Long, _
     Dim objContact      As Object
     Dim intCntr         As Integer
     Dim objNewContact   As ContactItem
-    Dim lgID            As Long
+    Dim lgid            As Long
     Dim strN            As String
     Dim lgNew           As Long
     Dim lgOld           As Long
@@ -678,7 +678,7 @@ ErrMsg:
     DoCmd.Hourglass False
     Resume ErrEnd
 End Function
-Function OH_SyncContactOutlook(lgID As Long, _
+Function OH_SyncContactOutlook(lgid As Long, _
                                 Optional strEmail As String, _
                                 Optional lgArt As Long = 30) As Long
 On Error GoTo ErrMsg
@@ -692,7 +692,7 @@ On Error GoTo ErrMsg
     Set fldContacts = gnspNameSpace.GetDefaultFolder(olFolderContacts)
     DoCmd.Hourglass True
     OH_SyncContactOutlook = 0
-    Set objContact = fldContacts.Items.Find("[CustomerID] = " & lgID)
+    Set objContact = fldContacts.Items.Find("[CustomerID] = " & lgid)
     If TypeName(objContact) = "Nothing" And strEmail <> "" Then
         Set objContact = fldContacts.Items.Find("[Email1Address] = '" & strEmail & "'") '<R77>
     End If
@@ -700,7 +700,7 @@ On Error GoTo ErrMsg
         Select Case lgArt
         Case 30
             If Len(objContact.CustomerID) = 0 Then
-                objContact.CustomerID = lgID
+                objContact.CustomerID = lgid
                 objContact.Save
                 OH_SyncContactOutlook = 1
             End If
@@ -806,7 +806,7 @@ ErrMsg:
     MsgBox Err & " " & Err.Description, vbCritical, "Erstelle Outlook Folder"
     Resume ErrEnd
 End Function
-Function OH_DialOutlookContact(lgID As Long, _
+Function OH_DialOutlookContact(lgid As Long, _
                                Optional strNr As String, _
                                Optional strName As String) As Long
 On Error GoTo ErrMsg
@@ -818,13 +818,13 @@ On Error GoTo ErrMsg
     Set gnspNameSpace = myOlApp.GetNamespace("MAPI")
     Set fldContacts = gnspNameSpace.GetDefaultFolder(olFolderContacts)
 ' Zeiger auf Kontakteordner abrufen.
-    Set objContact = fldContacts.Items.Find("[CustomerID] = " & lgID)
+    Set objContact = fldContacts.Items.Find("[CustomerID] = " & lgid)
 'Falls Kontakt noch nicht angelegt ==> zuerst in Outlook anlegen
     If TypeName(objContact) = "Nothing" Then
         OH_ResetID
-        OH_InsertID lgID
+        OH_InsertID lgid
         OH_SyncAddContactOutlook vbNo
-        OH_DialOutlookContact lgID, strNr
+        OH_DialOutlookContact lgid, strNr
     Else
 'Telefonie über Outlook-Fenster
         'objContact.Display
@@ -852,7 +852,7 @@ On Error GoTo ErrMsg
     Dim objContacts     As Object
     Dim objContact      As ContactItem
     Dim myItems         As Outlook.Items
-    Dim lgID            As Long
+    Dim lgid            As Long
     Dim strN            As String
     ' Verweis auf den Outlook-Kontakteordner abrufen.
     Set myOlApp = New Outlook.Application

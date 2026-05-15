@@ -885,7 +885,7 @@ Public Function OH_PrintReport(frmP As Form, _
 On Error GoTo ErrMsg
     Dim strID As String
     Dim actualRecord
-    Dim lgID As Long
+    Dim lgid As Long
     Dim rpt As Report
     OH_SaveRS frmP
     OH_ResetID 'zurücksetzen
@@ -910,8 +910,8 @@ On Error GoTo ErrMsg
     Case 4
         OH_PrintReport = OH_InsertID_ALL(frmP)
     Case 5 'rechnung auf Leistung
-        lgID = frmP!NrVGdetR
-        strSQL = "Exec dbo.spI_ID 'InsertID_VGdetR'," & lgID
+        lgid = frmP!NrVGdetR
+        strSQL = "Exec dbo.spI_ID 'InsertID_VGdetR'," & lgid
         OH_r r
         OH_PrintReport = r(0)
     End Select
@@ -1340,7 +1340,7 @@ On Error GoTo ErrMsg
     Dim ctlact As control
     Dim strA(1 To 6) As String
     Dim varF As Variant
-    Dim lgID As Long
+    Dim lgid As Long
     Set ctlact = Screen.ActiveControl
     varF = "OH_NIX"
     t = "Zoomen des aktuellen Feldes " & ctlact.Name & " " & ctlact.ControlTipText
@@ -1384,11 +1384,11 @@ On Error GoTo ErrMsg
     Case acListBox
         Select Case ctlact.Name
         Case "lststichwort"
-            lgID = ctlact.Value
+            lgid = ctlact.Value
             strT = "Zoome Bemerkung aus Liste der Stichworte zu <" & ctlact.column(2) & ">"
             strA(4) = "Exec dbo.spa_Stichwort" & _
                     "  @st = 41 " & _
-                    ", @id = " & lgID
+                    ", @id = " & lgid
             strSQL = strA(4) & _
                 ",@o ='show'"
             OH_r r
@@ -1449,7 +1449,7 @@ On Error GoTo ErrMsg
     Dim strHilfetext As String
     Dim strHilfe As String
     Dim strH As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgBoss As Long
     Set ctl = Screen.ActiveControl
     strlink = "Formname= '" & frm.Name & "' and fieldname=  '"
@@ -1475,7 +1475,7 @@ On Error GoTo ErrMsg
         s = ""
     Else
         s = Nz(r!Beschreibung, "")
-        lgID = r!nrlexikon
+        lgid = r!nrlexikon
         lgBoss = r!NrBoss
     End If
     If s Like "" Then
@@ -1527,12 +1527,12 @@ HelpAgain:
                     "',@s = '" & ctl.Name & _
                     "',@w =  '" & frm.Name & "'"
             OH_r r
-            lgID = r!ID
+            lgid = r!ID
             lgBoss = r!NrBoss
         End If
         OH_OF "F_Lexikon"
         Set frm = Forms!F_Lexikon
-        frm.OH_FindLex lgBoss, lgID
+        frm.OH_FindLex lgBoss, lgid
     End Select
 ErrEnd:
     Exit Function
@@ -1557,7 +1557,7 @@ On Error GoTo ErrMsg
     Dim lgCount As Long
     Dim vararray As Variant
     Dim strL As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgBoss As Long
     Dim lgAntw As Long
     Dim strA(1 To 6) As String
@@ -1633,13 +1633,13 @@ On Error GoTo ErrMsg
                 " @x = 'InsertLex' " & _
                ", @d = '" & strGrp & "'"
         OH_r r
-        lgID = r!ID
+        lgid = r!ID
         lgBoss = r!NrBoss
-        strMSG(3) = lgID
-        lgID = Val(strMSG(3))
-        OH_OF "F_Lexikon", lgID
+        strMSG(3) = lgid
+        lgid = Val(strMSG(3))
+        OH_OF "F_Lexikon", lgid
         Set frm = Forms!F_Lexikon
-        frm.OH_FindLex lgBoss, lgID
+        frm.OH_FindLex lgBoss, lgid
     Case strA(2)
         If strA(2) <> "Abbrechen" Then
             OH_OF "F_Lexikon", Val(strMSG(3))
@@ -1787,7 +1787,7 @@ End Function
 Public Function OH_MarkerNoOne(frm As Form)
 On Error GoTo ErrMsg
     Dim strf As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim ctlM As control
     strf = Mid(frm.Name, 3)
     Select Case strf
@@ -1796,11 +1796,11 @@ On Error GoTo ErrMsg
     Case Else
         Set ctlM = frm!lstM
     End Select
-    lgID = Nz(ctlM.column(0, ctlM.ListIndex + 2), 0)
+    lgid = Nz(ctlM.column(0, ctlM.ListIndex + 2), 0)
     strSQL = "spI_Marker '" & strf & "'," & Nz(ctlM, 0) & ",'M'"
     OH_EX
     OH_MarkerLST frm
-    ctlM = lgID
+    ctlM = lgid
     ctlM.SetFocus
 ErrEnd:
     Exit Function
@@ -1856,7 +1856,7 @@ Public Function OH_lstStichwortAct(frm As Form, _
                                    Optional strStGr As String = "")
 On Error GoTo ErrMsg
     Dim strST As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgW As Long
     Dim strA(1 To 5) As String
     DoCmd.Hourglass True
@@ -1868,7 +1868,7 @@ On Error GoTo ErrMsg
             s = "Bitte markieren Sie das betreffende Stichwort"
             GoTo ErrM
         End If
-        lgID = frm!lstStichwort
+        lgid = frm!lstStichwort
     End Select
     Select Case lgact
     Case 0
@@ -1933,7 +1933,7 @@ On Error GoTo ErrMsg
     Case 14 'kopieren',
         strSQL = "Exec dbo.spA_Stichwort " & _
                         " @st = 14" & _
-                        ", @ID=" & lgID
+                        ", @ID=" & lgid
         OH_EX
         OH_RQ frm!lstStichwort
     Case 15, 16, 17 'durchnummerieren... 16 nach oben, 17 nach unten
@@ -1985,10 +1985,10 @@ On Error GoTo ErrMsg
         frm!lstStichwort = frm!lstStichwort.column(0, 1)
     Case 21 'löschen...'
         t = frm.pgStichwort.Caption & "  " & frm.Caption
-        lgID = Nz(frm!lstStichwort.column(1), 0)
+        lgid = Nz(frm!lstStichwort.column(1), 0)
         s = ""
 nochmal23:
-        strA(1) = "lösche von Nr. " & lgID & " bis x"
+        strA(1) = "lösche von Nr. " & lgid & " bis x"
         s = s & "Lösche Stichworte:" & vbNewLine & vbNewLine & _
                 "<ALLE>" & vbNewLine & vbNewLine & _
                 "<OHNE Bemerkung>" & vbNewLine & vbNewLine & _
@@ -2045,7 +2045,7 @@ nochmal23:
     Case 32 'Bemerkung kopieren
         strSQL = "Exec dbo.spa_Stichwort" & _
                 " @x = 'KopieBemerkung'" & _
-                ",@ID = " & lgID
+                ",@ID = " & lgid
         OH_r r
         s = r!Bem
         OH_CB s
@@ -2143,14 +2143,14 @@ nochmal23:
          OH_RQ frm!lstStichwort
     Case 204 'kopieren von ID....'
         s = "Bitte unten die Artikel-ID (siehe Feld im Artikel-Formular ganz oben) eingeben, von der die Analysen kopiert werden sollen"
-        lgID = Val(InputBox(s, t, "hier die ID eintragen"))
-        If lgID = 0 Or lgID = frm!NrArtikel Then
+        lgid = Val(InputBox(s, t, "hier die ID eintragen"))
+        If lgid = 0 Or lgid = frm!NrArtikel Then
             GoTo ErrEnd
         End If
         strSQL = "spa_artikel" & _
                  " @x = 'KopiereAnalysen'" & _
                  ", @i = " & frm!NrArtikel & _
-                 ", @a = " & lgID
+                 ", @a = " & lgid
          OH_EX
          OH_RQ frm!lstStichwort
     Case 210 'Zertifikat drucken'
@@ -2632,19 +2632,19 @@ ErrMsg:
            Err.Description, vbCritical, "OH_InsertID_LST"
     Resume Next
 End Function
-Public Function OH_InsertID(lgID As Long, Optional strT As String, Optional blClear As Boolean = False)
+Public Function OH_InsertID(lgid As Long, Optional strT As String, Optional blClear As Boolean = False)
 On Error GoTo ErrMsg
     If blClear Then
         OH_ResetID
     End If
-    If lgID > 0 Then
+    If lgid > 0 Then
         strSQL = "Exec dbo.spI_ID " & _
                 "@x = 'InsertID' " & _
-                ",@i=  " & lgID & _
+                ",@i=  " & lgid & _
                 ",@f = '" & OH_RPL(strT) & "'"
         OH_EX
     Else
-        MsgBox lgID
+        MsgBox lgid
     End If
 ErrEnd:
     Exit Function
@@ -2834,7 +2834,7 @@ Public Function OH_checkdelete(strWhat As String, _
                                strT As String, _
                                strTable As String, _
                                strF1 As String, _
-                               lgID As Long, _
+                               lgid As Long, _
                                Optional strOptLink As String) As String
     ' Anzahl abhängige Datensätze überprüfen,
     ' wenn ein übergeordneter Datensatz gelöscht wird
@@ -2843,7 +2843,7 @@ Public Function OH_checkdelete(strWhat As String, _
     Dim lgC As Long
     OH_checkdelete = 0
     strX = "T_" & strTable & "." & strF1
-    strlink = strX & "=" & lgID
+    strlink = strX & "=" & lgid
     If Not strOptLink = "" Then
         strlink = strOptLink
     End If
@@ -2945,7 +2945,7 @@ Public Function OH_newCompany(strName As String)
 On Error GoTo ErrMsg
     Dim strNachname As String
     Dim strOrt As String
-    Dim lgID As Long
+    Dim lgid As Long
     Set ctl = Screen.ActiveControl
     ctl.Undo
     OH_newCompany = True
@@ -2976,13 +2976,13 @@ On Error GoTo ErrMsg
                 "', @o = '" & OH_RPL(strOrt) & _
                 "', @d = '" & x & "'"
     OH_r r
-    lgID = r!ID
-    ctl = lgID
+    lgid = r!ID
+    ctl = lgid
     OH_RQ ctl
     SendKeys "{TAB}"
 '=================
     If i = vbYes Then
-        OH_OF "F_Adresse", lgID, 1
+        OH_OF "F_Adresse", lgid, 1
         With Forms!F_Adresse
             !Beruf.SetFocus     'Branche eingeben
         End With
@@ -3654,18 +3654,18 @@ ErrMsg:
 End Function
 Public Function OH_F8()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim fVG As Form
     If OH_isloaded("F_VG") Then
         Set fVG = Forms!F_VG
-        lgID = Nz(fVG!nrVGDet, 0)
+        lgid = Nz(fVG!nrVGDet, 0)
         fVG.regd = 5
         fVG.RegMain = 2
         If fVG!AnzahlVG.Visible = True Then
             fVG!AnzahlVG.SetFocus
         End If
     Else
-        OH_OF "F_Artikel", lgID
+        OH_OF "F_Artikel", lgid
     End If
 ErrEnd:
     Exit Function
@@ -4148,11 +4148,11 @@ ErrMsg:
 End Function
 Public Function OH_SyncS(frmSync As Form)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strB As String
     VarAntw = "NoForm_Current"
-    lgID = Nz(frmSync!f0)
-    OH_RQf frmSync, lgID
+    lgid = Nz(frmSync!f0)
+    OH_RQf frmSync, lgid
 ErrEnd:
     Exit Function
 ErrMsg:
@@ -4180,13 +4180,13 @@ ErrMsg:
     End Select
     Resume ErrEnd
 End Function
-Public Function OH_RS_Enter(Optional lgID As Long = 0, Optional strR As String = "")
+Public Function OH_RS_Enter(Optional lgid As Long = 0, Optional strR As String = "")
 On Error GoTo ErrMsg
     'setze beim Hingehen die Rowsource, zb. "Exec dbo.spa_Z Beruf_enter"
     'erfordert im T_SQL enstpr. Pendant
     If left(Screen.ActiveForm.Name, 2) <> "PF" Then
         Set ctl = Screen.ActiveControl
-        strSQL = "Exec dbo.spa_Z " & ctl.Name & "_Enter," & lgID & " ,'" & strR & "'"
+        strSQL = "Exec dbo.spa_Z " & ctl.Name & "_Enter," & lgid & " ,'" & strR & "'"
         OH_A ctl.Name, strSQL
     End If
 ErrEnd:
@@ -4199,7 +4199,7 @@ ErrMsg:
     End Select
     Resume ErrEnd
 End Function
-Public Function OH_txtFind(ByVal f As Form, strS As String, Optional lgID As Long)
+Public Function OH_txtFind(ByVal f As Form, strS As String, Optional lgid As Long)
 'Textsuche im jeweiligen Formular im gelben Suchfeld
 On Error GoTo ErrMsg
     Dim strf As String
@@ -4283,7 +4283,7 @@ FindData:
             f!countRec.ForeColor = vbBlack
             f!countRec.BackColor = f!txtFind.BackColor
             .SetFocus
-            f!lstDet = OH_setLst(f!lstDet, lgID)
+            f!lstDet = OH_setLst(f!lstDet, lgid)
             f.lstDet_AfterUpdate
         Else
             f!countRec.BackColor = RGB(255, 132, 125) 'hellrot
@@ -4638,7 +4638,7 @@ Public Function OH_Perm(strP As String, _
                         Optional frmP As Form, _
                         Optional strT As String, _
                         Optional blmsg As Boolean = True, _
-                        Optional lgID As Long) As Boolean
+                        Optional lgid As Long) As Boolean
 On Error GoTo ErrMsg
 'prüfen, ob Berechtigung vorliegt!
     OH_Perm = True
@@ -4652,7 +4652,7 @@ On Error GoTo ErrMsg
             " @x = 'CheckPermission', " & _
             " @f = '" & strT & "'," & _
             " @d = '" & strP & "', " & _
-            " @i = " & lgID
+            " @i = " & lgid
     OH_r r
     OH_Perm = r!Permission = 0
     Select Case strP
@@ -5182,7 +5182,7 @@ ErrM:
     MsgBox s, vbExclamation, t
     GoTo ErrEnd
 End Function
-Function OH_GetScanFiles(lgID As Long) As Long
+Function OH_GetScanFiles(lgid As Long) As Long
 On Error GoTo ErrMsg
     Dim objFSO As Object
     Dim objFolder As Object
@@ -5221,7 +5221,7 @@ On Error GoTo ErrMsg
                 ",@f ='" & OH_RPL(strPN) & _
                 "',@d ='" & OH_RPL(strFN) & _
                 "', @n = " & n & _
-                ", @a =  " & lgID
+                ", @a =  " & lgid
         OH_EX
     Next objFile
     OH_GetScanFiles = n
@@ -5509,7 +5509,7 @@ ErrMsg:
     MsgBox Err.Description, vbCritical, Err.number
   Resume ErrEnd
 End Function
-Public Function OH_setLst(ctl As control, lgID As Long) As Long
+Public Function OH_setLst(ctl As control, lgid As Long) As Long
 On Error GoTo ErrMsg
     'übergebene ID soll markiert werden im Multiselect-Feld
     'wenn 0 übergeben wird soll der erste Datensatz markiert werden
@@ -5524,14 +5524,14 @@ On Error GoTo ErrMsg
         lgStart = 0
     End If
     lgEnd = ctl.ListCount - 1
-    If lgID = 0 Then
-        lgID = ctl.column(0, lgStart)
+    If lgid = 0 Then
+        lgid = ctl.ItemData(lgStart)
     End If
     For i = lgStart To lgEnd
-        If Val(ctl.column(0, i)) = lgID Then
+        If Val(ctl.ItemData(i)) = lgid Then
             ctl.Selected(i) = True
-            OH_setLst = ctl.column(0, i)
-            SysCmd acSysCmdSetStatus, "Record " & lgEnd & " selected"
+            OH_setLst = lgid
+            SysCmd acSysCmdSetStatus, "Record " & i & " selected"
             i = lgEnd   '<R121>
         Else
             ctl.Selected(i) = False
@@ -5545,7 +5545,7 @@ ErrMsg:
 End Function
 Public Function OH_lstdet(frma As Form) As Long
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgY(1 To 1000)
     Dim Y As Long
     Dim n As Long
@@ -5556,12 +5556,12 @@ On Error GoTo ErrMsg
     For Each x In frma!lstDet.ItemsSelected
         n = n + 1
         If n = 1 Then
-            lgID = Val(Nz(frma!lstDet.column(0, x), 0))
-            If lgID = 0 Then
+            lgid = Val(Nz(frma!lstDet.column(0, x), 0))
+            If lgid = 0 Then
                 MsgBox "Daten sind nicht zu finden", vbCritical, "Anzeige der Daten aus Listenfeld " & t
                 GoTo ErrEnd
             End If
-            OH_lstdet = lgID
+            OH_lstdet = lgid
         End If
         If n > 1000 Then
             MsgBox "Mehr als 1000 Datensätze können nicht ausgewertet werden!", vbInformation, t
@@ -5571,33 +5571,12 @@ On Error GoTo ErrMsg
         End If
     Next x
     DoEvents
-   ' frmA!lstDet.ListIndex = 1
-   If n = 1 Then
-        OH_SetRS frma, lgID
+    If lgid > 0 Then '260505
+        OH_SetRS frma, lgid
     End If
     frma.SetFocus
     frma!lstDet.SetFocus
     glLstDet = False
-
-'    Dim lgIndex As Long
-'    Dim lgI As Long
-'    lgIndex = Me!lstDet.ListIndex
-'    OH_lstdet Me
-'    lgLstdet = Me!NrVG
-'    With Me!lstDet
-'        .Tag = lgLstdet
-'        .SetFocus
-'        .ListIndex = 0
-'      '  .ListIndex = lgIndex + 10
-'     '   .ListIndex = lgIndex
-'        For lgI = 1 To .ListCount - 1
-'            If .column(0, lgI) = lgLstdet Then
-'                .Selected(lgI) = True
-'                Exit For
-'            End If
-'        Next lgI
-'    End With
-
 ErrEnd:
     difflstdet = Now
     Exit Function
@@ -5611,7 +5590,7 @@ ErrMsg:
     End Select
 End Function
 Public Function OH_SetRS(fRS As Form, _
-                        Optional lgID As Long, _
+                        Optional lgid As Long, _
                         Optional ByVal strQ As String, _
                         Optional lgFB As Long, _
                         Optional blRegD As Boolean = True, _
@@ -5635,7 +5614,7 @@ On Error GoTo ErrMsg
         End If
         strQ = "Exec spa_" & strTag & _
                 " @x = 'ID'" & _
-                ", @i = " & lgID
+                ", @i = " & lgid
     End If
     'MsgBox strQ
     OH_r rRS, strQ, rrOpenkeyset, rrLockOptimistic, True
@@ -5661,7 +5640,7 @@ On Error GoTo ErrMsg
         fRS!lstDet.SetFocus
     End If
 'MsgBox "OH_SetRS" & vbNewLine & fRS.Name & vbNewLine & strQ
-    If n > 0 And lgID > 0 Then 'Verlauf speichern
+    If n > 0 And lgid > 0 Then 'Verlauf speichern
         strTag = fRS.Name
         Select Case strTag
             Case "F_Adresse"
@@ -5690,11 +5669,11 @@ On Error GoTo ErrMsg
                 End Select
                 t = fRS!DatumTag & " " & fRS!Firma
                 Set ctl = fRS!lstDet
-                OH_RQ ctl, lgID '251120
+                OH_RQ ctl, lgid '251120
                 n = 0
                 For i = 0 To ctl.ListCount
-                    If ctl.column(0, i) = lgID Then
-                        n = lgID
+                    If ctl.column(0, i) = lgid Then
+                        n = lgid
                         ctl.Selected(i) = True
                     Else
                         ctl.Selected(i) = False
@@ -5705,8 +5684,8 @@ On Error GoTo ErrMsg
                     fRS!lstAktiv = 11
                     fRS.txtFind_AfterUpdate
                     fRS!lstDet = fRS!lstDet.column(0, 0)
-                    If fRS!lstDet <> lgID Then
-                        fRS!txtFind = "ID:" & lgID
+                    If fRS!lstDet <> lgid Then
+                        fRS!txtFind = "ID:" & lgid
                         fRS.txtFind_AfterUpdate
                     End If
                 End If
@@ -5732,7 +5711,7 @@ On Error GoTo ErrMsg
             strSQL = "Exec dbo.spi_Verlauf " & _
                 "@x = 'neu'" & _
                 ",@u = " & lguser & _
-                ",@i = " & lgID & _
+                ",@i = " & lgid & _
                 ",@f = '" & strTag & _
                 "',@txt= '" & OH_RPL(t) & "'"
             OH_EX
@@ -5757,7 +5736,7 @@ End Function
 Public Function OH_A(strA As String, _
                     Optional strC As String, _
                     Optional frmAct As Form, _
-                    Optional lgID As Long, _
+                    Optional lgid As Long, _
                     Optional blSetfocus As Boolean = False, _
                     Optional blQ As Boolean) As String
                     'Diese Funktion holt Daten vom SQL-Server.

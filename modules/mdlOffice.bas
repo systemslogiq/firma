@@ -947,7 +947,7 @@ On Error GoTo ErrMsg
     Dim Y As Long
     Dim z As Long
     Dim lgR As Long
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strT As String
     Dim nn(0 To 10) As Long
     Dim strFields() As String
@@ -1004,9 +1004,9 @@ On Error GoTo ErrMsg
     strT = "T_" & Mid(strID, 3)
     For m = 2 To lgR
         SysCmd acSysCmdSetStatus, "Zeile " & m & " von " & lgR
-        lgID = ws.cells(m, i)
+        lgid = ws.cells(m, i)
         strSQL = "Select * from " & strT & _
-                " Where " & strID & " = " & lgID
+                " Where " & strID & " = " & lgid
         lgC = lgC + 1
         OH_r r, strSQL, adLockOptimistic
         If r.BOF = False Then

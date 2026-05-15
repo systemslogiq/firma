@@ -14,8 +14,8 @@ Begin Form
     Width =27240
     DatasheetFontHeight =10
     ItemSuffix =91
-    Right =28170
-    Bottom =11865
+    Right =30210
+    Bottom =15075
     Tag ="VG"
     ShortcutMenuBar ="tlbOHrightMouse"
     RecSrcDt = Begin

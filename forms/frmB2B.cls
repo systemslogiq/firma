@@ -5,7 +5,7 @@ Attribute VB_Exposed = False
 
 Option Compare Database
 Option Explicit
-Dim lgID As Long
+Dim lgid As Long
 Dim strAblageZertifikate As String
 Private Sub Form_Error(DataErr As Integer, Response As Integer)
     Response = OH_Form_error(DataErr)
@@ -82,7 +82,7 @@ End Sub
 Public Sub lstB2BExAct_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgVG38 As Long
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgVG As Long
     Dim lgact As Long
     Dim lgN As Long
@@ -103,17 +103,17 @@ On Error GoTo ErrMsg
     Dim lgSendMail As Long '0 = nur Display, 1 = Direkt versenden, 2 nur display und in DMS speichern, 3 direkt versenden und in DMS speichern
     DoCmd.Hourglass True
     lgact = Nz(Me!lstB2BExAct, 0)
-    lgID = Nz(Me!lstB2BEx, 0)
+    lgid = Nz(Me!lstB2BEx, 0)
     lgVG = Nz(Me!lstB2BEx.column(3), 0)
     OH_A "@x = 'lstB2BExAct'" & _
         ", @a = " & lgact & _
-        ", @i = " & lgID & _
+        ", @i = " & lgid & _
         ", @u = " & lguser, , Me
     strQ = strSQL
     t = Nz(Me!lstB2BExAct.column(1), "")
     Select Case lgact
     Case 10, 20, 21, 30, 31, 32, 33, 34
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Bitte eine Zeile markieren"
             GoTo ErrM
         End If
@@ -129,18 +129,18 @@ On Error GoTo ErrMsg
         If s <> "" And r!ok = "JA" Then
             MsgBox s, vbExclamation, t
         End If
-        OH_RQ Me!lstB2BEx, lgID
+        OH_RQ Me!lstB2BEx, lgid
     Case 12
         lgW = Me!lstB2BExAct.left
         With Me!lstB2B
             .Visible = Not .Visible
             If .Visible Then
                 lgW = Me!lstB2B.left
-                lgID = Nz(Me!lstB2BEx, 0)
-                If lgID = 0 Then
-                    lgID = Me!lstB2BEx.column(0, 1)
+                lgid = Nz(Me!lstB2BEx, 0)
+                If lgid = 0 Then
+                    lgid = Me!lstB2BEx.column(0, 1)
                 End If
-                Me!lstB2BEx = lgID
+                Me!lstB2BEx = lgid
                 lstB2BEx_AfterUpdate
             End If
         End With
@@ -236,7 +236,7 @@ On Error GoTo ErrMsg
         OH_r rB2B, strQ
         While Not rB2B.EOF
             lgSendMail = 2
-            lgID = rB2B!ID
+            lgid = rB2B!ID
             lgVG38 = rB2B!NrVG38
             If lgact = 26 Then
                 If rB2B!MailinDMS = 0 Then
@@ -253,7 +253,7 @@ On Error GoTo ErrMsg
                 End If
             End If
             strAttach = ""
-            strSQL = strQ & ", @nrvg37 = " & lgID
+            strSQL = strQ & ", @nrvg37 = " & lgid
             OH_r rB2By
             While Not rB2By.EOF
                 For i = 1 To 4 '3
@@ -299,16 +299,16 @@ On Error GoTo ErrMsg
                 Next i
             rB2By.MoveNext
             Wend
-            OH_OF "F_VG", lgID
+            OH_OF "F_VG", lgid
             Set f = Forms!F_VG
-            If f!NrVG = lgID Then
-                If Not OH_PDFOutlook(lgID, strAttach, strB2B_OutlookFolder, lgSendMail) Then
-                    s = strM & vbNewLine & "Erstelle Outlook-Mail mit ID = " & lgID & vbNewLine & vbNewLine & _
+            If f!NrVG = lgid Then
+                If Not OH_PDFOutlook(lgid, strAttach, strB2B_OutlookFolder, lgSendMail) Then
+                    s = strM & vbNewLine & "Erstelle Outlook-Mail mit ID = " & lgid & vbNewLine & vbNewLine & _
                         "ist etwas schief gelaufen"
                     GoTo ErrM
                 Else
                     strQx = strQ & _
-                            ",@NrVG = " & lgID & _
+                            ",@NrVG = " & lgid & _
                             ",@nrVG38 =" & lgVG38
                     OH_r rB2Bx, strQx
                     strM = strM & rB2Bx!msg
@@ -320,7 +320,7 @@ On Error GoTo ErrMsg
                         If lgSendMail = 3 Then
                             lgSendMail = 1
                         End If
-                        If OH_CheckGelangensbestätigung(lgID, , strB2B_OutlookFolder, lgSendMail) = True Then
+                        If OH_CheckGelangensbestätigung(lgid, , strB2B_OutlookFolder, lgSendMail) = True Then
                             strM = strM & vbNewLine & _
                                 "mit Gelangsbestätigung"
                         End If
@@ -329,7 +329,7 @@ On Error GoTo ErrMsg
             End If
             rB2B.MoveNext
         Wend
-        OH_RQ Me!lstB2BEx, lgID
+        OH_RQ Me!lstB2BEx, lgid
         t = "Ergebnis"
         MsgBox strM, vbExclamation, t
     Case 30, 31, 32, 33, 34 '30er
@@ -361,7 +361,7 @@ On Error GoTo ErrMsg
         GoTo ErrEnd
     Case 61
         OH_EX strQ
-        OH_RQ Me!lstB2BEx, lgID
+        OH_RQ Me!lstB2BEx, lgid
     Case 100
         DoCmd.Close acForm, Me.Name
         GoTo ErrEnd

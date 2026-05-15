@@ -543,7 +543,7 @@ Private Sub LagerMindestMenge_Enter()
 End Sub
 Private Sub lstArtikelAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim c As control
     Dim n As Long
     Dim strA As String
@@ -552,12 +552,12 @@ On Error GoTo ErrMsg
     DoCmd.Hourglass True
     Set ctl = Me!LstArtikel
     Set c = Me!LstArtikelAct
-    lgID = Nz(ctl, 0)
+    lgid = Nz(ctl, 0)
     t = Nz(c.column(1), "Keine ID")
     Select Case Val(c)
     Case Is < 20
     Case Else
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Bitte in der Liste rechts einen Artikel markieren!"
             GoTo ErrM
         End If
@@ -572,15 +572,15 @@ On Error GoTo ErrMsg
         frm!woher = "ArtikelZuord"
         frm.Caption = "Hinzufügen als " & t
     Case 20
-        lgID = Nz(Me!LstArtikel.column(1), 0)
-        OH_OF "F_Artikel", lgID
+        lgid = Nz(Me!LstArtikel.column(1), 0)
+        OH_OF "F_Artikel", lgid
     Case 30, 31, 32, 33, 34
         strA = "lfd. Nr. " & ctl.column(2) & ": " & vbNewLine & _
         ctl.column(4) & vbNewLine & ctl.column(5) & vbNewLine & ctl.column(6) & vbNewLine & vbNewLine
         t = "Zuordnung ändern " & t
-        lgID = Me!NrArtikel
+        lgid = Me!NrArtikel
         OH_A "@x = 'lstArtikelAct'" & _
-            ", @i = " & lgID & _
+            ", @i = " & lgid & _
             ", @a = " & c & _
             ", @b = " & ctl
         Select Case c
@@ -645,10 +645,10 @@ On Error GoTo ErrMsg
             GoTo ErrEnd
         End If
         If c = 41 Then
-            lgID = Me!NrArtikel
+            lgid = Me!NrArtikel
         End If
         OH_A "@x ='lstArtikelAct'," & _
-             "@i = " & lgID & "," & _
+             "@i = " & lgid & "," & _
              "@a = " & c
         OH_EX
         OH_RQ Me!LstArtikel
@@ -698,7 +698,7 @@ End Sub
 
 Private Sub lstRabattAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgFirma As Long
     Dim lgact As Long
     Dim n As Long
@@ -713,25 +713,25 @@ On Error GoTo ErrMsg
     strEbene = Nz(Me!lstRabattEbene, "Warengruppe")
     Set ctl = Me!lstRabatt
     lgact = Nz(Me!lstRabattAct, 0)
-    lgID = Nz(ctl.Value, 0)
+    lgid = Nz(ctl.Value, 0)
     t = Nz(Me!lstRabattAct.column(1), "Keine ID")
     OH_A "@x = 'lstRabattAct' " & _
             ",@a = " & lgact & _
-            ",@i = " & lgID & _
+            ",@i = " & lgid & _
             ",@w = '" & strEbene & "'", , Me
     strQ = strSQL
     Select Case lgact
     Case 20
     Case Else
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Bitte in der Liste rechts eine Zeile markieren!"
             GoTo ErrM
         End If
     End Select
     Select Case lgact
     Case 10
-        lgID = Nz(Me!lstRabatt.column(1), 0)
-        OH_OF "F_Adresse", lgID
+        lgid = Nz(Me!lstRabatt.column(1), 0)
+        OH_OF "F_Adresse", lgid
     Case 20, 30
         i = vbYes
         If lgact = 20 Then
@@ -788,15 +788,15 @@ On Error GoTo ErrMsg
         i = MsgBox(s, vbOKCancel + vbDefaultButton2 + vbExclamation, t)
         If i = vbOK Then
             If strEbene = "Artikel" Then
-                lgID = Nz(Me!NrArtikel, 0)
+                lgid = Nz(Me!NrArtikel, 0)
             Else
-                lgID = Nz(Me!NrWarengruppe, 0)
+                lgid = Nz(Me!NrWarengruppe, 0)
             End If
             strSQL = strQ & _
                     ",@n = " & n & _
-                    ",@b = " & lgID
+                    ",@b = " & lgid
             OH_EX
-            OH_RQ ctl, lgID
+            OH_RQ ctl, lgid
         End If
     Case 50, 51, 52, 53
         strSQL = strQ & _
@@ -832,7 +832,7 @@ ErrMsg:
 End Sub
 Private Sub lstLagerAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgI As Long
     Dim lgact As Long
     Dim strA As String
@@ -843,14 +843,14 @@ On Error GoTo ErrMsg
     Dim ctld As control
     Set ctld = Me!lstLager
     lgact = Nz(Me!lstLagerAct, 0)
-    lgID = Nz(Me!lstLager.column(0), 0)
+    lgid = Nz(Me!lstLager.column(0), 0)
     lgI = Nz(Me!NrArtikel, 0)
     strQ = "EXECUTE spa_lager @x = 'lstlagerAct',@b = " & lgact & ",@i = " & lgI
     t = Nz(Me!lstLagerAct.column(1), "")
         OH_closeObj ("PF_Lager")
         Select Case lgact
         Case 10, 20 'an Lager legen, vom LAger nehmen
-            DoCmd.openForm "PF_lager", , , , , , Nz(Me!NrArtikel, 0) & "|" & lgID & "|ArtikelLagerbuchung"
+            DoCmd.openForm "PF_lager", , , , , , Nz(Me!NrArtikel, 0) & "|" & lgid & "|ArtikelLagerbuchung"
             With Forms!PF_lager
                 Select Case lgact
                 Case 10
@@ -946,21 +946,21 @@ nochmalverschieben:
                 GoTo ErrEnd
             End Select
         Case 30 'Buchung ändern
-            If lgID = 0 Then
+            If lgid = 0 Then
                 s = strA
                 GoTo errm0
             Else
-                DoCmd.openForm "PF_lager", , , , , , lgID & "F_Artikel"
+                DoCmd.openForm "PF_lager", , , , , , lgid & "F_Artikel"
             End If
         Case 31 'Inventur
             DoCmd.openForm "PF_lager", , , , , , Me!NrArtikel & "Inventur"
         Case 40 'Buchung löschen
-            If lgID = 0 Then
+            If lgid = 0 Then
                 s = strA
                 GoTo errm0
             End If
             strSQL = "EXECUTE spa_Lager @x='GetLagerbestand'" & _
-                ",@a = " & lgID
+                ",@a = " & lgid
             OH_r r
             If r!Menge < r!EinzelMenge Then
                 s = "Diese Buchung können Sie nicht löschen, da sonst die Gesamt-Lagermenge auf MINUS geht!"
@@ -974,7 +974,7 @@ nochmalverschieben:
             i = OH_JA
             If i <> 0 Then
                 strSQL = "EXECUTE spa_Lager @x='deleteLager'" & _
-                        ", @i = " & lgID & _
+                        ", @i = " & lgid & _
                         ", @a = " & lgI & _
                         ",@b = " & i
                 OH_EX
@@ -985,9 +985,9 @@ nochmalverschieben:
                 "oder einen Artikel-Barcode (ALxxxxxx) eingeben."
             s = InputBox(s, "BARCODE-Suche", "ALxxxxx")
             If s <> "" Then
-                lgID = Val(Replace(s, "AL", ""))
-                If lgID > 0 Then
-                    OH_SetRS Me, lgID
+                lgid = Val(Replace(s, "AL", ""))
+                If lgid > 0 Then
+                    OH_SetRS Me, lgid
                 End If
             End If
         End Select
@@ -1006,7 +1006,7 @@ ErrM:
 End Sub
 Private Sub lstLagerAllAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim n As Long
     Dim lgI As Long
     Dim lgact As Long
@@ -1018,7 +1018,7 @@ On Error GoTo ErrMsg
     Dim ctld As control
     Set ctld = Me!lstLAgerAll
     lgact = Nz(Me!lstLagerAllAct, 0)
-    lgID = Val(Nz(Me!lstLAgerAll.column(0), 0))
+    lgid = Val(Nz(Me!lstLAgerAll.column(0), 0))
     Dim strLO As String
     strLO = Nz(Me!lstLAgerAll.column(0), "")
     strQ = "EXECUTE spa_Lager @x = 'lstLagerAllAct',@b = " & lgact
@@ -1867,12 +1867,12 @@ End Sub
 Public Sub NrFirma_AfterUpdate()
 On Error GoTo ErrMsg
     Dim strN As String
-    Dim lgID As Long
+    Dim lgid As Long
     '201203 wenn es sich um einen neuen Artikel handelt, soll keine weitere Aktion gestartet werden
     If DateDiff("H", Me!ArtikelErfasst, Now) < 2 Then
         GoTo ErrEnd
     End If
-    lgID = Me!NrArtikel
+    lgid = Me!NrArtikel
     OH_InsertID_LST Me!lstDet
     OH_A "@x = 'LieferantChange'" & _
         ",@i = " & Me!NrArtikel & _
@@ -1902,8 +1902,8 @@ On Error GoTo ErrMsg
     OH_EX
     Me!txtFind = strN
     txtFind_AfterUpdate
-    Me!lstDet = lgID
-    OH_SetRS Me, lgID
+    Me!lstDet = lgid
+    OH_SetRS Me, lgid
 ErrEnd:
     OH_ResetRS r
     Exit Sub
@@ -1914,12 +1914,12 @@ End Sub
 Public Sub Hersteller_AfterUpdate()
 On Error GoTo ErrMsg
     Dim strN As String
-    Dim lgID As Long
+    Dim lgid As Long
     '201203 wenn es sich um einen neuen Artikel handelt, soll keine weitere Aktion gestartet werden
     If DateDiff("H", Me!ArtikelErfasst, Now) < 2 Then
         GoTo ErrEnd
     End If
-    lgID = Me!NrArtikel
+    lgid = Me!NrArtikel
     strN = Me!Hersteller
     OH_InsertID_LST Me!lstDet
     OH_A "@x = 'HerstellerChange'" & _
@@ -1950,8 +1950,8 @@ On Error GoTo ErrMsg
     OH_EX
     Me!txtFind = "Hersteller:" & strN
     txtFind_AfterUpdate
-    Me!lstDet = lgID
-    OH_SetRS Me, lgID
+    Me!lstDet = lgid
+    OH_SetRS Me, lgid
 ErrEnd:
     OH_ResetRS r
     Exit Sub
@@ -1985,7 +1985,7 @@ ErrMsg:
 End Sub
 Private Sub Artikel_NotInList(NewData As String, Response As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     t = NewData & " ist noch nicht erfasst."
     Response = acDataErrContinue
     Me!Artikel.Undo
@@ -1997,13 +1997,13 @@ On Error GoTo ErrMsg
             " @x = 'checkBegriff'" & _
             ",@f = '" & OH_RPL(NewData) & "'"
         OH_r r
-        lgID = r!NrBegriff
+        lgid = r!NrBegriff
         Me!Artikel = NewData
         OH_RQ Me!Artikel
         Me!ArtikelName.SetFocus
         If MsgBox("Möchten Sie weitere Daten (techn. Spezifikationen) erfassen ?" _
                 , vbYesNo + vbQuestion, "Bezeichnung : " & NewData) = vbYes Then
-            OH_OF "F_Begriff", lgID
+            OH_OF "F_Begriff", lgid
             Set frm = Forms!F_begriff
             frm!lstA = "A L L E  Gruppen"
             frm!txtFind = NewData
@@ -2042,7 +2042,7 @@ ErrMsg:
 End Sub
 Private Sub btnBegriff_Click()      'öffnet entspr. Begriffe
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     If IsNull(Me!Artikel) Then
         Me!Artikel.SetFocus
         Me!Artikel.Dropdown
@@ -2114,17 +2114,17 @@ ErrMsg:
 End Sub
 Private Sub lstKatalogAct_Afterupdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgact As Long
     Dim strf As String
     Dim strFile As String
     Dim strFldr As String
     lgact = Nz(Me!lstKatalogAct)
     t = Nz(Me!lstKatalogAct.column(1))
-    lgID = Nz(Me!NrArtikel)
+    lgid = Nz(Me!NrArtikel)
     strSQL = "Exec dbo.spa_Artikel " & _
         " @x = 'lstKatalogAct' ," & _
-        " @i = " & lgID & "," & _
+        " @i = " & lgid & "," & _
         " @a = " & lgact
     Select Case lgact
     Case 0
@@ -2211,12 +2211,12 @@ Private Sub lstAuditAct_AfterUpdate()
 End Sub
 Private Sub lstAudit_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(Me!lstAudit, 0)
-    If lgID = 0 Then
+    Dim lgid As Long
+    lgid = Nz(Me!lstAudit, 0)
+    If lgid = 0 Then
         GoTo ErrEnd
     End If
-    OH_OF "F_Audit", lgID
+    OH_OF "F_Audit", lgid
 ErrEnd:
     Exit Sub
 ErrMsg:

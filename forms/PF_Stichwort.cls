@@ -1206,7 +1206,7 @@ Private Sub OH_Eintragen( _
             strStBem As String, _
             Optional strHL As String)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgFi As Long
     Dim lgM As Long
     Dim strAct As String
@@ -1279,17 +1279,17 @@ On Error GoTo ErrMsg
         yST = 0
         For i = 1 To lgI
             While r.EOF = False
-                lgID = Nz(r.Fields(0), 0)
-                If lgID > 0 Then
+                lgid = Nz(r.Fields(0), 0)
+                If lgid > 0 Then
                     strSQL = "Exec spa_Stichwort " & _
                                 "@x = 'InsertStichwort'" & _
-                                ", @ID = " & lgID & _
+                                ", @ID = " & lgid & _
                                 ", @cID = '" & strW & _
                                 "',@o = '" & OH_RPL(varST(i)) & _
                                 "',@d = '" & strHL & _
                                 "',@fi = '" & OH_RPL(strStBem) & "'"
                     OH_EX
-                    SysCmd acSysCmdSetStatus, yST & "  Stichworte eintragen " & varST(i) & " " & strStBem & " " & lgID
+                    SysCmd acSysCmdSetStatus, yST & "  Stichworte eintragen " & varST(i) & " " & strStBem & " " & lgid
                 End If
             r.MoveNext
             Wend

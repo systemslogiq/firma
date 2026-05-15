@@ -303,10 +303,10 @@ End Sub
 Private Sub btnDMS_Click()
 On Error GoTo ErrMsg
     Dim strID As String
-    Dim lgID As Long
+    Dim lgid As Long
     strID = Nz(Me!lstFaktura.column(9), "")
-    lgID = Nz(Me!lstFaktura.column(0), 0)
-    If lgID = 0 Then
+    lgid = Nz(Me!lstFaktura.column(0), 0)
+    If lgid = 0 Then
         s = "Bitte markieren Sie zuerst die entsprechende Zeile"
         GoTo ErrM
     End If

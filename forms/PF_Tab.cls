@@ -87,7 +87,7 @@ End Sub
 Private Function OH_OpenFrm(lgD As Long)
 On Error GoTo ErrMsg
     Dim strf As String
-    Dim lgID As Long
+    Dim lgid As Long
     If lgD = 0 And Me.PopUp = False Then
         GoTo ErrEnd
     End If
@@ -95,8 +95,8 @@ On Error GoTo ErrMsg
         GoTo ErrEnd
     End If
     Set ctl = Me.Det.Controls(0)
-    lgID = Val(Nz(ctl, 0))
-    If lgID > 0 Then
+    lgid = Val(Nz(ctl, 0))
+    If lgid > 0 Then
         strf = ctl.ControlSource
         If left(strf, 2) = "Nr" Then
             strf = "F_" & Mid(strf, 3)
@@ -104,7 +104,7 @@ On Error GoTo ErrMsg
                 strf = "F_Adresse"
             End If
             If OH_isloaded(strf) Then
-                OH_OF strf, lgID
+                OH_OF strf, lgid
             End If
         End If
     End If
@@ -135,11 +135,11 @@ End Sub
 Private Function OH_RS(strA As String)
 On Error GoTo ErrMsg
     Dim strI As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strID As String
-    lgID = Me.RecordsetClone.Fields(0).Value
+    lgid = Me.RecordsetClone.Fields(0).Value
     strID = Me.RecordsetClone.Fields(0).Name
-    strI = ", @i = " & lgID & "," & _
+    strI = ", @i = " & lgid & "," & _
            " @f = '" & strA & "'"
     strSQL = Me.Recordset.Source
     i = InStr(strSQL, "@i")
@@ -149,7 +149,7 @@ On Error GoTo ErrMsg
     End If
     strSQL = strSQL & strI
     OH_SetRS Me, , strSQL
-    OH_FB Me, strID & " = " & lgID
+    OH_FB Me, strID & " = " & lgid
 ErrEnd:
     Exit Function
 ErrMsg:

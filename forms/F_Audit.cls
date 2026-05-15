@@ -82,13 +82,13 @@ End Sub
 Private Sub lstDet_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim strA As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgArt As Long
     Dim strf As String
     strA = Nz(Me!lstDet.column(3))
     DoEvents
     t = "Doppel-Klick auf Audit-Liste"
-    lgID = Val(Nz(Me!keycol, 0))
+    lgid = Val(Nz(Me!keycol, 0))
     Select Case strA
     Case "Anmeldung", "Abmeldung"
         s = strA & vbNewLine & _
@@ -129,9 +129,9 @@ On Error GoTo ErrMsg
                 Select Case strf
                 Case "pF_Land"
                     DoCmd.openForm "PF_Land"
-                    OH_FB Forms!PF_Land, "NrLand= " & lgID
+                    OH_FB Forms!PF_Land, "NrLand= " & lgid
                 Case Else
-                    OH_OF strf, lgID, lgArt
+                    OH_OF strf, lgid, lgArt
                 End Select
             End If
         Else

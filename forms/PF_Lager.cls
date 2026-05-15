@@ -18,9 +18,9 @@ End Sub
 Private Sub btnSave_Click()
 On Error GoTo ErrMsg
     Dim strf As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim rsL As ADODB.Recordset
-    lgID = Nz(Me!nrLager, 0)
+    lgid = Nz(Me!nrLager, 0)
     Dim sgMenge As Single
     Dim sgMengeLO As Single
     Dim sgMengeTot As Single
@@ -109,7 +109,7 @@ On Error GoTo ErrMsg
         End Select
     End If
     OH_A "@x = 'SaveLager' " & _
-        ",@i = " & lgID & _
+        ",@i = " & lgid & _
         ",@a = " & Me!NrArtikel & _
         ",@b = " & Me!LagerMitarbeiter & _
         ",@n = " & Me!EinAus & _

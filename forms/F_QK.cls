@@ -138,16 +138,16 @@ ErrMsg:
 End Sub
 Private Sub lstTxtAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     If frmU.RecordSource <> "" Then
         If OH_RecordcountForm(frmU) > 0 Then
-            lgID = Nz(frmU!NrTxt, 0)
+            lgid = Nz(frmU!NrTxt, 0)
         End If
     End If
     t = Me!lstTxtAct.column(1) & " in " & Me!QK
     Select Case Me!lstTxtAct
     Case Is > 10
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "bitte den betreffenden Text markieren!"
             GoTo ErrM
         End If
@@ -168,19 +168,19 @@ On Error GoTo ErrMsg
     OH_A "@x = 'lstTxtAct'," & _
         " @a = " & Me!lstTxtAct & "," & _
         " @b = " & Me!IDQK & "," & _
-        " @i = " & lgID
+        " @i = " & lgid
     Select Case Me!lstTxtAct
     Case 10
         OH_r r
-        lgID = r!ID
+        lgid = r!ID
     Case 20, 21
         OH_EX
-        lgID = 0
+        lgid = 0
     Case Else
         OH_EX
     End Select
-    OH_RQf frmU, lgID
-    If lgID > 0 Then
+    OH_RQf frmU, lgid
+    If lgid > 0 Then
         Me!UF_txtQK.SetFocus
         frmU!txt.SetFocus
     End If
@@ -322,25 +322,25 @@ End Sub
 Private Sub IDQK_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgidOld As Long
-    Dim lgID As Long
+    Dim lgid As Long
     lgidOld = Me!IDQK.OldValue
-    lgID = Nz(Me!IDQK, 0)
-    If lgID = 0 Then
+    lgid = Nz(Me!IDQK, 0)
+    If lgid = 0 Then
         s = "Bitte ID ausfüllen"
         GoTo ErrM
     End If
-    If lgID <> lgidOld Then
+    If lgid <> lgidOld Then
         'Cancel = True
         Me.Undo
         OH_A "@x = 'ChangeID'" & _
             ",@a = " & lgidOld & _
-            ",@i = " & lgID
+            ",@i = " & lgid
         OH_r r
         s = r!msg
         If s <> "" Then
             GoTo ErrM
         End If
-        Me!txtFind = lgID
+        Me!txtFind = lgid
         txtFind_AfterUpdate
         Me!QK.SetFocus
     End If

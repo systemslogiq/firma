@@ -18,11 +18,11 @@ ErrMsg:
 End Sub
 Private Sub Form_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(Me!nrID, 0)
+    Dim lgid As Long
+    lgid = Nz(Me!nrID, 0)
     blC = True
     Me.Requery
-    OH_FB Me, "NrID =  " & lgID, "Rabatt"
+    OH_FB Me, "NrID =  " & lgid, "Rabatt"
 ErrEnd:
     Exit Sub
 ErrMsg:
@@ -34,17 +34,17 @@ Private Sub Form_AfterDelConfirm(status As Integer)
 End Sub
 Public Sub lstPF_RabattAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgact As Long
     Dim strQ As String
     Dim n As Long
-    lgID = Nz(Me!nrID, 0)
+    lgid = Nz(Me!nrID, 0)
     lgact = Nz(Me!lstPF_RabattAct, 0)
     t = Nz(Me!lstPF_RabattAct.column(1), "")
     DoCmd.Hourglass True
     Select Case lgact
     Case 11, 20, 21, 30, 31
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Es ist kein Datensatz aktiviert!"
             GoTo ErrM
         End If
@@ -53,7 +53,7 @@ On Error GoTo ErrMsg
     strQ = "EXECUTE spa_Artikel " & _
                 "@x = 'lstPF_RabattAct'" & _
                 ",@a = " & lgact & _
-                ",@i = " & lgID
+                ",@i = " & lgid
 
     Select Case lgact
     Case 10 '  Schliessen (ohne Speichern)

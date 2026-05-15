@@ -48,7 +48,7 @@ Sub OH_RibbonAction(control As IRibbonControl)
 On Error GoTo ErrMsg
     Dim strf As String
     Dim strA As String
-    Dim lgID As Long
+    Dim lgid As Long
     t = control.ID
     Select Case control.ID
     Case "GotonewRecord"
@@ -114,15 +114,15 @@ On Error GoTo ErrMsg
         If Application.CurrentObjectType = acForm Then
             Set f = Screen.ActiveForm
             If f.Name = "F_VG" Or f.Caption = "Vorgänge in Tabellenform" Then
-                lgID = Nz(f!NrVG, 0)
+                lgid = Nz(f!NrVG, 0)
                 strSQL = "spa_VG " & _
                         " @x = '" & control.ID & "'," & _
-                        " @i = " & lgID
+                        " @i = " & lgid
                 OH_EX
                 OH_RQf Forms!F_VG
                 If f.Name <> "F_VG" Then
                     f.RecordSource = "qdfTab"
-                    OH_FB f, "NrVG = " & lgID
+                    OH_FB f, "NrVG = " & lgid
                 End If
             End If
         End If
@@ -135,13 +135,13 @@ On Error GoTo ErrMsg
     Case "PreviewEmail", "PreviewB2B", "PreviewBrief"
         Select Case Application.CurrentObjectName
         Case glstrB_VG
-            lgID = f!NrVG '171017 bereits hier in Variable, da bei Statusversendet bereits ein anderer Vorgang angeclickt sein kann (Jörn)
+            lgid = f!NrVG '171017 bereits hier in Variable, da bei Statusversendet bereits ein anderer Vorgang angeclickt sein kann (Jörn)
             Select Case control.ID
             Case "PreviewEmail"
                 '170208 als versendet eintragen 190526 <R61>
                 strSQL = "Exec spa_VG " & _
                     " @x = 'Statusversendet'" & _
-                    ",@i = " & lgID
+                    ",@i = " & lgid
                 OH_r r
                 SysCmd acSysCmdSetStatus, r!msg
                 strSQL = "Exec spa_VG " & _
@@ -170,8 +170,8 @@ On Error GoTo ErrMsg
             End Select
             Select Case f!NrQK
             Case 51
-                OH_CheckRechnungsVersand lgID  'besondere Versandanschrift?
-                OH_CheckGelangensbestätigung lgID '<R206>
+                OH_CheckRechnungsVersand lgid  'besondere Versandanschrift?
+                OH_CheckGelangensbestätigung lgid '<R206>
             End Select
             OH_ResetRS r
         Case "F_VG"
@@ -309,17 +309,17 @@ Sub tlbFilterField(control As IRibbonControl)
 End Sub
 Sub DataRefreshAll(control As IRibbonControl)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Set frm = Screen.ActiveForm
     Select Case frm.Name
     Case "Menu"
         frm.OH_Suche
     Case Else
-        lgID = frm!f0
+        lgid = frm!f0
         frm.txtFind_AfterUpdate
-        If lgID > 0 Then
-            OH_OF frm.Name, lgID
-            OH_setLst frm!lstDet, lgID
+        If lgid > 0 Then
+            OH_OF frm.Name, lgid
+            OH_setLst frm!lstDet, lgid
         End If
     End Select
 ErrEnd:

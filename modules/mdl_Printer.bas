@@ -395,6 +395,53 @@ againEmail:
                 DoCmd.OutputTo acReport, "rptAnalysenZertifikat", OH_GetOutputFormatPDF, strAttaches(1), False
             End If
             DoEvents
+            ' --- Peppol-Fall: kein Outlook-Versand, aber Seitenansicht-Frage 260511 EC
+            ' Bei Peppol wurde die XML schon von OH_Create_PDF in
+            ' S:\SQL\Peppol\Outbound\pending\ + sent\ abgelegt. Der
+            ' EDI-Connector versendet automatisch. Outlook-Prompt und
+            ' Mail-Versand entfallen; die Frage ob die Seitenansicht
+            ' geschlossen werden soll bleibt aber wie gewohnt.
+            ' Anschliessend wird die XML in ELO archiviert (analog
+            ' Mail-Pfad, aber via dbo.DMS @x='AddtoAblagePeppol' ohne
+            ' Outlook-Bezug). Gelangensbestaetigung (Case 200) ist ein
+            ' eigener Case-Zweig und wird hier nicht beruehrt.
+            '
+            ' Erkennung des Peppol-Falls ueber glStrPeppolLastSentPath:
+            ' OH_Peppol_PlaceInOutbound setzt diese Public-Variable nur
+            ' bei erfolgreicher Doppelablage in pending\ und sent\.
+            ' Damit sparen wir einen zweiten Aufruf von OH_Peppol_IsPeppolCase
+            ' (haette den gleichen Wert geliefert wie bereits oben in
+            ' OH_Create_PDF berechnet, aber zusaetzlichen DB-Roundtrip).
+            If Len(Nz(glStrPeppolLastSentPath, "")) > 0 Then
+                ' --- ELO-Archivierung der Peppol-XML ---
+                Dim strPeppolFn As String
+                strPeppolFn = Mid$(glStrPeppolLastSentPath, _
+                                   InStrRev(glStrPeppolLastSentPath, "\") + 1)
+                strSQL = "EXEC dbo.DMS @x='AddtoAblagePeppol'" & _
+                         ",@a=" & frmP!NrVG & _
+                         ",@d='" & OH_RPL(strPeppolFn) & "'" & _
+                         ",@s='" & OH_RPL(glStrPeppolLastSentPath) & "'"
+                OH_EX
+                strSQL = "EXEC dbo.DMS @x='SaveFiles'"
+                OH_r r
+                If Not r.BOF Then
+                    OH_FileCopyMove r!nrID, "DMS", False
+                End If
+                glStrPeppolLastSentPath = ""    ' aufraeumen, um spurious reuse zu vermeiden
+                ' --- Ende ELO-Archivierung ---
+
+                If lgPrint <> 2 Then
+                    s = s & vbNewLine & vbNewLine & _
+                            "JA" & vbTab & "Diese Seitenansicht schliessen" & vbNewLine & _
+                            "Nein" & vbTab & "  ''" & Space(20) & "''        geöffnet lassen!"
+                    Y = MsgBox(s, vbQuestion + vbYesNo, "Peppol-Versand")
+                    If Y = vbYes Then
+                        DoCmd.Close acReport, strDocname
+                    End If
+                End If
+                GoTo ErrEnd
+            End If
+            ' --- Ende Peppol-Skip ----------------------------------------------
             Select Case lgReportNr
             Case 110
                 strTitel = strFilename & vbNewLine & _

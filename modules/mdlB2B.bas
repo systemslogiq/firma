@@ -1,7 +1,7 @@
 ﻿Attribute VB_Name = "mdlB2B"
 Option Compare Database
 Option Explicit
-Public Function OH_B2B(lgID As Long) As Boolean
+Public Function OH_B2B(lgid As Long) As Boolean
 On Error GoTo ErrMsg
     Dim strQ As String
     Dim strFunction As String
@@ -30,7 +30,7 @@ On Error GoTo ErrMsg
         Select Case s
         Case "PAC - MEE", "COA-MEE"
             strQ = "EXECUTE spA_B2B @x ='CheckDocuments'" & _
-                    ",@nrVG = " & lgID & _
+                    ",@nrVG = " & lgid & _
                     ",@f = '" & s & "'"
             OH_r rx, strQ
             If rx.BOF Then 'ELO-Doku suchen und zuordnen
@@ -39,7 +39,7 @@ On Error GoTo ErrMsg
         End Select
     r.MoveNext
     Wend
-    strQ = "EXECUTE spA_B2B @x ='" & strFunction & "',@nrVG = " & lgID
+    strQ = "EXECUTE spA_B2B @x ='" & strFunction & "',@nrVG = " & lgid
     t = strFunction
     Select Case strFunction
     Case "OperationRequest"
@@ -58,8 +58,9 @@ On Error GoTo ErrMsg
                     ",@i = " & lgM
                 OH_r r
                 s = strFunction & " wurde NICHT erstellt"
-                i = r!CT
+                i = r!act '260429
                 If i <> 1 Then
+                    s = r!msg & vbNewLine & s
                     GoTo ErrM
                 Else
                     s = Replace(s, "NICHT", "")

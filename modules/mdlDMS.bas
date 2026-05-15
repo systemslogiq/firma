@@ -299,7 +299,7 @@ ErrM:
     MsgBox s, vbExclamation, t
     GoTo ErrEnd
 End Function
-Public Function OH_UpdateDMS(ByVal lgID As Long, lgVG As Long) As Boolean
+Public Function OH_UpdateDMS(ByVal lgid As Long, lgVG As Long) As Boolean
 On Error GoTo ErrMsg
    '***Indexdaten eines Dokumentes aktualisieren***
     ' Index Schlüssel/Wert Paare in einer Dictionary speichern
@@ -308,7 +308,7 @@ On Error GoTo ErrMsg
     Dim objDic As Object
     If glDMS = "ELO" Then
         strSQL = "Execute Dms_ELO @x = 'AddKeyword'" & _
-                    ",@i = " & lgID & _
+                    ",@i = " & lgid & _
                     ",@a = " & lgVG & _
                     ",@f = 'CUST_ID'"
         OH_r r
@@ -324,7 +324,7 @@ On Error GoTo ErrMsg
             For i = 0 To r.Fields.count - 1
                 objDic.Add r.Fields(i).Name, r.Fields(i).Value
             Next i
-            OH_UpdateDMS = oDMSth.UpdateDocument("I_ARCHIV", "DOKU_NR = " & lgID, objDic) 'I_ARCHIV ist konstant in der Form zu verwenden
+            OH_UpdateDMS = oDMSth.UpdateDocument("I_ARCHIV", "DOKU_NR = " & lgid, objDic) 'I_ARCHIV ist konstant in der Form zu verwenden
         End If
     End If
 ErrEnd:
@@ -332,10 +332,10 @@ ErrEnd:
     DoCmd.Hourglass False
     Exit Function
 ErrMsg:
-    t = "Update des bestehenden DMS-Dokumentes = " & lgID
+    t = "Update des bestehenden DMS-Dokumentes = " & lgid
     s = Err.number & " " & Err.Description & vbNewLine & vbNewLine & _
        "Aktion war NICHT erfolgreich!" & vbNewLine & vbNewLine & _
-       "Prüfen Sie bitte die eingegebene Dok-Id " & lgID
+       "Prüfen Sie bitte die eingegebene Dok-Id " & lgid
     MsgBox s, vbCritical, t
     GoTo ErrEnd
 End Function
@@ -363,7 +363,7 @@ On Error GoTo ErrMsg
     Dim objDic As Object
     Dim arrlist As Object
     Dim strL As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgVersuch As Long
     lgVersuch = 1
     Dim strSQLAudit As String
@@ -393,7 +393,7 @@ VERSUCH2:
                 s = s & "; " & strL
             End If
             If rx.Fields(i).Name = "CUST_ID" Then
-                lgID = rx.Fields(i).Value
+                lgid = rx.Fields(i).Value
             End If
             objDic.Add rx.Fields(i).Name, rx.Fields(i).Value
         Next i
@@ -403,7 +403,7 @@ VERSUCH2:
         strSQLAudit = "exec dms " & _
                 "@x = 'AuditTrail'" & _
                 ",@f = '" & s & _
-                "',@i = " & lgID
+                "',@i = " & lgid
         OH_EX strSQLAudit
         DoEvents
         OH_ArchiveDocument = oDMSth.ArchiveDocument("I_ARCHIV", arrlist, objDic)
@@ -435,7 +435,7 @@ ErrM:
     strSQL = "EXEC spa_Audit " & _
         " @x = 'InsertAudit'" & _
         ",@t ='DMS-Error'" & _
-        ",@i = " & lgID & _
+        ",@i = " & lgid & _
         ",@f = '" & s & _
         "',@d ='Public Function OH_ArchiveDocument " & t & "'"
     OH_EX
@@ -598,7 +598,7 @@ Public Function OH_ELO_CreateFile(strFilename As String, _
     On Error GoTo ErrMsg
     Dim strBody As String
     Dim strResponse As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim arrJsonSplit() As String
     Dim strFileNameWithoutPath As String
     t = "OH_ELO_CreateFile"
@@ -624,16 +624,16 @@ Public Function OH_ELO_CreateFile(strFilename As String, _
     ' strResponse example = {"guid":"(391DCC61-F19B-582C-692A-37701D7309D5)","id":2699695,"name":"TEST_ELO.txt"}
     'ermittle aus der strResponse die neue ID
     arrJsonSplit = Split(strResponse, ",")
-    lgID = Val(Mid(arrJsonSplit(1), 6))
+    lgid = Val(Mid(arrJsonSplit(1), 6))
     'lgID = 2699695
-    If lgID = 0 Then
+    If lgid = 0 Then
         s = strFileNameWithoutPath & vbNewLine & _
             "wurde NICHT in ELO angelegt!"
         GoTo ErrM
     End If
-    strResponse = OH_ELO_UploadFile(lgID, strFilename)
-    strResponse = OH_ELO_AddKeywords(lgID, strKeywords)
-    OH_ELO_CreateFile = lgID
+    strResponse = OH_ELO_UploadFile(lgid, strFilename)
+    strResponse = OH_ELO_AddKeywords(lgid, strKeywords)
+    OH_ELO_CreateFile = lgid
 ErrEnd:
     DoCmd.Hourglass False
     Exit Function
@@ -645,11 +645,11 @@ ErrM:
     MsgBox s, vbCritical, t
     GoTo ErrEnd
 End Function
-Public Function OH_ELO_UploadFile(lgID As Long, strFilename As String) As String
+Public Function OH_ELO_UploadFile(lgid As Long, strFilename As String) As String
     On Error GoTo ErrMsg
     Dim strContent As String
     Dim strURL As String
-    strURL = strEloRESTAPI & "/" & lgID & "/content"
+    strURL = strEloRESTAPI & "/" & lgid & "/content"
     'strUrl ="http://192.168.10.35:9090/rest-Archiv/api/files/2699695/content"
     strContent = OH_ELO_GetMultiPartFormDataBodyContent(strFilename)
     'strcontent = "--ELOOhnemus
@@ -714,12 +714,12 @@ End Function
 Private Function OH_GetByteArrayFromString(strText As String) As Byte()
     OH_GetByteArrayFromString = StrConv(strText, vbFromUnicode)
 End Function
-Public Function OH_ELO_AddKeywords(lgID As Long, strKeywords As String) As String
+Public Function OH_ELO_AddKeywords(lgid As Long, strKeywords As String) As String
     On Error GoTo ErrMsg
     Dim strURL As String
     Dim strBody As String
 
-    strURL = strEloRESTAPI & "/" & lgID & "/keywording"
+    strURL = strEloRESTAPI & "/" & lgid & "/keywording"
     'siehe stored Procedure dbo.DMS_ELO if @x = 'ELO_Archive'
     strBody = "{" & _
         """maskId"": """ & lgEloMaskID & """" & _
@@ -749,11 +749,11 @@ ErrM:
     MsgBox s, vbCritical, t
     GoTo ErrEnd
 End Function
-Public Function OH_ELO_ShowFile(lgID As Long) As Boolean
+Public Function OH_ELO_ShowFile(lgid As Long) As Boolean
     On Error GoTo ErrMsg
     DoCmd.Hourglass True
     Dim strURL As String
-    strURL = "elodms://" & lgID
+    strURL = "elodms://" & lgid
     OH_LaunchURL 1, strURL
 ErrEnd:
     DoCmd.Hourglass False

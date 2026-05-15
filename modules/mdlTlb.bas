@@ -109,7 +109,7 @@ ErrMsg:
     Resume ErrEnd
 End Function
 Public Function OH_BackForward(lgB As Long, _
-                               Optional lgID As Long = 0) As Boolean
+                               Optional lgid As Long = 0) As Boolean
 On Error GoTo ErrMsg
     Dim strf As String
     Dim strST As String
@@ -124,7 +124,7 @@ On Error GoTo ErrMsg
     strSQL = "Exec dbo.spi_Verlauf " & _
                     "  @x = 'BackForward'" & _
                     ", @u = " & lguser & _
-                    ", @i = " & lgID & _
+                    ", @i = " & lgid & _
                     ", @b= " & lgB
     OH_r r
     If Not r.BOF Then
@@ -132,8 +132,8 @@ On Error GoTo ErrMsg
         lg0 = r!lg0
         OH_BackForward = True
         strf = Trim(r!frmName)
-        lgID = r!ID
-        OH_OF strf, lgID, 3
+        lgid = r!ID
+        OH_OF strf, lgid, 3
         SysCmd acSysCmdSetStatus, "Weitere Verläufe: " & lg0 & " vorwärts    " & lg1 & " zurück"
     End If
     OH_ResetRS r

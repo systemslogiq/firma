@@ -192,7 +192,7 @@ Private Sub btnNext_Click()
 End Sub
 Private Sub lstTankAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgact As Long
     Dim n As Long
     Dim d As Date
@@ -245,9 +245,9 @@ NochmalDatum:
         Me!lstTankAct = 0
         lstTankAct_AfterUpdate
     Case 10
-        lgID = Nz(Me!lstVerlauf.column(1), 0)
-        If lgID > 0 Then
-            OH_OF "F_VG", lgID
+        lgid = Nz(Me!lstVerlauf.column(1), 0)
+        If lgid > 0 Then
+            OH_OF "F_VG", lgid
         End If
     Case 99
         DoCmd.Close acForm, Me.Name
@@ -415,9 +415,9 @@ ErrM:
 End Sub
 Private Sub lstVerlauf_Afterupdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(Me!lstVerlauf.column(1), 0)
-    If lgID > 0 Then
+    Dim lgid As Long
+    lgid = Nz(Me!lstVerlauf.column(1), 0)
+    If lgid > 0 Then
         lgStart = CLng(CDate(Me!lstVerlauf.column(2))) - 3
         OH_SetT lgStart
         Me!t04.ForeColor = vbBlue

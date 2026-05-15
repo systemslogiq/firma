@@ -419,13 +419,13 @@ ErrMsg:
 End Sub
 Private Function OH_FilterGroup()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     If Me!NrBoss = 0 Then
-        lgID = Me!nrlexikon
+        lgid = Me!nrlexikon
     Else
-        lgID = Me!NrBoss
+        lgid = Me!NrBoss
     End If
-    Me!lstA = lgID
+    Me!lstA = lgid
     Me!txtFind = Null
     lstA_AfterUpdate
 ErrEnd:
@@ -848,8 +848,8 @@ ErrMsg:
 End Sub
 Private Sub lstStichwortCopy_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(Me!lstStichwortCopy, 0)
+    Dim lgid As Long
+    lgid = Nz(Me!lstStichwortCopy, 0)
     MsgBox Me!lstStichwortT
 ErrEnd:
     Exit Sub
@@ -922,14 +922,14 @@ ErrMsg:
     MsgBox Err.number & " " & Err.Description, vbCritical, "F_Lexikon.lstMdo_AfterUpdate"
     Resume ErrEnd
 End Sub
-Public Function OH_FindLex(lgB As Long, lgID As Long)
+Public Function OH_FindLex(lgB As Long, lgid As Long)
 On Error GoTo ErrMsg
     lstOrderGruppe_AfterUpdate
     Me!lstA = lgB
     Me!txtFind = ""
     lstA_AfterUpdate
     For i = 0 To Me!lstDet.ListCount - 1
-        If Me!lstDet.column(0, i) = lgID Then
+        If Me!lstDet.column(0, i) = lgid Then
             Me!lstDet.Selected(i) = True
             Exit For
         End If
@@ -946,9 +946,9 @@ End Function
 Private Sub btnlstAbfragen_Click()
 On Error GoTo ErrMsg
     DoCmd.Hourglass True
-    Dim lgID As Long
-    lgID = Nz(Me!lstAbfragen, 0)
-    If lgID = 0 Then
+    Dim lgid As Long
+    lgid = Nz(Me!lstAbfragen, 0)
+    If lgid = 0 Then
         s = "Bitte die gewünschte Abfrage rechts markieren"
         GoTo ErrM
     End If

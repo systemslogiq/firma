@@ -500,7 +500,7 @@ End Sub
 
 Private Sub lstAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Select Case Me!lstact
     Case 10, 11 '10 = Mitarbeiter anzeigen (Adresse)
                 '11 = Mandand anzeigen (Adresse)
@@ -527,34 +527,34 @@ On Error GoTo ErrMsg
         With Me!lstGebTag
             For Each x In .ItemsSelected
                 OH_InsertID .column(0, x)
-                If lgID = 0 Then
-                    lgID = .column(0, x)
+                If lgid = 0 Then
+                    lgid = .column(0, x)
                 End If
             Next x
         End With
-        If lgID = 0 Then
+        If lgid = 0 Then
             With Me!lstGebTag
                 For i = 1 To .ListCount - 1
                     OH_InsertID .column(0, i)
-                    If lgID = 0 Then
-                        lgID = .column(0, i)
+                    If lgid = 0 Then
+                        lgid = .column(0, i)
                     End If
                 Next i
             End With
         End If
-        If lgID = 0 Then
+        If lgid = 0 Then
             MsgBox "Mindestens 1 Geburtstags-Kind muss in der Liste enthalten sein!", _
                     vbInformation, "Markiere mehrere mit mit Shift /Strg-Taste"
         Else
-            OH_OF "F_Adresse", lgID
+            OH_OF "F_Adresse", lgid
             Set frm = Forms!F_Adresse
             frm!txtFind = Null
             frm!lstA = Me!comGebTag.column(2)
             frm.lstA_AfterUpdate
-            If frm!NrFunktion <> lgID Then
+            If frm!NrFunktion <> lgid Then
                 With frm!lstDet
                     For i = 0 To .ListCount - 1
-                        .Selected(i) = lgID = .column(0, i)
+                        .Selected(i) = lgid = .column(0, i)
                     Next i
                 End With
                 frm.lstDet_AfterUpdate

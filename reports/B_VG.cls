@@ -408,7 +408,7 @@ On Error GoTo ErrMsg
         Me.UB_VGGesamtÜbersicht.Visible = True
         Me.GesamtübersichtSeitenumbruch.Visible = True
     End Select
-    Me.UB_VGRahmenvertrag.Visible = Me!Rahmenvertrag = 1
+    Me.UB_VGRahmenvertrag.Visible = Nz(Me!Rahmenvertrag, 0) = 1
     If Nz(Me!SwissQRCode, 0) Then
         '############# Swiss QR-Code ###############
           'QR-Zahlschein erzeugen
@@ -1046,7 +1046,7 @@ On Error GoTo ErrMsg
     If Me.GFA.Visible = True Then '<R11>
         Me.GFA.Visible = Nz(Me!Gesamtpreis, 0) > 0
     End If
-    Me!Rabatt.Visible = Me!blRabatt <> 0 And blOhnePreise = False
+    Me!Rabatt.Visible = Nz(Me!blRabatt, 0) <> 0 And blOhnePreise = False
     OH_ResetRS rsa
     If Len(Me!Barcodetxt) > 1 Then
         OH_setBarCode Me!picBC, Me!Barcodetxt

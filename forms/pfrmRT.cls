@@ -6,7 +6,7 @@ Option Compare Database
 Option Explicit
 Dim strT As String
 Dim strS As String
-Dim lgID As Long
+Dim lgid As Long
 Dim blC As Boolean
 Private Sub Form_Open(Cancel As Integer)
 On Error GoTo ErrMsg
@@ -84,9 +84,9 @@ On Error GoTo ErrMsg
                     GoTo ErrEnd
                 End If
                 Set frm = Forms!F_VG
-                lgID = frm!nrVGDet
+                lgid = frm!nrVGDet
                 strSQL = strS & _
-                        ",@id =" & lgID & _
+                        ",@id =" & lgid & _
                         ",@fi = '" & OH_RPL(Nz(Me!rt)) & "'"
                 OH_EX
                 ctl = Me!rt
@@ -107,30 +107,30 @@ On Error GoTo ErrMsg
                 Select Case ctl.Name
                 Case "BemAdresse", "BemFunktion"
                     Set frm = Forms!F_Adresse
-                    lgID = frm!NrFunktion
+                    lgid = frm!NrFunktion
                 Case "BemLeistung", "InfoLeistung"
                     Set frm = Forms!F_Leistung
-                    lgID = frm!NrLeistung
+                    lgid = frm!NrLeistung
                 Case "BemLexikon"
                     Set frm = Forms!F_Lexikon
-                    lgID = frm!nrlexikon
+                    lgid = frm!nrlexikon
                 Case "BemStichwort"
                     Set frm = Forms!PF_Stichwort!UF_Stichwort.Form
-                    lgID = frm!NrStichwort
+                    lgid = frm!NrStichwort
                 Case "BemArtikel"
                     Set frm = Forms!F_Artikel
-                    lgID = frm!NrArtikel
+                    lgid = frm!NrArtikel
                 Case "VGBem"
                     Set frm = Forms!F_VG
-                    lgID = frm!NrVG
+                    lgid = frm!NrVG
                 End Select
                 strSQL = "Execute dbo.spa_Z " & _
                        "@x = 'Update_RT'" & _
-                       ",@ID = " & lgID & _
+                       ",@ID = " & lgid & _
                        ",@f = '" & ctl.Name & _
                        "',@fi = '" & OH_RPL(Me!rt) & "'"
                 OH_EX
-                 OH_RQf frm, lgID, ctl.Name
+                 OH_RQf frm, lgid, ctl.Name
             End Select
         End If
         blC = False
@@ -201,18 +201,18 @@ On Error GoTo ErrMsg
         DoCmd.openForm "PF_NeuVG", , , , , , "X" & frm!NrVG
         DoCmd.Close acForm, Me.Name
     Case 110
-        If lgID > 0 Then
+        If lgid > 0 Then
             With frm!lstDet
                 For i = 0 To .ListCount - 1
-                    If lgID = .column(0, i) Then
+                    If lgid = .column(0, i) Then
                         .Selected(i) = True
                     Else
                         .Selected(i) = False
                     End If
                 Next i
             End With
-            frm!lstVG = lgID
-            OH_SetRS frm, lgID
+            frm!lstVG = lgid
+            OH_SetRS frm, lgid
             frm!vgbem.SetFocus
         End If
     End Select
@@ -250,5 +250,5 @@ ErrMsg:
     Resume ErrEnd
 End Sub
 Private Sub rt_LostFocus()
-    lgID = Val(Replace(Me!rt.SelText, "ID:", ""))
+    lgid = Val(Replace(Me!rt.SelText, "ID:", ""))
 End Sub

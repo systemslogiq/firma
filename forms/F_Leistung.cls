@@ -954,10 +954,10 @@ ErrMsg:
 End Sub
 Private Sub StatusLeistung_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strS As String
     Dim strGrund As String
-    lgID = Nz(Me!NrLeistung, 0)
+    lgid = Nz(Me!NrLeistung, 0)
     s = ""
     t = Me![DatumTag] & " " & Me!AnzahlLeistung & " " & Me!LiefereinheitVG & "  Status ändern"
     If Me!StatusLeistung = 0 Then
@@ -972,7 +972,7 @@ On Error GoTo ErrMsg
     s = InputBox(s, t, strGrund)
     If s <> "" Then
         OH_A "@x = 'SetStatusLeistung' " & _
-                ",@i = " & lgID & _
+                ",@i = " & lgid & _
                 ",@f = '" & s & "'"
         OH_EX
         blID = True

@@ -154,8 +154,6 @@ On Error GoTo ErrMsg
     Me!LstArtikelAct.Height = 9 * 567
     Me!lstArtikelVorgemerkt.Visible = False
     Me!lstVGIDAct = 0
-    lstVGID_AfterUpdate
-    Me!lstVGIDAct = 0
     Me!pgB2B.Visible = glB2B
 ErrEnd:
     Exit Sub
@@ -607,7 +605,7 @@ Private Sub LstArtikelAct_DblClick(Cancel As Integer)
 End Sub
 Private Sub lstKontaktAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim n As Long
     Dim strA As String
     Dim strB As String
@@ -620,11 +618,11 @@ On Error GoTo ErrMsg
             Me!pageVorgang.Caption & vbNewLine & _
             vbTab & "als" & vbNewLine & _
             ctl.column(4) & " " & ctl.column(6) & vbNewLine & vbNewLine
-    lgID = Nz(ctl.column(0), 0)
+    lgid = Nz(ctl.column(0), 0)
     t = c.column(1)
     Select Case c
     Case 20, 35, 40
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Bitte in der Liste rechts einen Datensatz markieren!"
             GoTo ErrM
         End If
@@ -649,7 +647,7 @@ On Error GoTo ErrMsg
         Me!comKArt = "Fix-Provision"
         comKArt_AfterUpdate
     Case 20
-        OH_OF "F_Adresse", lgID
+        OH_OF "F_Adresse", lgid
         Forms!F_Adresse!lstKontakt.SetFocus
     Case 30
     Case 35, 36, 37, 38
@@ -667,9 +665,9 @@ On Error GoTo ErrMsg
         strA = "lfd. Nr. " & ctl.column(2) & ": " & vbNewLine & _
         ctl.column(3) & vbNewLine & ctl.column(4) & vbNewLine & vbNewLine
         t = "Zuordnung ändern " & t
-        lgID = Me!NrVG
+        lgid = Me!NrVG
         OH_A "@x = 'lstKontaktAct'" & _
-            ", @i = " & lgID & _
+            ", @i = " & lgid & _
             ", @a = " & c & _
             ", @b = " & ctl.column(1)
         Select Case c
@@ -723,8 +721,8 @@ On Error GoTo ErrMsg
         End Select
     Case 40, 41
         If c = 40 Then
-            lgID = ctl.column(1)
-            If lgID = 0 Then
+            lgid = ctl.column(1)
+            If lgid = 0 Then
                 s = strA & _
                         "Diese Zuordnung könnnen Sie oben nur ändern, aber nicht löschen"
                 MsgBox s, vbExclamation, t
@@ -733,11 +731,11 @@ On Error GoTo ErrMsg
             strA = ctl.column(2) & " " & ctl.column(3) & vbNewLine & ctl.column(4) & " " & ctl.column(5)
         Else
             strA = Me!pageVorgang.Caption
-            lgID = Me!NrVG
+            lgid = Me!NrVG
         End If
         If MsgBox(strA, vbQuestion + vbOKCancel, t) = vbOK Then
             OH_A "@x = 'lstkontaktact'" & _
-                ", @i = " & lgID & _
+                ", @i = " & lgid & _
                 ", @a = " & c
             OH_EX
             OH_RQ ctl
@@ -1215,10 +1213,10 @@ ErrMsg:
 End Sub
 Private Sub lstLeistungAct_AfterUpdate() '<R5> 181115 EO Leistungen löschen von Vorgängen aus
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgact As Long
     Dim strLeistung As String
-    lgID = Nz(Me!LstLeistung, 0)
+    lgid = Nz(Me!LstLeistung, 0)
     t = Me!lstLeistungAct.column(1)
     lgact = Nz(Me!lstLeistungAct, 0)
     strLeistung = Nz(Me!LstLeistung.column(5), "")
@@ -1228,7 +1226,7 @@ On Error GoTo ErrMsg
         Me!LstArtikelAct = 90
         lstArtikelAct_AfterUpdate
     Case 20, 21, 30
-        If lgID = 0 Or strLeistung = "" Then
+        If lgid = 0 Or strLeistung = "" Then
             s = "bitte in der Liste rechts die entspr. Leistung markieren!"
             GoTo ErrM
         End If
@@ -1242,16 +1240,16 @@ On Error GoTo ErrMsg
                 GoTo ErrEnd
             End If
             s = Replace(s, ",", ".")
-            strlink = "NrLeistung = " & lgID
-            lgID = OH_CopyRS("T_Leistung", strlink, "AnzahlLeistung", s, True, True)
-            OH_RQ Me!LstLeistung, lgID
+            strlink = "NrLeistung = " & lgid
+            lgid = OH_CopyRS("T_Leistung", strlink, "AnzahlLeistung", s, True, True)
+            OH_RQ Me!LstLeistung, lgid
         Case 21
             s = strLeistung & vbNewLine & vbNewLine & _
                     "Soll die markierte Leistung wirklich gelöscht werden?"
             If MsgBox(s, vbQuestion + vbOKCancel + vbDefaultButton2, t) = vbOK Then
                 OH_A "@x = 'lstLeistungAct'" & _
                         ",@a = " & lgact & _
-                        ",@i = " & lgID
+                        ",@i = " & lgid
                 OH_EX
                 OH_RQ Me!LstLeistung
             End If
@@ -1261,21 +1259,21 @@ On Error GoTo ErrMsg
     Case 40
         i = Me!LstLeistung.ListCount - 1
         If i > 0 Then
-            lgID = Me!LstLeistung.column(0, i)
+            lgid = Me!LstLeistung.column(0, i)
         End If
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Da gibt's wohl nix zu verrechnen!"
             GoTo ErrM
         End If
-        OH_OF "F_Leistung", lgID
+        OH_OF "F_Leistung", lgid
         With Forms!F_Leistung
             !lstD.SetFocus
-            !lstD = lgID
+            !lstD = lgid
             !DatumTag.SetFocus
-            If !NrLeistung = lgID Then 'prüfe, ob die übergebene und gefilterte Leistung übereinstimmt!
+            If !NrLeistung = lgid Then 'prüfe, ob die übergebene und gefilterte Leistung übereinstimmt!
                 .OH_ErstelleRechnung
             Else
-                s = "Die Leistung " & lgID & " entspricht NICHT den Filterbedingungen!"
+                s = "Die Leistung " & lgid & " entspricht NICHT den Filterbedingungen!"
                 GoTo ErrM
             End If
         End With
@@ -1467,7 +1465,7 @@ On Error GoTo ErrMsg
     Dim strPath As String
     Dim lgct As Long
     Dim lgC As Long
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strT As String
     Dim strTitel As String
     Dim wrk As Excel.Workbook
@@ -1480,10 +1478,10 @@ On Error GoTo ErrMsg
     Dim lgGreen As Long
     Dim lgred As Long
     Dim strX(1 To 2, 0 To 10) As String
-    lgID = Nz(Me!lstEdit, 0)
+    lgid = Nz(Me!lstEdit, 0)
     strT = Nz(Me!lstEdit.column(1), "")
 
-    If lgID = 0 Then
+    If lgid = 0 Then
         GoTo ErrEnd
     End If
     strTitel = Nz(Me!lstEditAct.column(1), "")
@@ -1495,7 +1493,7 @@ On Error GoTo ErrMsg
             strSQL = "Exec dbo.spA_Filter " & _
                     " @x ='lstedit', " & _
                     " @a = " & i & ", " & _
-                    " @i = " & lgID
+                    " @i = " & lgid
             Select Case i
             Case 3
                 OH_r r
@@ -1546,7 +1544,7 @@ On Error GoTo ErrMsg
             rg.Borders(xlInsideHorizontal).LineStyle = xlContinuous
         Wend
         ws.cells(1, i + 2) = strBem
-        s = "F" & lgID
+        s = "F" & lgid
         Set xComment = ws.cells(1, 1).AddComment(s)
         xComment.Visible = False
         ws.Protect , , , , , True, True, False, False, False, False, False, True, True, True, False
@@ -1607,8 +1605,8 @@ On Error GoTo ErrMsg
         If Not ws.cells(1, 1).Comment Is Nothing Then
             s = ws.cells(1, 1).Comment.Text
         End If
-        lgID = Val(Mid(s, 2))
-        If left(s, 1) <> "F" Or lgID = 0 Then
+        lgid = Val(Mid(s, 2))
+        If left(s, 1) <> "F" Or lgid = 0 Then
             GoTo errm1
         End If
         Select Case left(ws.cells(1, 1), 2)
@@ -1619,7 +1617,7 @@ On Error GoTo ErrMsg
         strSQL = "Exec dbo.spA_Filter " & _
                 " @x ='lstedit' " & _
                 ", @a = 5 " & _
-                ", @i = " & lgID
+                ", @i = " & lgid
         OH_r r
         For i = 0 To r.Fields.count - 1
             If ws.cells(1, i + 1) <> r.Fields(i).Name Then
@@ -1638,7 +1636,7 @@ On Error GoTo ErrMsg
         For i = 2 To n
             For Y = 1 To lgC
                 If Y = 1 Then
-                    lgID = ws.cells(i, 1)
+                    lgid = ws.cells(i, 1)
                 End If
                 Set rg = ws.cells(i, Y)
                 s = ws.cells(1, Y)
@@ -1649,7 +1647,7 @@ On Error GoTo ErrMsg
                         z = z + 1
                         strSQL = "Execute spa_Filter " & _
                                 " @x = 'Update'" & _
-                                ", @i = " & lgID & _
+                                ", @i = " & lgid & _
                                 ", @d = '" & rg.Value & _
                                 "', @f = '" & s & _
                                 "', @o = '" & ws.cells(1, 1) & "'"
@@ -2122,10 +2120,10 @@ ErrM:
 End Sub
 Private Sub lstArtikel_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(Me!LstArtikel, 0)
+    Dim lgid As Long
+    lgid = Nz(Me!LstArtikel, 0)
     t = Me!LstArtikelAct.column(1)
-    If lgID = 0 Then
+    If lgid = 0 Then
         GoTo ErrEnd
     End If
     If Me!RegMain <> 2 Then
@@ -2135,7 +2133,7 @@ On Error GoTo ErrMsg
     Select Case Me!LstArtikelAct
     Case 32
          lstArtikelAct_AfterUpdate
-         Me!LstArtikel = lgID
+         Me!LstArtikel = lgid
          GoTo ErrEnd
     Case 40
         Select Case Nz(Me!LstArtikel)
@@ -2247,10 +2245,10 @@ ErrMsg:
 End Sub
 Private Sub lstKontakt_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(Me!lstKontakt, 0)
-    If lgID > 0 Then
-        OH_OF "F_Adresse", lgID
+    Dim lgid As Long
+    lgid = Nz(Me!lstKontakt, 0)
+    If lgid > 0 Then
+        OH_OF "F_Adresse", lgid
     End If
 ErrEnd:
     Exit Sub
@@ -2260,13 +2258,13 @@ ErrMsg:
 End Sub
 Private Sub LstLeistung_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(Me!LstLeistung, 0)
-    OH_OF "F_Leistung", lgID
+    Dim lgid As Long
+    lgid = Nz(Me!LstLeistung, 0)
+    OH_OF "F_Leistung", lgid
     With Forms!F_Leistung
-        If lgID > 0 Then
+        If lgid > 0 Then
             !lstD.SetFocus
-            !lstD = lgID
+            !lstD = lgid
             !DatumTag.SetFocus
         Else
             !txtFind = Me!projektNr
@@ -2391,10 +2389,10 @@ Private Sub lstFirmaAct_Afterupdate()
 End Sub
 Private Sub lstVGID_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long '200109
-    lgID = Nz(Me!lstVGID.column(1), 0)
+    Dim lgid As Long '200109
+    lgid = Nz(Me!lstVGID.column(1), 0)
     Me!lstVGIDAct = 400
-    OH_SetRS Me, lgID
+    OH_SetRS Me, lgid
     Me!lstVGID.SetFocus
     Me!lstVGID = Me!VGIDu
 ErrEnd:
@@ -2865,10 +2863,10 @@ ErrMsg:
 End Function
 Private Sub lstProfit_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgIDu As Long
-    lgID = Nz(Me!lstProfit, 0)
-    If lgID = 0 Then
+    lgid = Nz(Me!lstProfit, 0)
+    If lgid = 0 Then
         GoTo ErrEnd
     End If
     If Me!lstProfit.column(2) = "" Then
@@ -2883,7 +2881,7 @@ On Error GoTo ErrMsg
     OH_A "lstDet", strSQL
     Me!countRec = Me!lstDet.ListCount - 1
     SysCmd acSysCmdSetStatus, "letzte Aktion Doppel-Klick auf Rohgewinnliste: zeigt alle Vorgänge der gwählten Projekt-Nr. an"
-    OH_SetRS Me, lgID
+    OH_SetRS Me, lgid
 ErrEnd:
     Exit Sub
 ErrMsg:
@@ -2901,15 +2899,12 @@ ErrMsg:
 End Sub
 Public Sub txtFind_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim strW As String
-    Dim lgC As Long
-    Dim lgID As Long
+    Dim lgid As Long
+    Dim n As Long
     DoCmd.Hourglass True
-    lgC = 4
     If IsNull(Me!lstA) Then
         Me!lstA = 0
     End If
-    strW = "0cm;1.5cm;2.5cm;2cm"
     Me!txtFind.SetFocus
     Select Case Me!txtFind.Text
     Case "A:", _
@@ -2987,15 +2982,20 @@ On Error GoTo ErrMsg
         s = left(s, i - 2) & ";" & strcomtxtFindRS
     End Select
     Me!comtxtFind.RowSource = s
-    Me!lstDet.SetFocus
-    i = Me!lstDet.ListCount
-    If i > 0 Then 'suche den ersten markierten Listeneintrag
-        i = Me!lstDet.ItemsSelected(0)
-        lgID = Me!lstDet.ItemData(i)
-        If lgID <> Me!NrVG Then
-            lstDet_AfterUpdate
+    With Me!lstDet
+        .SetFocus
+        i = .ListCount
+        If i > 0 Then 'suche den ersten Listeneintrag
+            lgid = Me!lstDet.ItemData(1)
+            If lgid <> Me!NrVG Then
+                For n = 0 To i - 1
+                   .Selected(n) = False
+                Next n
+                .Selected(0) = True
+                lstDet_AfterUpdate
+            End If
         End If
-    End If
+    End With
 ErrEnd:
     DoCmd.Hourglass False
     Exit Sub
@@ -3136,12 +3136,12 @@ Private Sub DatBis_AfterUpdate()
 End Sub
 Private Sub VG_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Me!NrVG
+    Dim lgid As Long
+    lgid = Me!NrVG
     Me!txtFind = Me!VG
     txtFind_AfterUpdate
-    If Me!NrVG <> lgID Then
-        OH_OF "F_VG", lgID
+    If Me!NrVG <> lgid Then
+        OH_OF "F_VG", lgid
     End If
 ErrEnd:
     Exit Sub
@@ -3901,8 +3901,8 @@ End Sub
 Private Sub VGSprache_AfterUpdate()
 On Error GoTo ErrMsg
 'siehe U-Trigger T_VG
-    Dim lgID As Long
-    lgID = Me!NrVG
+    Dim lgid As Long
+    lgid = Me!NrVG
     gllg = Nz(Me!VGSprache, "Deutsch")
     Dim strOLD As String
     strOLD = Nz(Me!VGSprache.OldValue, gllg)
@@ -3913,7 +3913,7 @@ On Error GoTo ErrMsg
     Else
         comAnschrift_AfterUpdate
         OH_RQf Me
-        OH_FB Me, "nrVG = " & lgID
+        OH_FB Me, "nrVG = " & lgid
     End If
 ErrEnd:
     Exit Sub
@@ -4094,15 +4094,15 @@ Private Sub NrQK_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
     Dim strHilfe As String
     Dim iHow As Integer
-    Dim lgID As Long
+    Dim lgid As Long
     OH_SaveRS Me
     iHow = 2
-    lgID = Nz(Me!NrQK, 0)
-    OH_OF "F_QK", lgID
+    lgid = Nz(Me!NrQK, 0)
+    OH_OF "F_QK", lgid
     Set frm = Forms!F_QK
     frm!lstA = 1
     frm!lstDet = 0
-    OH_setLst frm!lstDet, lgID '<R62>
+    OH_setLst frm!lstDet, lgid '<R62>
     frm.lstDet_AfterUpdate
 ErrEnd:
     Exit Sub
@@ -4175,6 +4175,12 @@ ErrMsg:
 End Sub
 Public Sub NrQK_AfterUpdate()
 On Error GoTo ErrMsg
+    Dim lgNrQK_OLD As Long
+    lgNrQK_OLD = Me!NrQK.OldValue
+    If Me!NrQK <> lgNrQK_OLD Then  '111008 260428 muss vor OH_SaveRS liegen
+        Me!VGNr = OH_GetNr("VGNr", Me!NrQK, Me!VGAbteilung, Me!VGdatum)
+    End If
+
     OH_SaveRS Me
     OH_CaptionQK
     regMain_Change
@@ -4187,16 +4193,13 @@ On Error GoTo ErrMsg
         Me!VGAbteilung = r!VGAbteilung
         OH_ResetRS r
     End If
-    strSQL = "spI_txt @div = 'ChangeQK'," & _
-                     "@qko= " & Me!NrQK.OldValue & "," & _
-                     "@qkn= " & Me!NrQK & "," & _
-                     "@vgo= " & Me!NrVG & "," & _
-                     "@vgn= " & Me!NrVG
+    strSQL = "spI_txt @div = 'ChangeQK'" & _
+                     ",@qko= " & lgNrQK_OLD & _
+                     ",@qkn= " & Me!NrQK & _
+                     ",@vgo= " & Me!NrVG & _
+                     ",@vgn= " & Me!NrVG
     OH_EX
     OH_RQf Me!UF_txt.Form
-    If Me!NrQK <> Me!NrQK.OldValue Then  '111008
-        Me!VGNr = OH_GetNr("VGNr", Me!NrQK, Me!VGAbteilung, Me!VGdatum)
-    End If
     If IsNull(Me!NrFunktion) Then
         Me!comFirma.SetFocus
         Me!comFirma.Dropdown
@@ -4469,13 +4472,13 @@ ErrMsg:
 End Sub
 Private Sub VGWährungA_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Me!LstArtikel
+    Dim lgid As Long
+    lgid = Me!LstArtikel
     VGWährung_Enter
     Me!VGWährung = Me!VGWährungA
     VGWährung_AfterUpdate
     regMain_Change
-    Me!LstArtikel = lgID
+    Me!LstArtikel = lgid
     lstArtikel_afterupdate
 ErrEnd:
     Exit Sub
@@ -5122,7 +5125,7 @@ Public Sub lstArtikelAct_AfterUpdate()
 On Error GoTo ErrMsg
     Dim strCW As String
     Dim lgC As Long
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strTT As String
     Dim lgPos As Long
     Dim strf As String
@@ -5290,9 +5293,9 @@ On Error GoTo ErrMsg
                 ",@a = " & Me!NrVG & _
                 ",@l = '" & strlink & "'"
         OH_r r
-        lgID = Nz(r!ID, 0) 'input Elena 180703
+        lgid = Nz(r!ID, 0) 'input Elena 180703
         SysCmd acSysCmdSetStatus, r!Deleted & " Artikel gelöscht: letzte Aktion um " & Now()
-        OH_refreshVGDet lgID
+        OH_refreshVGDet lgid
     Case 25
         If lgVGdet = 0 Then
             s = "Sie haben keinen Artikel selektiert!"
@@ -5361,7 +5364,7 @@ On Error GoTo ErrMsg
             End If
         End If
         OH_r r
-        lgID = r!ID
+        lgid = r!ID
         s = "Ergebnis " & t & vbNewLine & r!msg & vbNewLine & vbNewLine
         If InStr(s, "OK") > 0 Then
             If MsgBox(s & "Buchung anzeigen?", vbQuestion + vbYesNo + vbDefaultButton2, t) = vbNo Then
@@ -5369,7 +5372,7 @@ On Error GoTo ErrMsg
                 GoTo ErrEnd
             Else
                 OH_closeObj "PF_Lager"
-                DoCmd.openForm "PF_Lager", , , , , , lgID & "F_VG"
+                DoCmd.openForm "PF_Lager", , , , , , lgid & "F_VG"
             End If
         Else
             GoTo ErrM
@@ -5466,7 +5469,7 @@ End Sub
 Public Sub lstArtikelVorgemerkt_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgVorgemerkt As Long
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgact As Long
     Dim strQ As String
     If OH_CheckAbschluss Then
@@ -5522,7 +5525,7 @@ On Error GoTo ErrMsg
         OH_RQ Me!lstArtikelVorgemerkt
     Else
         OH_r r
-        lgID = r!IDmax
+        lgid = r!IDmax
         OH_RQf Me, Me!NrVG 'muss auch refreshed werden!
         OH_refreshVGDet lgVGdet
     End If
@@ -5665,12 +5668,12 @@ Private Sub lstAuditAct_AfterUpdate()
 End Sub
 Private Sub lstAudit_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(Me!lstAudit, 0)
-    If lgID = 0 Then
+    Dim lgid As Long
+    lgid = Nz(Me!lstAudit, 0)
+    If lgid = 0 Then
         GoTo ErrEnd
     End If
-    OH_OF "F_Audit", lgID
+    OH_OF "F_Audit", lgid
 ErrEnd:
     Exit Sub
 ErrMsg:
@@ -6275,7 +6278,7 @@ ErrMsg:
 End Sub
 Private Sub lstStatistikAct_AfterUpdate()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strSQ As String
     Dim strM As String
     Dim strCW As String
@@ -6283,11 +6286,11 @@ On Error GoTo ErrMsg
 nochmalStatistik:
     DoCmd.Hourglass True
     t = Nz(Me!lstStatistikAct.column(1), "") & " KONTRAKT " & Nz(Me!Kontrakt, "??")
-    lgID = Nz(Me!lstStatistikDet, 0)
+    lgid = Nz(Me!lstStatistikDet, 0)
     strSQ = "Exec dbo.spI_Statistik " & _
         " @x = 'lstStatistikAct'" & _
         ",@a = " & Me!lstStatistikAct & _
-        ",@i = " & lgID & _
+        ",@i = " & lgid & _
         ",@y = " & Val(Nz(Me!comStatistikY, 0)) & _
         ",@b = " & Nz(Me!Kontrakt, 0) & _
         ",@s1 = '" & Me!lstStatistik & _
@@ -6347,7 +6350,7 @@ nochmalStatistik:
                     ", @d = '" & strM & "'"
             OH_EX
             OH_RQ Me!lstStatistikDet
-            Me!lstStatistikDet = lgID
+            Me!lstStatistikDet = lgid
         Case 55
             strSQL = strSQ
             OH_EX
@@ -6383,14 +6386,14 @@ ErrM:
 End Sub
 Private Function OH_Statistik(strSSt As String, lgS As Long, strSQ As String)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strM As String
     Dim strCW As String
     Dim lgCC As Long
     DoCmd.Hourglass True
     strSQL = strSQ
     t = Nz(Me!lstStatistikAct.column(1), "")
-    lgID = Nz(Me!lstStatistikDet, 0)
+    lgid = Nz(Me!lstStatistikDet, 0)
     s = "Liste " & Me!lstStatistik
     If Val(Nz(Me!comStatistikY, 0)) > 0 Then
         s = s & vbNewLine & "Jahr " & Me!comStatistikY
@@ -6493,7 +6496,7 @@ End Function
 
 Private Sub lstStatistikDet_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strID As String
     strID = Nz(Me!lstStatistikDet.column(0), "")
     Select Case strID
@@ -6501,9 +6504,9 @@ On Error GoTo ErrMsg
         Me!lstStatistikAct = 55
         lstStatistikAct_AfterUpdate
     Case Else
-        lgID = Val(Nz(Me!lstStatistikDet.column(1), ""))
-        If lgID > 0 Then
-            OH_SetRS Me, lgID
+        lgid = Val(Nz(Me!lstStatistikDet.column(1), ""))
+        If lgid > 0 Then
+            OH_SetRS Me, lgid
         End If
     End Select
 ErrEnd:
@@ -7209,7 +7212,7 @@ End Sub
 Public Sub lstB2BAct_AfterUpdate()
 On Error GoTo ErrMsg
     Dim lgact As Long
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgVG As Long
     Dim strQ As String
     Dim strJ As String
@@ -7220,7 +7223,7 @@ On Error GoTo ErrMsg
     t = Nz(Me!lstB2BAct.column(1), "") & "  Input B2B NOORD NATIE"
     strProjektNr = Nz(Me!projektNr)
     lgVG = Nz(Me!NrVG, 0)
-    lgID = Nz(Me!lstB2B.column(0), 0)
+    lgid = Nz(Me!lstB2B.column(0), 0)
     strQ = "EXECUTE spa_B2B @x ='lstB2BAct'" & _
                             ",@a = " & lgact & _
                             ",@Nrvg = " & lgVG
@@ -7230,11 +7233,11 @@ On Error GoTo ErrMsg
     Case 10 'Zeige B2B Status
         OH_A "lstB2B", strQ
     Case 11
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Bitte eine Zeile markieren"
             GoTo ErrM
         End If
-        strQ = strQ & ",@message_nr = " & lgID
+        strQ = strQ & ",@message_nr = " & lgid
         strSQL = strQ
         OH_r r
         s = r!msg
@@ -7279,7 +7282,7 @@ nochmalB2B:
         DoCmd.openForm "frmB2B"
         Forms!frmB2B!lstB2BEx.Tag = strQ
     Case 65 'B2B-Aktionen zurücksetzen
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Bitte eine Zeile markieren"
             GoTo ErrM
         End If
@@ -7291,7 +7294,7 @@ nochmalB2B:
         OH_EX
         OH_RQ Me!lstB2B
     Case 65 'B2B-Aktionen zurücksetzen
-        If lgID = 0 Then
+        If lgid = 0 Then
             s = "Bitte eine Zeile markieren"
             GoTo ErrM
         End If

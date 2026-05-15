@@ -6,7 +6,7 @@ Option Compare Database
 Option Explicit
 Private Sub Form_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     DoCmd.Hourglass True
     Select Case Parent.Name
     Case "F_QK"

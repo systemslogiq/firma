@@ -181,7 +181,7 @@ End Sub
 Private Sub btnVGL_Click()
 On Error GoTo ErrMsg
     Dim strVG As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgBoss As Long
     strVG = Nz(Me!VG, "")
     If strVG = "" Then
@@ -193,7 +193,7 @@ On Error GoTo ErrMsg
                 " @d = 'Projekttitel', " & _
                 " @f = '" & strVG & "'"
         OH_r r
-        lgID = r!ID
+        lgid = r!ID
         lgBoss = r!NrBoss
         s = strVG & vbNewLine & _
                 "ist als Projekt-Titel im Lexikon abgelegt!" & vbNewLine & vbNewLine & _
@@ -203,7 +203,7 @@ On Error GoTo ErrMsg
                 "Vorgabe Projekt-Titel") = vbYes Then
             DoCmd.Close acForm, Me.Name
             OH_OF "F_Lexikon"
-            Forms!F_Lexikon.OH_FindLex lgBoss, lgID
+            Forms!F_Lexikon.OH_FindLex lgBoss, lgid
         End If
     End If
 ErrEnd:
@@ -667,10 +667,10 @@ Private Sub VGID_BeforeUpdate(Cancel As Integer)
 ' OHNEMUS, Juni 2005
 On Error GoTo ErrMsg
     Dim rsVGID As ADODB.Recordset
-    Dim lgID As Long
+    Dim lgid As Long
     t = "Ändern der Projektnr."
-    lgID = Nz(Me!VGID, 0)
-    If lgID = 0 Then
+    lgid = Nz(Me!VGID, 0)
+    If lgid = 0 Then
         s = "Bitte richtige Projektnr. eingeben!"
         GoTo ErrM
     End If

@@ -4,395 +4,95 @@ firma.accdb
 VCS Version 4.1.2
 Full Path: C:\Firma\firma.accdb
 Export Folder: S:\GESCH\Access\VersionControl\
-Performing Full Export
-27.04.26 11:03:19
+Using Fast Save
+15.05.26 09:40:12
 -------------------------------------
-Scanning source files...
-No vbe forms found in this database.
-No saved specs found in this database.
-No imex specs found in this database.
-No queries found in this database.
-No table data found in this database.
-No table data macros found in this database.
-No relations found in this database.
-No hidden attributes found in this database.
--------------------------------------
-Exporting db connections...   
-  Database Connection
-[1]
--------------------------------------
-Exporting project...          
-  firma.accdb
-[1]
--------------------------------------
-Exporting vb project...       
-  Firma_260423
-[1]
--------------------------------------
-Exporting vbe references...   
-  ADOX
-[14]
--------------------------------------
-Exporting proj properties...  
-  Current Project Properties (Access)
-[2]
--------------------------------------
-Exporting modules...          
-  mdlB2B
-  mdl_DB
-  mdlTlb
-  mdlRibbon
-  mdl_Filter
-  mdlDMS
-  mdl_ShellExecute
-  mdl_Outlook
-  StopWatch
-  tcpClient
-  mdlCB
-  mdlOffice
-  mdlTelefonie
-  mdl_language
-  mdl_Printer
-  mdlADO
-  mdl_sql_Login
-  mdlERechnung
-  mdlRTFtoHTML
-  mdl_OH
-  mdl_Etikette
-  mdl_CreateUserAuthTable
-  mdlReconnect
-  mdl_sql_Credentials
-[24]
--------------------------------------
-Exporting commandbars...      
-  tlbOHrightMouse
-  cbpgStichwort
-  tlbOHR
+Scanning for changes...
+No modified db connections found in this database.
+No modified project found in this database.
+No modified vb project found in this database.
+No modified vbe references found in this database.
+No modified vbe forms found in this database.
+No modified proj properties found in this database.
+No modified saved specs found in this database.
+No modified modules found in this database.
 
 -------------------------------------
 ERROR: Unhandled error, likely before `On Error` directive
 Source: .Unknown.LogUnhandledErrors
 -------------------------------------
-  tlbOHrightMouseTab
-[4]
+No modified commandbars found in this database.
+No modified shared images found in this database.
+No modified themes found in this database.
+No modified db properties found in this database.
+No modified imex specs found in this database.
+No modified tables found in this database.
+No modified queries found in this database.
+No modified forms found in this database.
+No modified macros found in this database.
+No modified reports found in this database.
+No modified table data found in this database.
+No modified table data macros found in this database.
+No modified relations found in this database.
+No modified doc properties found in this database.
+No modified nav pane groups found in this database.
+No modified hidden attributes found in this database.
 -------------------------------------
-Exporting shared images...    
-  Barcode
-  1_Barcode
-  2_Barcode
-  3_Barcode
-  4_Barcode
-  5_Barcode
-  6_Barcode
-  7_Barcode
-  8_Barcode
-[9]
--------------------------------------
-Exporting themes...           
-  Office
-[1]
--------------------------------------
-Exporting db properties...    
-  Database Properties (DAO)
-[56]
--------------------------------------
-Exporting tables...           
-  A_Stichwort
-  A_StichwortVG
-  T_Ablage
-  T_Adresse
-  T_ArtAdresse
-  T_Artikel
-  T_Audit
-  T_Begriff
-  T_Chronik
-  T_Filter
-  T_Funktion
-  T_ID
-  T_Land
-  T_language
-  T_Leistung
-  T_Lexikon
-  T_q
-  T_QK
-  T_Stichwort
-  T_Txt
-  T_Verlauf
-  T_VG
-  T_VGDet
-  T_WarenGruppe
-  T_Zuord
-  tblDoc
-  tblTmp
-  vwProvision
-  vwServername
-  vwUB_VGRahmenvertrag
-  vwUB_VGtxt
-  vwUB_VGÜbersicht
-  vwWarengruppeRabatt
-[33]
--------------------------------------
-Exporting forms...            
-  T_Adresse
-    Sanitized in 0,009 seconds.
-  pfrmeRechnung
-    Sanitized in 0,003 seconds.
-  F_Adresse
-    Sanitized in 0,071 seconds.
-  frmF
-    Sanitized in 0,002 seconds.
-  F_Ablage
-    Sanitized in 0,023 seconds.
-  pfrmCheckVG
-    Sanitized in 0,004 seconds.
-  pfrmClone
-    Sanitized in 0,006 seconds.
-  F_Begriff
-    Sanitized in 0,009 seconds.
-  F_WarenGruppe
-    Sanitized in 0,012 seconds.
-  pfrmZuord
-    Sanitized in 0,006 seconds.
-  F_QK
-    Sanitized in 0,016 seconds.
-  frmTank
-    Sanitized in 0,019 seconds.
-  pfrmAdresseCheck
-    Sanitized in 0,017 seconds.
-  F_Artikel
-    Sanitized in 0,034 seconds.
-  F_Chronik
-    Sanitized in 0,011 seconds.
-  F_Q
-    Sanitized in 0,012 seconds.
-  PF_Artikel
-    Sanitized in 0,011 seconds.
-  T_Artikel
-    Sanitized in 0,011 seconds.
-  UF_txtQK
-    Sanitized in 0,003 seconds.
-  UF_txt
-    Sanitized in 0,007 seconds.
-  F_Audit
-    Sanitized in 0,010 seconds.
-  PF_Export
-    Sanitized in 0,006 seconds.
-  PF_Kalender
-    Sanitized in 0,022 seconds.
-  PF_Stichwort
-    Sanitized in 0,014 seconds.
-  frmProjekt
-    Sanitized in 0,009 seconds.
-  UF_Stichwort
-    Sanitized in 0,014 seconds.
-  frmSchlagwort
-    Sanitized in 0,012 seconds.
-  PF_Tab
-    Sanitized in 0,011 seconds.
-  PF_Land
-    Sanitized in 0,006 seconds.
-  F_VG
-    Sanitized in 0,095 seconds.
-  PF_NeuAdresse
-    Sanitized in 0,008 seconds.
-  F_Language
-    Sanitized in 0,007 seconds.
-  PF_NeuVG
-    Sanitized in 0,019 seconds.
-  F_Leistung
-    Sanitized in 0,031 seconds.
-  PF_Leistung
-    Sanitized in 0,009 seconds.
-  frmStatistik
-    Sanitized in 0,010 seconds.
-  F_Lexikon
-    Sanitized in 0,016 seconds.
-  PF_Navigator
-    Sanitized in 0,007 seconds.
-  Menu
-    Sanitized in 0,014 seconds.
-  PF_Lager
-    Sanitized in 0,009 seconds.
-  F_Filter
-    Sanitized in 0,011 seconds.
-  PF_Filter
-    Sanitized in 0,006 seconds.
-  pfrmRT
-    Sanitized in 0,004 seconds.
-  pfrmTxt
-    Sanitized in 0,002 seconds.
-  PF_MsgBox
-    Sanitized in 0,006 seconds.
-  PF_Rabatt
-    Sanitized in 0,004 seconds.
-  frmB2B
-    Sanitized in 0,004 seconds.
-  PF_SqlLogin
-    Sanitized in 0,003 seconds.
-[48]
--------------------------------------
-Exporting macros...           
-  Autokeys
-    Sanitized in 0,001 seconds.
-  Autoexec
-    Sanitized in 0,000 seconds.
-[2]
--------------------------------------
-Exporting reports...          
-  B_ArtikelPreise
-    Sanitized in 0,006 seconds.
-  B_Lagerliste
-    Sanitized in 0,004 seconds.
-  B_Begriff
-    Sanitized in 0,003 seconds.
-  B_QHandbuch
-    Sanitized in 0,028 seconds.
-  rptGelangensbestaetigung
-    Sanitized in 0,004 seconds.
-  B_Adresse
-    Sanitized in 0,004 seconds.
-  B_Ablage
-    Sanitized in 0,007 seconds.
-  B_FirmenPersonenliste
-    Sanitized in 0,003 seconds.
-  B_Brief
-    Sanitized in 0,030 seconds.
-  B_OrdnerRücken
-    Sanitized in 0,004 seconds.
-  UB_VGRahmenvertrag
-    Sanitized in 0,004 seconds.
-  B_Chronik
-    Sanitized in 0,004 seconds.
-  B_Artikel
-    Sanitized in 0,006 seconds.
-  B_VGTotal
-    Sanitized in 0,007 seconds.
-  B_Audit
-    Sanitized in 0,003 seconds.
-  B_VGTotalQuer
-    Sanitized in 0,008 seconds.
-  UB_VGtxt
-    Sanitized in 0,003 seconds.
-  UB_VGGesamtÜbersicht
-    Sanitized in 0,005 seconds.
-  UB_Stichwort
-    Sanitized in 0,002 seconds.
-  B_BegriffListe
-    Sanitized in 0,002 seconds.
-  B_EtiketteKleinVG
-    Sanitized in 0,002 seconds.
-  UB_StichwortVG
-    Sanitized in 0,002 seconds.
-  B_Weihnachtskarte
-    Sanitized in 0,031 seconds.
-  B_AdressListe
-    Sanitized in 0,004 seconds.
-  B_Info
-    Sanitized in 0,010 seconds.
-  B_EtiketteKlein
-    Sanitized in 0,002 seconds.
-  B_VG21
-    Sanitized in 0,048 seconds.
-  B_Etikette2
-    Sanitized in 0,002 seconds.
-  rptKontrakt
-    Sanitized in 0,008 seconds.
-  UB_VGDet
-    Sanitized in 0,005 seconds.
-  B_SollIst
-    Sanitized in 0,006 seconds.
-  B_Etikettegross
-    Sanitized in 0,002 seconds.
-  UB_Rapport
-    Sanitized in 0,002 seconds.
-  rptAnalysenzertifikat
-    Sanitized in 0,060 seconds.
-  B_Rapport
-    Sanitized in 0,008 seconds.
-  B_EtiketteX
-    Sanitized in 0,003 seconds.
-  B_Artikelkurz
-    Sanitized in 0,004 seconds.
-  B_VG
-    Sanitized in 0,043 seconds.
-[38]
--------------------------------------
-Exporting doc properties...   
-  Database Documents
-[2]
--------------------------------------
-Exporting nav pane groups...  
-  Groups
-[2]
--------------------------------------
-Done. (21,71 seconds)
+Done. (3,14 seconds)
 
 --------------------------------------------------
                 PERFORMANCE REPORTS
 --------------------------------------------------
 Category                      Count     Seconds
 --------------------------------------------------
-Forms                         48        6,78
-Reports                       38        5,78
-CommandBars                   4         4,03
-Modules                       24        2,80
-Tables                        33        1,05
-Shared Images                 9         0,31
-DB Properties                 56        0,16
-VBE References                14        0,12
-Macros                        2         0,11
-DB Connections                1         0,09
-Doc Properties                2         0,08
-Themes                        1         0,06
-Proj Properties               2         0,05
-Nav Pane Groups               2         0,05
-Project                       1         0,05
-VB Project                    1         0,04
+CommandBars                   0         1,95
+Shared Images                 0         0,38
+Forms                         0         0,14
+Reports                       0         0,11
+DB Properties                 0         0,10
+Tables                        0         0,08
+Modules                       0         0,08
+Doc Properties                0         0,04
+VBE References                0         0,04
+Nav Pane Groups               0         0,02
+DB Connections                0         0,02
 Hidden Attributes             0         0,01
-Relations                     0         0,00
+Themes                        0         0,01
+Proj Properties               0         0,01
+Project                       0         0,01
+VB Project                    0         0,01
+Macros                        0         0,00
 Table Data Macros             0         0,00
+Relations                     0         0,00
 IMEX Specs                    0         0,00
 Table Data                    0         0,00
 VBE Forms                     0         0,00
 Queries                       0         0,00
 Saved Specs                   0         0,00
 --------------------------------------------------
-TOTALS:                       238       21,59
+TOTALS:                       0         3,00
 --------------------------------------------------
 
 --------------------------------------------------
 Operations                    Count     Seconds
 --------------------------------------------------
-Write File                    308       7,45
-Read File Bytes               113       2,21
-Save CommandBar Images        3         1,87
-App.SaveAsText()              88        1,80
-Sanitize File                 88        1,05
-Convert to JSON               5572      0,94
-Scan DB Objects               1         0,76
-Increment Progress            334       0,56
-Get File Property Hash        167       0,53
-Read File                     112       0,47
-modFileAccess.VerifyPath      409       0,20
-Read File DevMode             86        0,14
-Export VBE Module             24        0,12
-Console Updates               10        0,12
-Delete File                   113       0,10
-Get VBA Hash                  110       0,09
-Sanitize VBA Code             107       0,08
-Compute SHA256                564       0,07
-Write Binary File             9         0,04
-Get Modified Date             397       0,03
-Check for linked table        33        0,02
-Export Theme                  1         0,01
-Quick Count Objects           1         0,01
+Scan DB Objects               1         2,06
+Convert to JSON               3016      0,44
+Clear Orphaned Files          17        0,30
+Increment Progress            441       0,07
+Get VBA Hash                  111       0,07
+Console Updates               5         0,06
+Check for linked table        66        0,03
+Parse JSON                    1         0,03
+Compute SHA256                352       0,02
 Quick Count Files             1         0,01
-Clear Orphaned Files          9         0,00
-modFileAccess.GetUncPath      70        0,00
+Parse JSON ISO Date           236       0,00
+Quick Count Objects           1         0,00
 Close Open Objects            1         0,00
-Clear Files by Ext            6         0,00
+Read File                     1         0,00
+modFileAccess.GetUncPath      4         0,00
 --------------------------------------------------
-Other Operations                        3,04
+Other Operations                        0,05
 --------------------------------------------------
 
 

@@ -43,6 +43,7 @@ On Error GoTo ErrMsg
     Dim Result As String
 
     strSQL = "EXEC spa_eRechnung_ExportToXML @NrVG = " & NrVG
+OH_C strSQL
     OH_r r
 
     If r.BOF = True Then
@@ -155,7 +156,7 @@ On Error GoTo ErrMsg
 
     ' Debug: Erste Bytes ausgeben
     Debug.Print "XML gespeichert: " & strXML
-    Call DebugFirstBytes(strXML)
+    'Call DebugFirstBytes(strXML)
 
 CLEANUP:
     Set stream = Nothing
@@ -426,13 +427,16 @@ End Function
 Public Function OH_ExportXMLOnly(NrVG As Long, ByRef strXmlOut As String) As String
 On Error GoTo ErrMsg
 
-    Dim strSQL As String
-
     ' XML aus DB ziehen
     strSQL = "EXEC spa_eRechnung_ExportToXML @NrVG = " & NrVG
+OH_C strSQL
     OH_r r
+For i = 0 To r.Fields.count - 1
+    Debug.Print i & ": [" & r.Fields(i).Name & "] Type=" & r.Fields(i).Type
+Next i
 
-    If r.BOF Then
+Debug.Print r!XmlOutput
+    If r.BOF = True Then
         s = "Fehler bei der Erstellung des XML-Files (keine Daten)."
         OH_ResetRS r
         OH_ExportXMLOnly = s
@@ -543,13 +547,40 @@ On Error GoTo ErrMsg
     'strRechnungsformat wird im Bericht B_VG (spa_B_VG) ermittelt
     Dim blnZugferd As Boolean
     Dim blnXmlOnly As Boolean
+    Dim blnIsPeppol As Boolean
     Dim strXmlOnly As String
+    Dim strPeppolName As String
     Dim strResult As String
-    Dim Rz As ADODB.Recordset
     DoCmd.Hourglass True
     blnZugferd = False
     blnXmlOnly = False
-    strResult = "SUCCESS PDF erstellt"
+    strResult = ""
+
+    ' --- Peppol-Check 260427 EC -------------------------------------------------
+    ' Wenn Buyer- und Seller-Peppol-ID vorhanden: XML-Pfad erzwingen,
+    ' kein ZUGFeRD-PDF erzeugen. Vorab-Duplikat-Pruefung mit User-Rueckfrage,
+    ' damit der Generierungsaufwand erspart bleibt, falls der User abbricht.
+    blnIsPeppol = OH_Peppol_IsPeppolCase(lgNrVG)
+    If blnIsPeppol Then
+        strPeppolName = Replace(strFilename, ".pdf", ".xml")
+        If LCase$(right$(strPeppolName, 4)) <> ".xml" Then
+            strPeppolName = strFilename & ".xml"
+        End If
+        If OH_Peppol_DuplicateExists(CreateObject("Scripting.FileSystemObject").GetFileName(strPeppolName)) Then
+            If MsgBox( _
+                "Diese Rechnung wurde bereits an EDICENTER uebergeben." & vbCrLf & vbCrLf & _
+                "Datei: " & CreateObject("Scripting.FileSystemObject").GetFileName(strPeppolName) & vbCrLf & vbCrLf & _
+                "Trotzdem erneut versenden? (z.B. Korrektur-Versand)", _
+                vbQuestion + vbYesNo + vbDefaultButton2, _
+                "Peppol Outbound - Duplikat") <> vbYes Then
+                strResult = "Peppol-Versand vom User abgebrochen (Duplikat)."
+                GoTo ErrEnd
+            End If
+        End If
+        strRechnungsformat = "XML"
+    End If
+    ' --- Ende Peppol-Check ------------------------------------------------------
+
     Select Case UCase$(Trim$(strRechnungsformat))
         Case "ZUGFERD"
             blnZugferd = True
@@ -563,6 +594,7 @@ On Error GoTo ErrMsg
     DoCmd.OutputTo acOutputReport, glstrB_VG, acFormatPDF, strFilename
     If Not blnXmlOnly Then '260212
         DoCmd.OutputTo acOutputReport, glstrB_VG, acFormatPDF, strFilename
+        strResult = "SUCCESS PDF erstellt"
     End If
 
     ' ---------- XML-only: kein PDF erzeugen ----------
@@ -580,6 +612,37 @@ On Error GoTo ErrMsg
         End If
        strResult = "SUCCESS XML-Datei wurde erzeugt: " & strXmlOnly
        strFilename = strXmlOnly   'damit der Aufrufer den XML-Pfad zurückbekommt 260212
+
+       ' --- Peppol-Ablage in Outbound\pending\ + sent\ 260427 EC ---------------
+       ' Doppelablage:
+       '   pending\<Name>           -> EDI-Connector holt ab
+       '   sent\<Name>_<Timestamp>  -> dauerhafte History
+       ' OH_Peppol_PlaceInOutbound zeigt im Fehlerfall bzw. bei Duplikat
+       ' bereits eine MsgBox (inkl. User-Rueckfrage). Hier nur strResult
+       ' setzen und sauber rausgehen.
+       If blnIsPeppol Then
+           If Not OH_Peppol_PlaceInOutbound(strXmlOnly) Then
+               OH_KILL strXmlOnly
+               strResult = "Peppol-Ablage fehlgeschlagen oder vom User abgebrochen."
+               GoTo ErrEnd
+           End If
+           ' Erfolgsmeldung mit dem tatsaechlichen Peppol-Zielpfad,
+           ' nicht mit dem Quell-Pfad strXmlOnly (Tempverzeichnis).
+           ' glStrPeppolLastSentPath wurde von OH_Peppol_PlaceInOutbound
+           ' mit dem konkreten sent\-Pfad inkl. Timestamp befuellt.
+           Dim strPeppolBase As String
+           Dim strPeppolFilename As String
+           strPeppolBase = Nz(glStrPeppolOutbound, "")
+           If Len(strPeppolBase) > 0 And right$(strPeppolBase, 1) <> "\" Then
+               strPeppolBase = strPeppolBase & "\"
+           End If
+           strPeppolFilename = CreateObject("Scripting.FileSystemObject").GetFileName(strXmlOnly)
+           strResult = "SUCCESS Peppol-XML abgelegt:" & vbCrLf & vbCrLf & _
+                       "  " & strPeppolBase & "pending\" & strPeppolFilename & vbCrLf & _
+                       "  " & Nz(glStrPeppolLastSentPath, strPeppolBase & "sent\") & vbCrLf & vbCrLf & _
+                       "Der Versand erfolgt automatisch durch den EDI-Connector."
+       End If
+       ' --- Ende Peppol-Ablage --------------------------------------------------
     End If
 
     ' PDF erzeugen (Standard-PDF oder PDF/A-3, je nach oben)

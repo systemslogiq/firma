@@ -62,9 +62,9 @@ End Sub
 Private Sub Form_BeforeUpdate(Cancel As Integer)
 On Error GoTo ErrMsg
     DoCmd.Hourglass True
-    Dim lgID As Long
-    lgID = Nz(Parent!NrVG)
-    Me!NrVG = lgID
+    Dim lgid As Long
+    lgid = Nz(Parent!NrVG)
+    Me!NrVG = lgid
     If Me.Parent.Name = "F_VG" Then
         If OH_Perm("u", Parent, , , Parent!NrQK) Then
             Cancel = True
@@ -85,7 +85,7 @@ ErrMsg:
 End Sub
 Private Sub Form_DblClick(Cancel As Integer)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strFile As String
     Dim strSSMS As String
     Dim strC As String
@@ -244,10 +244,10 @@ ErrM:
 End Sub
 Private Sub btnCopy_click()  '<R83>
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     DoCmd.Hourglass True
-    lgID = Nz(Me!NrTxt, 0)
-    If lgID = 0 Then
+    lgid = Nz(Me!NrTxt, 0)
+    If lgid = 0 Then
         s = "Bitte den zu kopierenden Text markieren!"
         GoTo ErrM
     End If
@@ -257,11 +257,11 @@ On Error GoTo ErrMsg
     If MsgBox(s, vbQuestion + vbOKCancel, t) = vbOK Then
         strSQL = "Exec dbo.spa_VG " & _
                     " @x = 'copytxt'" & _
-                    ", @i = " & lgID
+                    ", @i = " & lgid
         OH_r r
-        lgID = r!ID
+        lgid = r!ID
         Me!txt.SetFocus
-        OH_RQf Me, lgID, "txtV"
+        OH_RQf Me, lgid, "txtV"
         Me!txtV.SetFocus
         Me!txtV.Dropdown
     End If
@@ -663,14 +663,14 @@ On Error GoTo ErrMsg
     Dim strT As String
     Dim strV As String
     Dim frmV As Form
-    Dim lgID As Long
+    Dim lgid As Long
     DoCmd.Hourglass True
     t = "Doppel-Klick auf txtV"
     Select Case Parent.Name
     Case "F_VG"
         strV = left(Nz(Me!txtV), 40)
         strT = Nz(Me!txt)
-        lgID = Nz(Me!NrVG)
+        lgid = Nz(Me!NrVG)
         t = t & " " & strT & " " & strV
         Select Case strT
         Case "Ihr Zeichen", "bestellt von"
@@ -723,7 +723,7 @@ ErrMsg:
 End Sub
 Private Sub txtV_GotFocus()
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strT As String
     Dim strTT As String
     DoCmd.Hourglass True

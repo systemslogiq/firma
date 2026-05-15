@@ -86,6 +86,11 @@ Option Explicit
     ' *** NEU: ZUGFeRD Lizenzdaten aus spI_User 251125 EC***
     Global glStrEMailZugferd As String
     Global glStrRegistryKeyZugferd As String
+    ' *** NEU: Peppol-Verzeichnisse aus spI_User 260511 EC***
+    Global glStrPeppolOutbound As String
+    Global glStrPeppolInbound As String
+    ' *** NEU: Peppol-Master-Schalter (Lexikon Database) aus spI_User 260511 EC***
+    Global glPeppolRechnungsversand As Boolean
 
 
 Public Function AutoExec()
@@ -158,6 +163,11 @@ On Error GoTo ErrMsg
         glStrEMailZugferd = Nz(r!glStrEMailZugferd, "")
         glStrRegistryKeyZugferd = Nz(r!glStrRegistryKeyZugferd, "")
         glstrTempPath = r!glstrTempPath
+        ' *** NEU: Peppol-Verzeichnisse aus spI_User 260511 EC***
+        glStrPeppolOutbound = Nz(r!glStrPeppolOutbound, "")
+        glStrPeppolInbound = Nz(r!glStrPeppolInbound, "")
+        ' *** NEU: Peppol-Master-Schalter (Lexikon 'PEPPOL-Rechnungsversand') 260511 EC***
+        glPeppolRechnungsversand = (Nz(r!glPeppolRechnungsversand, 0) <> 0)
     End If
      'Check, ob glstrTempPath existiert: wird benötigt für die Zwischenablage von Dokumenten
     If glstrTempPath = "" Then
@@ -228,7 +238,7 @@ Public Function OH_New() ' neuer Datensatz im aktiven Formular
 On Error GoTo ErrMsg
     Dim varTakeOver, varTakeOver1 As Variant
     Dim frmN As Form
-    Dim lgID As Long
+    Dim lgid As Long
     strDocname = OH_CheckFrm
     If strDocname = "UF_txt" Then
         strDocname = "F_VG"
@@ -266,17 +276,17 @@ On Error GoTo ErrMsg
     Case "F_Ablage"
         strSQL = "Exec dbo.spa_Ablage 'Neue Ablage', " & lguser
         OH_r r
-        lgID = r(0)
-        OH_OF "F_Ablage", lgID
-        frm!lstTop = lgID
+        lgid = r(0)
+        OH_OF "F_Ablage", lgid
+        frm!lstTop = lgid
         GoTo ErrEnd
     Case "F_QK", "UF_txtQK"
         strSQL = "Exec dbo.spa_QK 'Neue QK'"
         OH_r r
-        lgID = r(0)
-        OH_OF "F_QK", lgID
+        lgid = r(0)
+        OH_OF "F_QK", lgid
         frm!lstA = 2
-        frm!txtFind = lgID
+        frm!txtFind = lgid
         frm.txtFind_AfterUpdate
         frm!QK.SetFocus
         GoTo ErrEnd
@@ -297,33 +307,33 @@ On Error GoTo ErrMsg
         Else
             strSQL = "Exec dbo.spa_Leistung 'Kopie'," & frm!NrLeistung & "," & lguser
             OH_r r
-            lgID = r(0)
+            lgid = r(0)
         End If
-        OH_SetRS frm, lgID
+        OH_SetRS frm, lgid
         frm!AnzahlLeistung.SetFocus
     Case "F_Begriff"
         OH_SaveRS frm
         strSQL = "Exec dbo.spa_Begriff 'neuer Begriff'"
         OH_r r
-        lgID = r(0)
-        OH_OF "F_Begriff", lgID
+        lgid = r(0)
+        OH_OF "F_Begriff", lgid
         frm!regd = 3
-        frm!lstTop = lgID
+        frm!lstTop = lgid
         frm!Begriff.SetFocus
     Case "F_Chronik"
         OH_SaveRS frm
         strSQL = "Exec dbo.spa_Chronik 'neue Chronik'"
         OH_r r
-        lgID = r(0)
-        OH_OF "F_Chronik", lgID
+        lgid = r(0)
+        OH_OF "F_Chronik", lgid
         frm!regd = 3
-        frm!lstTop = lgID
+        frm!lstTop = lgid
         frm!DatumEreignis.SetFocus
     Case "F_Warengruppe"
         strSQL = "Exec dbo.spa_Warengruppe 'Neue Warengruppe'"
         OH_r r
-        lgID = r(0)
-        OH_OF "F_Warengruppe", lgID
+        lgid = r(0)
+        OH_OF "F_Warengruppe", lgid
         OH_RQ frm!lstDet
     Case "F_Lexikon"
         frm.OH_newLexikon
@@ -333,10 +343,10 @@ On Error GoTo ErrMsg
                 " @x = 'neuer Filter', " & _
                 " @i = " & frm!NrFilter
         OH_r r
-        lgID = r(0)
-        OH_OF "F_Filter", lgID
+        lgid = r(0)
+        OH_OF "F_Filter", lgid
         frm!regd = 3
-        frm!lstTop = lgID
+        frm!lstTop = lgid
         frm!FieldName.SetFocus
     Case "F_Q"
         frm.OH_NewQ
@@ -361,7 +371,7 @@ End Function
 Public Function OH_Copy() ' kopiert markierte Datensätze des aktiven Formulares
 On Error GoTo ErrMsg
     Dim strT As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strL As String
     Dim strCountRS As String
     Dim lgidc As Long
@@ -573,7 +583,7 @@ On Error GoTo ErrMsg
     Dim strT As String
     Dim strA As String
     Dim n As Long
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strDeleteMldg As String
     DoCmd.Hourglass True
     t = "LÖSCHE DATEN"
@@ -595,13 +605,13 @@ On Error GoTo ErrMsg
     If frmDel!countM = 0 Then
         OH_MarkerYesOne frmDel
     End If
-    lgID = 0
+    lgid = 0
     Select Case strT
     Case "Adresse"
         strT = "Funktion"
-        lgID = frmDel("Nr" & strT)
+        lgid = frmDel("Nr" & strT)
     Case "QK"
-        lgID = frmDel("ID" & strT)
+        lgid = frmDel("ID" & strT)
     Case "VG"
         Select Case frmDel!VGStatus
         Case glStrStatus
@@ -610,12 +620,12 @@ On Error GoTo ErrMsg
                 "Diese Daten können gemäss GoBD nicht mehr geändert resp. gelöscht werden!"
             GoTo ErrM
         End Select
-        lgID = frmDel("Nr" & strT)
+        lgid = frmDel("Nr" & strT)
     Case "F_Q"
         frmDel.OH_DeleteQ
         GoTo ErrEnd
     Case Else
-        lgID = frmDel("Nr" & strT)
+        lgid = frmDel("Nr" & strT)
     End Select
     t = left(OH_getTitel(frmDel), 40)
     strT = "T_" & strT
@@ -624,7 +634,7 @@ On Error GoTo ErrMsg
     Select Case lgDo
     Case 0, 9
         n = 1
-        OH_InsertID lgID
+        OH_InsertID lgid
     Case 10
         n = Nz(frmDel!countM, 0)
         If strT = "T_Leistung" Then '170902
@@ -750,13 +760,13 @@ inputbox1:
             End If
         End If
         If n > 1 Then
-            lgID = 0
+            lgid = 0
         End If
         strSQL = "spI_DELETE " & _
                     " @t = '" & strT & _
-                    "',@i = " & lgID
+                    "',@i = " & lgid
         OH_r r
-        lgID = Nz(r!ID, 0)
+        lgid = Nz(r!ID, 0)
     'Input Dirk Müller 131118 und 141120
     '1.  Nach dem Löschen eines Vorganges wird der zuletzt erfasste Vorgang im gleichen Projekt und gleichen Unterprojekt angezeigt.
     '2.  Ist im Unterprojekt kein Vorgang mehr enthalten, wird der zuletzt erfasste Vorgang im gleichen Projekt angezeigt.
@@ -767,8 +777,8 @@ inputbox1:
             frmDel!txtFind = Null
             frmDel.txtFind_AfterUpdate
         End If
-        If lgID <> 0 And frmDel!f0 <> lgID Then
-            OH_OF frmDel.Name, lgID
+        If lgid <> 0 And frmDel!f0 <> lgid Then
+            OH_OF frmDel.Name, lgid
         End If
         frmDel!lstDet.SetFocus
     Else
@@ -1117,7 +1127,7 @@ End Function
 Public Function OH_StichwortRemoveWert(frm As Form)
 On Error GoTo ErrMsg
     Dim ctld As control
-    Dim lgID As Long
+    Dim lgid As Long
     Dim strID As String
     Dim strGR As String
     strlink = ""
@@ -1129,12 +1139,12 @@ On Error GoTo ErrMsg
         GoTo ErrEnd
     End If
     strID = "Nr" & frm.Tag
-    lgID = Nz(frm(strID), 0)
+    lgid = Nz(frm(strID), 0)
     If InStr(frm!lstStichwort.Recordset.Source, "NrVGDET") > 0 Then
         strID = "NrVGDET"
-        lgID = Nz(frm!nrVGDet, 0)
+        lgid = Nz(frm!nrVGDet, 0)
     End If
-    strlink = strID & "= " & lgID
+    strlink = strID & "= " & lgid
     Select Case frm.Tag
     Case "Artikel", "VG"
         strGR = Nz(frm!lstStichwortGr1, "")
@@ -1269,7 +1279,7 @@ ErrM:
     MsgBox s, vbCritical, t
     GoTo ErrEnd
 End Function
-Public Function OH_NextStichwortNr(intNr As Long, lgID As Long, strID As String) As Long
+Public Function OH_NextStichwortNr(intNr As Long, lgid As Long, strID As String) As Long
 On Error GoTo ErrMsg
 Dim rsMax As ADODB.Recordset
 'lfd. Nummer ermitteln
@@ -1282,7 +1292,7 @@ Dim rsMax As ADODB.Recordset
         strSQL = "Exec dbo.spA_Stichwort " & _
                     " @st = 27" & _
                     ", @cID ='" & strID & _
-                    "',@ID =  " & lgID
+                    "',@ID =  " & lgid
         OH_r rsMax
         OH_NextStichwortNr = rsMax!Nr
         OH_ResetRS rsMax
@@ -1559,7 +1569,7 @@ Public Function OH_Navigator(lgNavi As Long)
 ' OHNEMUS, Samstag, 11. September 2004
 ' Hinweise :
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgZ As Long
     Dim frmN As Form
     Dim sgP As Single
@@ -1571,7 +1581,7 @@ On Error GoTo ErrMsg
     If OH_isloaded("PF_Navigator") = True Then
         Set frm = Forms!pf_Navigator
         If IsNull(frm!comAdresse.column(1)) = False Then
-            lgID = frm!comAdresse
+            lgid = frm!comAdresse
         Else
             If MsgBox("wählen Sie bitte im Navigator eine Person oder Firma aus!", vbExclamation + vbOKCancel, t) = vbCancel Then
                 DoCmd.Close acForm, "PF_Navigator"
@@ -1583,7 +1593,7 @@ On Error GoTo ErrMsg
                 End If
             End If
         End If
-        If lgID > 0 Then
+        If lgid > 0 Then
             s = Nz(frm!comAdresse.column(1))
             If InStr(frm!btnOK.Caption, "Firma") = 0 Then
                 If frm!comAdresse.column(1) <> s Then
@@ -1596,7 +1606,7 @@ On Error GoTo ErrMsg
             Set frmN = Forms!F_Adresse
             strSQL = "spa_Adresse" & _
                         " @x = 'NeuerKontakt'" & _
-                        ", @i = " & lgID & _
+                        ", @i = " & lgid & _
                         ", @a = " & frmN!NrFunktion & _
                         ", @f ='" & frmN!comKArt & "'"
             OH_r r
@@ -1605,31 +1615,31 @@ On Error GoTo ErrMsg
                     GoTo ErrEnd
                 End If
             End If
-            OH_RQ frmN!lstKontakt, lgID
+            OH_RQ frmN!lstKontakt, lgid
             frmN!lstKontakt.SetFocus
         Case 20
             Set frmN = Forms!PF_NeuVG
-            If frmN!NrFunktion = lgID Then
+            If frmN!NrFunktion = lgid Then
                 GoTo closeNavi
             End If
-            frmN!NrFunktion = lgID
+            frmN!NrFunktion = lgid
             frmN.NrFunktion_AfterUpdate
         Case 30, 31
             Set frmN = Forms!F_VG
             OH_EX "EXEC spa_VG" & _
                 " @x ='NeuerKontakt'" & _
-                ", @i = " & lgID & _
+                ", @i = " & lgid & _
                 ", @a = " & frmN!NrVG & _
                 ", @m = " & Nz(frmN!ComAnzahlZuord, 1) * 100 & _
                 ", @f ='" & frmN!comKArt & "'"
-            OH_RQ frmN!lstKontakt, lgID
+            OH_RQ frmN!lstKontakt, lgid
             frmN!lstKontakt.SetFocus
             frmN!comKArt = Null
             frmN!ComAnzahlZuord = Null
         Case 40
             Set frmN = Forms!F_VG
             sgMWSTOld = frmN!MWSt
-            If frmN!NrFunktion = lgID Then
+            If frmN!NrFunktion = lgid Then
                 s = frm!comAdresse.column(1) & vbNewLine & _
                         "ist bereits diesem Vorgang zugeordnet!"
                 GoTo ErrM
@@ -1637,7 +1647,7 @@ On Error GoTo ErrMsg
             strSQL = "Exec dbo.spa_VG " & _
                         " @x = 'PartnerÄndern' " & _
                         ", @i = " & frmN!NrVG & _
-                        ", @a = " & lgID & _
+                        ", @a = " & lgid & _
                         ", @m = " & frmN!NrQK & _
                         ", @d = '" & frmN!VGSprache & _
                         "',@f = '" & frmN!comAnschrift & "'"
@@ -1671,14 +1681,14 @@ On Error GoTo ErrMsg
             frmN!Firma = frm!comAdresse.column(4)
         Case 60
             Set frmN = Forms!F_Adresse
-            If frmN!NrFunktion = lgID Then
+            If frmN!NrFunktion = lgid Then
                 s = frm!comAdresse.column(1) & vbNewLine & _
                         "ist bereits diesem Vorgang zugeordnet!"
                 GoTo ErrM
             End If
             strSQL = "Exec dbo.spa_Adresse " & _
                         " @x = 'lstVGAct'" & _
-                        ", @i = " & lgID & _
+                        ", @i = " & lgid & _
                         ", @a = " & frmN!lstVGAct & _
                         ", @n = " & frmN!NrFunktion & _
                         ", @b = " & frmN!lstVG
@@ -1745,7 +1755,7 @@ On Error GoTo ErrMsg
             Set frmN = Forms!PF_NeuAdresse
             strSQL = "EXECUTE spa_Adresse " & _
                     " @x = 'ID' " & _
-                    ",@i = " & lgID
+                    ",@i = " & lgid
             OH_r r
             If lgNavi = 80 Then
                 frmN!NrFunktion = frm!comAdresse
@@ -1761,7 +1771,7 @@ On Error GoTo ErrMsg
             strSQL = "EXECUTE spa_Adresse " & _
                     " @x = 'lstact' " & _
                     ",@a = " & 28 & _
-                    ",@i = " & lgID & _
+                    ",@i = " & lgid & _
                     ",@b = " & frmN!NrFunktion
             OH_r r
             lgZ = r!msg
@@ -1779,7 +1789,7 @@ On Error GoTo ErrMsg
             strSQL = "EXECUTE spa_Adresse " & _
                     " @x = 'lstact' " & _
                     ",@a = " & 29 & _
-                    ",@b = " & lgID & _
+                    ",@b = " & lgid & _
                     ",@i = " & lgZ
             OH_r r
             If r!msg = 1 Then
@@ -1946,13 +1956,13 @@ ErrMsg:
     MsgBox Err & " " & Err.Description, vbCritical, "OH_GetIDfromLst"
     Resume ErrEnd
 End Function
-Public Function OH_SetIDinLst(ctlLst As control, lgID As Long) As Long
+Public Function OH_SetIDinLst(ctlLst As control, lgid As Long) As Long
 On Error GoTo ErrMsg
 'übergebe ein ListenFeld mit Mehrfachauswahl ctlLst
 'markiere die Zeile mit der übergeben lgID
     Dim n As Long
     For n = 0 To ctlLst.ListCount - 1
-        If Val(Nz(ctlLst.column(0, n), 0)) = lgID Then
+        If Val(Nz(ctlLst.column(0, n), 0)) = lgid Then
             ctlLst.Selected(n) = True
             Exit For
         End If
@@ -1964,7 +1974,7 @@ ErrMsg:
     Resume ErrEnd
 End Function
 Public Function OH_OF(strFrm As String, _
-                        Optional lgID As Long = 0, _
+                        Optional lgid As Long = 0, _
                         Optional lgArt As Long = 0, _
                         Optional strL As String _
                         ) As Long
@@ -1981,24 +1991,24 @@ On Error GoTo ErrMsg
         strSQL = "Exec dbo.spa_" & s & _
         " @x = 'vwID'," & _
         " @i = 1"
-        OH_txtFind frmF, strSQL, lgID
+        OH_txtFind frmF, strSQL, lgid
         OH_OF = 1
     Else
         blVerlauf = lgArt <> 3
         If Screen.ActiveForm.Name <> strFrm Then
-            DoCmd.openForm strFrm, , , , , , lgID
+            DoCmd.openForm strFrm, , , , , , lgid
         End If
         OH_OF = 1
         If strFrm <> "Menu" Then
-            If lgID = 0 Then
+            If lgid = 0 Then
                 If strL = vbNullString Then
                     lgArt = 1
                 Else
-                    lgID = OH_GetID(strFrm, strL)
+                    lgid = OH_GetID(strFrm, strL)
                 End If
             End If
-            If lgID > 0 Then
-                strSQL = "Exec dbo.spa_" & Mid(strFrm, 3) & " ID, " & lgID & "," & lgArt
+            If lgid > 0 Then
+                strSQL = "Exec dbo.spa_" & Mid(strFrm, 3) & " ID, " & lgid & "," & lgArt
                 strSQL = Replace(strSQL, "__", "_") '110628
                 OH_r r
                 If r.BOF Then
@@ -2013,9 +2023,9 @@ On Error GoTo ErrMsg
                     End If
                 End If
                 Set frm = Forms(strFrm)
-                OH_SetRS frm, lgID, strSQL, , , blVerlauf
+                OH_SetRS frm, lgid, strSQL, , , blVerlauf
                 frm.Visible = True
-                OH_setLst frm!lstDet, lgID
+                OH_setLst frm!lstDet, lgid
             End If
         End If
     End If
@@ -2034,7 +2044,7 @@ End Function
 Public Function OH_GetID(strFrm As String, _
                         strL As String) As Long
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     'Hole letzte ID für Formular
     OH_GetID = 0
     If strL = vbNullString Then
@@ -2088,7 +2098,7 @@ End Function
 Public Function OH_ResetNr(frm As Form, _
                             strNr As String, _
                             lgNr As Long, _
-                            lgID As Long, _
+                            lgid As Long, _
                             Optional strW1 As String = "", _
                             Optional lg1 As Long = 0, _
                             Optional lgStart As Long = 1, _
@@ -2098,7 +2108,7 @@ On Error GoTo ErrMsg
 ' OHNEMUS, Montag, 19. November 2007
     strSQL = "Exec dbo.spI_Resetnr @x='" & frm.Name & "'," & _
                               "@Nr= " & lgNr & "," & _
-                              "@ID= " & lgID & "," & _
+                              "@ID= " & lgid & "," & _
                               "@w1= '" & strW1 & "'," & _
                               "@i1= " & lg1 & "," & _
                               "@w2= '" & strW2 & "'," & _
@@ -2194,28 +2204,28 @@ ErrMsg:
 End Function
 Public Function OH_lstWv_DblClick(f As Form)
 On Error GoTo ErrMsg
-    Dim lgID As Long
+    Dim lgid As Long
     t = "Doppel-Klick Liste Wiedervorlage"
     i = f!lstWv.Tag
     Select Case i
     Case Is > 7800
-        lgID = Val(Nz(f!lstWv.column(2)))
-        If lgID = 0 Then
+        lgid = Val(Nz(f!lstWv.column(2)))
+        If lgid = 0 Then
             s = "Diese Wiedervorlage ist keinem Projekt zugeordnet"
             GoTo ErrM
         End If
-        OH_OF "F_VG", lgID
+        OH_OF "F_VG", lgid
     Case Is > 4400 'Partner
-        lgID = Val(Nz(f!lstWv.column(1)))
+        lgid = Val(Nz(f!lstWv.column(1)))
         If i > 6100 Then 'firma
             strSQL = "Exec dbo.spa_Adresse " & _
                     " @x = 'IDFirma', " & _
-                    " @i = " & lgID
+                    " @i = " & lgid
             OH_r r
-            lgID = r!ID
-            OH_OF "F_Adresse", lgID, 1
+            lgid = r!ID
+            OH_OF "F_Adresse", lgid, 1
         Else
-            OH_OF "F_Adresse", lgID
+            OH_OF "F_Adresse", lgid
         End If
     Case Else
         f!lstWvAct = 30
@@ -2239,7 +2249,7 @@ On Error GoTo ErrMsg
     Dim lgu As Long
     Dim lgA As Long
     Dim lgS As Long
-    Dim lgID As Long
+    Dim lgid As Long
     Dim z As Long
     Dim strA As String
     Dim strM As String
@@ -2285,11 +2295,11 @@ On Error GoTo ErrMsg
         End If
     End Select
 
-    lgID = Nz(ctl.column(0), 0)
+    lgid = Nz(ctl.column(0), 0)
     strA = "Exec dbo.spa_Adresse" & _
             " @x = 'Wiedervorlage'," & _
             " @i = " & f!NrFunktion & "," & _
-            " @n = " & lgID & "," & _
+            " @n = " & lgid & "," & _
             " @a = " & lgA
     Select Case lgA
     Case 9
@@ -2304,7 +2314,7 @@ On Error GoTo ErrMsg
                 "Clicken Sie das Gewünschte einfach an...."
         GoTo ErrM
     Case 10, 20, 21, 30
-        DoCmd.openForm "pfrmZuord", , , , , , left(f.Tag, 1) & lgA & lgID
+        DoCmd.openForm "pfrmZuord", , , , , , left(f.Tag, 1) & lgA & lgid
     Case 31
         s = strM & vbNewLine & _
                 "Bitte Anzahl Tage (ab heute) für die Wiedervolage eingeben" & vbNewLine & _
@@ -2321,7 +2331,7 @@ On Error GoTo ErrMsg
             ", @b = " & lgS
         OH_EX
         OH_RQ ctl
-        ctl = lgID
+        ctl = lgid
     Case 32
         s = strM & vbNewLine & _
                 "Bitte Priorität" & vbNewLine & _
@@ -2349,7 +2359,7 @@ On Error GoTo ErrMsg
             ", @d = '" & OH_RPL(left(s, 255)) & "'"
         OH_EX
         OH_RQ ctl
-        ctl = lgID
+        ctl = lgid
     Case 40
         s = strM & vbNewLine & _
                 "Bitte bestätigen Sie das Löschen mit einem JA"
@@ -2357,7 +2367,7 @@ On Error GoTo ErrMsg
         If s = "JA" Then
             strSQL = strA
             OH_EX strSQL
-            OH_DeleteAppointment CStr(lgID)
+            OH_DeleteAppointment CStr(lgid)
             f.regD_Change
         End If
     Case 41
@@ -2365,9 +2375,9 @@ On Error GoTo ErrMsg
         For Each x In ctl.ItemsSelected
             strA = Replace(ctl.column(4, x), "x", "")
             strM = ctl.column(6, x)
-            lgID = ctl.column(1, x)
+            lgid = ctl.column(1, x)
         Next x
-        OH_OF "F_Adresse", lgID
+        OH_OF "F_Adresse", lgid
         Set f = Forms!F_Adresse
         f!StandardText.SetFocus
         f!StandardText = "Wiedervorlage vom " & strA & " " & left(strM, 30) & "..."
@@ -2394,9 +2404,9 @@ On Error GoTo ErrMsg
         End If
     Case 44
         For Each x In ctl.ItemsSelected
-            lgID = ctl.column(1, x)
+            lgid = ctl.column(1, x)
         Next x
-       OH_OF "F_Adresse", lgID
+       OH_OF "F_Adresse", lgid
     Case 22, 50, 51, 52, 53, 54
         s = strUserKZ
         If lgA = 53 Then
@@ -2440,15 +2450,15 @@ ErrM:
 End Function
 Public Function OH_lstWV_CLick(f As Form)
 On Error GoTo ErrMsg
-    Dim lgID As Long
-    lgID = Nz(f!lstWv.column(0), 0)
-    If lgID = 0 Then
-        lgID = Nz(f!lstWv.column(0, 1), 0)
+    Dim lgid As Long
+    lgid = Nz(f!lstWv.column(0), 0)
+    If lgid = 0 Then
+        lgid = Nz(f!lstWv.column(0, 1), 0)
         f!lstWv.Selected(1) = True
     End If
     strSQL = "Exec dbo.spa_Adresse" & _
             " @x = 'Wiedervorlage'" & _
-            ", @n = " & lgID & _
+            ", @n = " & lgid & _
             ", @f = '" & f.Name & _
             "', @i = " & f("Nr" & f.Tag) & _
             ", @a = 99"
@@ -2559,6 +2569,7 @@ On Error GoTo ErrMsg
     Dim strAb As String
     Dim strG As String
     Dim strQ As String
+    Dim lgAntw As Long '260511
     t = "Rechnungsversand"
     Dim rV As ADODB.Recordset
     If lgVG = 0 Then
@@ -2576,8 +2587,8 @@ On Error GoTo ErrMsg
         rV!A & vbNewLine & vbNewLine & _
         "JA" & vbTab & "gleich drucken (Seitenansicht)" & vbNewLine & _
         "Nein" & vbTab & "zuerst anschauen, ev. Text anpassen."
-    i = MsgBox(s, vbQuestion + vbYesNoCancel, t)
-    If i = vbCancel Then
+    lgAntw = MsgBox(s, vbQuestion + vbYesNoCancel, t)
+    If lgAntw = vbCancel Then
         GoTo ErrEnd
     End If
     If Not OH_isloaded("F_Adresse") Then
@@ -2601,7 +2612,7 @@ On Error GoTo ErrMsg
     frm!OutlookVorlage = Null
     frm!txtMemo = rV!t
     frm!lstTxtMemo = 801
-    If i = vbYes Then
+    If lgAntw = vbYes Then
         frm.lstTxtMemo_AfterUpdate
     End If
     OH_CheckRechnungsVersand = True
@@ -2623,7 +2634,7 @@ Public Function OH_CheckGelangensbestätigung(lgVG As Long, _
 On Error GoTo ErrMsg
 '<R206> Check if a EC (Entry certificte / Gelangensbestätigung) is necessary
 '<R211>
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgF As Long
     Dim strMailR As String
     Dim strMailK As String
@@ -2657,7 +2668,7 @@ On Error GoTo ErrMsg
     strLanguage = rV!Language
     strAb = rV!EmailAbsender
 
-    lgID = rV!IDTxt
+    lgid = rV!IDTxt
     If strECstatus = "Gelangensbestätigung nicht erforderlich" Then
         GoTo ErrEnd
     End If
@@ -2696,7 +2707,7 @@ Mailadresse:
         If i = 1 Then
             strSQL = strQ & _
                     ",@f = '" & strECmail & _
-                    "', @m = " & lgID
+                    "', @m = " & lgid
             OH_EX
         End If
     End If
@@ -2727,17 +2738,17 @@ End Function
 Public Function OH_Audit(frm As Form)
 On Error GoTo ErrMsg
     Dim strT As String
-    Dim lgID As Long
+    Dim lgid As Long
     Dim lgact As Long
     lgact = Nz(frm!lstAuditAct, 10)
     strT = Replace(frm.Name, "F_", "T_")
-    lgID = Nz(frm("Nr" & frm.Tag), 0)
+    lgid = Nz(frm("Nr" & frm.Tag), 0)
     t = frm!lstAuditAct.column(1)
     Select Case lgact
     Case 10, 20, 30
         strSQL = "Exec dbo.spa_Audit " & _
                 "@x = 'lstAudit' " & _
-                ",@i = " & lgID & _
+                ",@i = " & lgid & _
                 ",@a = " & lgact & _
                 ",@f = '" & strT & "'"
         OH_A "lstAudit", strSQL, frm
@@ -2773,7 +2784,7 @@ On Error GoTo ErrMsg
             GoTo ErrEnd
         End If
         strSQL = strSQL & _
-                ",@i = " & lgID & _
+                ",@i = " & lgid & _
                 ",@f = '" & strT & "'"
         OH_r r
         s = r!msg
@@ -2791,7 +2802,7 @@ ErrM:
     MsgBox s, vbExclamation, t
     GoTo ErrEnd
 End Function
-Public Function OH_FileCopyMove(lgID As Long, _
+Public Function OH_FileCopyMove(lgid As Long, _
                                 strWie As String, _
                                 Optional blDelete As Boolean = True, _
                                 Optional strFolderBase As String _
@@ -2910,7 +2921,7 @@ On Error GoTo ErrMsg
             GoTo ErrEnd
         End If
         While Not rAr.EOF
-            lgID = rAr!nrID
+            lgid = rAr!nrID
             strFO = rAr!IDT3
             If rAr!idt7 = "KD" Then 'aus Adressen ==> NrVG = 0
                 lgVG = 0
@@ -2953,7 +2964,7 @@ On Error GoTo ErrMsg
             End If
             s = Format(Now, "HHMMSS")
             strSQL = strSQ & _
-                    ",@i = " & lgID & _
+                    ",@i = " & lgid & _
                     ",@u = " & lguser
            If OH_ArchiveDocument(strFO, strSQL) = False Then
                 GoTo ErrEnd
@@ -2991,7 +3002,7 @@ On Error GoTo ErrMsg
             GoTo ErrEnd
         End If
         While Not rAr.EOF
-            lgID = rAr!nrID
+            lgid = rAr!nrID
             strFO = rAr!FO
             If rAr!idt7 = "KD" Then 'aus Adressen ==> NrVG = 0
                 lgVG = 0
@@ -3034,7 +3045,7 @@ On Error GoTo ErrMsg
             s = Format(Now, "HHMMSS")
             'Keywords auflisten
             strSQL = strSQ & _
-                    ",@i = " & lgID & _
+                    ",@i = " & lgid & _
                     ",@u = " & lguser
             OH_r r
             strKeywords = r!Keywords
@@ -3049,8 +3060,8 @@ On Error GoTo ErrMsg
                     "Bitte wenden Sie sich an den Administrator"
                 GoTo ErrEnd
             End If
-            lgID = OH_ELO_CreateFile(strFO, lgParentID, strKeywords)
-            If lgID = 0 Then
+            lgid = OH_ELO_CreateFile(strFO, lgParentID, strKeywords)
+            If lgid = 0 Then
                 GoTo ErrEnd
             Else
                 If blDelete Then
@@ -3082,12 +3093,12 @@ On Error GoTo ErrMsg
         If lgVG > 0 Then
             Set frm = Forms!F_VG
             If frm.regd = 12 Then
-                OH_RQ frm!lstExplorer, lgID
+                OH_RQ frm!lstExplorer, lgid
             End If
         Else
             Set frm = Forms!F_Adresse
             If frm.regd = 8 Then
-                OH_RQ frm!lstExplorer, lgID
+                OH_RQ frm!lstExplorer, lgid
             End If
         End If
     End If
@@ -3139,7 +3150,7 @@ ErrMsg:
     Resume ErrEnd
 End Function
 Public Function OH_RQ(ctl As control, _
-                     Optional lgID As Long = 0, _
+                     Optional lgid As Long = 0, _
                      Optional lgX As Long = 0) As Boolean 'Requery (Abfrage) eines Steuerelementes
 On Error GoTo ErrMsg
     Dim strQ As String
@@ -3148,11 +3159,11 @@ On Error GoTo ErrMsg
     If ctl.Name = "sfrm" Then
         Set f = ctl.Parent!sfrm.Form
         OH_SetRS f, 0, f.Recordset.Source
-        If lgID > 0 Then
+        If lgid > 0 Then
             ctl.Parent!sfrm.SetFocus
             f!f0.SetFocus
             DoEvents
-            DoCmd.FindRecord lgID, acEntire
+            DoCmd.FindRecord lgid, acEntire
         End If
     Else
         'durch Recordset gebundene Listenfelder können offenbar nicht mit "REQUERY" aktualisiert werden
@@ -3163,22 +3174,22 @@ On Error GoTo ErrMsg
         Else
             OH_r rq, strQ, , , True
             Set ctl.Recordset = rq
-            If lgID > 0 Then
+            If lgid > 0 Then
                 If ctl.ControlType = acListBox Then
                     Select Case ctl.MultiSelect
                     Case 0
-                        ctl = lgID
+                        ctl = lgid
                     Case 1, 2
                         For i = 0 To ctl.ListCount - 1  '191104
                             ctl.Selected(i) = False
-                            If ctl.column(0, i) = lgID Then
+                            If ctl.column(0, i) = lgid Then
                                 ctl.Selected(i) = True
                                 Exit For
                             End If
                         Next i
                     End Select
                 Else
-                    ctl = lgID
+                    ctl = lgid
                 End If
             End If
         End If
