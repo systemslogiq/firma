@@ -19,10 +19,10 @@ Begin Form
     Width =7435
     DatasheetFontHeight =11
     ItemSuffix =16
-    Left =-7936
-    Top =3030
-    Right =20609
-    Bottom =15225
+    Left =29430
+    Top =3015
+    Right =-8191
+    Bottom =14100
     Tag ="pfrmCheckVG"
     RecSrcDt = Begin
         0xf17a08730f79e440
@@ -43,7 +43,7 @@ Begin Form
         Begin Label
             BackStyle =0
             FontSize =11
-            FontName ="Calibri"
+            FontName ="Aptos"
             ThemeFontIndex =1
             BackThemeColorIndex =1
             BorderThemeColorIndex =1
@@ -57,7 +57,7 @@ Begin Form
             Height =283
             FontSize =11
             FontWeight =400
-            FontName ="Calibri"
+            FontName ="Aptos"
             ForeThemeColorIndex =2
             ForeShade =50.0
             GridlineThemeColorIndex =1
@@ -74,7 +74,7 @@ Begin Form
             Height =1417
             LabelX =-1701
             FontSize =11
-            FontName ="Calibri"
+            FontName ="Aptos"
             AllowValueListEdits =1
             InheritValueList =1
             ThemeFontIndex =1

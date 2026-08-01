@@ -134,7 +134,12 @@ On Error GoTo ErrMsg
     f.OH_CheckSollHaben
     Form_Open (0)
     OH_RQf f
+    OH_RQ f!LstArtikel
+    If f.regd = 5 Then
+        OH_RQ f!LstArtikeld
+    End If
     Me!lstMWST = strMWSTn
+    f.SumVGTotA_Enter '260616 Aktualisierung Summe
 ErrEnd:
     DoCmd.Hourglass False
     Exit Sub
@@ -225,6 +230,7 @@ On Error GoTo ErrMsg
     End If
     Me!lstWarengruppe = strWGn
     OH_RQf f.UF_txt.Form '200807
+    f.SumVGTotA_Enter '260616 Aktualisierung Summe
 ErrEnd:
     DoCmd.Hourglass False
     Exit Sub

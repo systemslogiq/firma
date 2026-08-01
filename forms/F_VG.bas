@@ -14,14 +14,13 @@ Begin Form
     Width =27240
     DatasheetFontHeight =10
     ItemSuffix =91
-    Right =30210
-    Bottom =15075
+    Right =24690
+    Bottom =11085
     Tag ="VG"
     ShortcutMenuBar ="tlbOHrightMouse"
     RecSrcDt = Begin
         0xf2f778f6ad84e640
     End
-    UniqueTable ="T_VG"
     Caption ="Vorgänge"
     OnDelete ="[Event Procedure]"
     BeforeUpdate ="[Event Procedure]"
@@ -3207,6 +3206,72 @@ Begin Form
                             LayoutCachedWidth =24240
                             LayoutCachedHeight =6017
                             Begin
+                                Begin CommandButton
+                                    TabStop = NotDefault
+                                    OverlapFlags =247
+                                    Left =9167
+                                    Top =390
+                                    Width =1134
+                                    Height =321
+                                    FontWeight =700
+                                    ForeColor =0
+                                    Name ="btnEinleitungDet"
+                                    Caption ="Einleitung"
+                                    OnClick ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    Tag ="VGDET"
+                                    ControlTipText ="öffne Lexikon"
+
+                                    LayoutCachedLeft =9167
+                                    LayoutCachedTop =390
+                                    LayoutCachedWidth =10301
+                                    LayoutCachedHeight =711
+                                    Overlaps =1
+                                End
+                                Begin ComboBox
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =2
+                                    ListRows =30
+                                    Left =10442
+                                    Top =736
+                                    Width =636
+                                    Height =255
+                                    TabIndex =1
+                                    Name ="Position"
+                                    RowSourceType ="Table/Query"
+                                    ValidationText ="Um eine 0 einzutragen, bitte  \"Titel hinzufügen\" benutzen"
+                                    DefaultValue ="1"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Position"
+
+                                    LayoutCachedLeft =10442
+                                    LayoutCachedTop =736
+                                    LayoutCachedWidth =11078
+                                    LayoutCachedHeight =991
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =247
+                                            TextAlign =3
+                                            Left =9938
+                                            Top =729
+                                            Width =390
+                                            Height =255
+                                            BackColor =12632256
+                                            Name ="Bezeichnungsfeld223"
+                                            Caption ="Pos."
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            ControlTipText ="ID"
+                                            LayoutCachedLeft =9938
+                                            LayoutCachedTop =729
+                                            LayoutCachedWidth =10328
+                                            LayoutCachedHeight =984
+                                        End
+                                    End
+                                End
                                 Begin TextBox
                                     AutoTab = NotDefault
                                     FELineBreak = NotDefault
@@ -3218,6 +3283,7 @@ Begin Form
                                     Top =736
                                     Width =1134
                                     Height =255
+                                    TabIndex =2
                                     Name ="AnzahlVG"
                                     Format ="#,##0.000"
                                     BeforeUpdate ="[Event Procedure]"
@@ -3253,27 +3319,374 @@ Begin Form
                                         End
                                     End
                                 End
-                                Begin CommandButton
-                                    TabStop = NotDefault
+                                Begin ComboBox
+                                    LimitToList = NotDefault
+                                    SpecialEffect =0
                                     OverlapFlags =247
-                                    Left =6000
-                                    Top =396
-                                    Width =1887
-                                    Height =321
-                                    FontWeight =700
-                                    TabIndex =1
-                                    ForeColor =0
-                                    Name ="btnArtikelAdd"
-                                    Caption ="Artikel hinzufügen"
-                                    OnClick ="[Event Procedure]"
+                                    TextAlign =2
+                                    ColumnCount =2
+                                    ListRows =20
+                                    ListWidth =3686
+                                    Left =14263
+                                    Top =736
+                                    Width =1404
+                                    Height =255
+                                    TabIndex =3
+                                    Name ="LiefereinheitVG"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="1134;2268"
+                                    BeforeUpdate ="[Event Procedure]"
+                                    DefaultValue ="\"Stk.\""
                                     FontName ="Arial"
-                                    ControlTipText ="Artikel ergänzen (Popup-Menu wird geöffnet"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Liefereinheit"
 
-                                    LayoutCachedLeft =6000
-                                    LayoutCachedTop =396
-                                    LayoutCachedWidth =7887
-                                    LayoutCachedHeight =717
-                                    Overlaps =1
+                                    LayoutCachedLeft =14263
+                                    LayoutCachedTop =736
+                                    LayoutCachedWidth =15667
+                                    LayoutCachedHeight =991
+                                End
+                                Begin TextBox
+                                    AutoTab = NotDefault
+                                    EnterKeyBehavior = NotDefault
+                                    FELineBreak = NotDefault
+                                    ScrollBars =2
+                                    SpecialEffect =0
+                                    OldBorderStyle =1
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    Left =10442
+                                    Top =1077
+                                    Width =6237
+                                    Height =600
+                                    TabIndex =4
+                                    Name ="ArtikelText"
+                                    OnDblClick ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Artikel-Text (frei wählbar)\015\012Mit Doppelclick Lexikon öffnen, um Vorgaben f"
+                                        "ür dieses Feld festzulegen"
+                                    ConditionalFormat = Begin
+                                        0x01000000d6000000010000000100000000000000000000003a00000001000000 ,
+                                        0x00000000ed1c2400000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x4c0065006600740028005b0041007200740069006b0065006c00740065007800 ,
+                                        0x74005d002c003300320029003d00270041005200540049004b0045004c002000 ,
+                                        0x49005300540020004e00490043004800540020004d0045004800520020005600 ,
+                                        0x450052004600dc004700420041005200270000000000
+                                    End
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =10442
+                                    LayoutCachedTop =1077
+                                    LayoutCachedWidth =16679
+                                    LayoutCachedHeight =1677
+                                    ConditionalFormat14 = Begin
+                                        0x01000100000001000000000000000100000000000000ed1c2400390000004c00 ,
+                                        0x65006600740028005b0041007200740069006b0065006c007400650078007400 ,
+                                        0x5d002c003300320029003d00270041005200540049004b0045004c0020004900 ,
+                                        0x5300540020004e00490043004800540020004d00450048005200200056004500 ,
+                                        0x52004600dc004700420041005200270000000000000000000000000000000000 ,
+                                        0x0000000000
+                                    End
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =247
+                                            TextAlign =1
+                                            Left =9167
+                                            Top =1077
+                                            Width =1134
+                                            Height =255
+                                            BackColor =12632256
+                                            Name ="Bezeichnungsfeld224"
+                                            Caption ="Artikel"
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            ControlTipText ="ID"
+                                            LayoutCachedLeft =9167
+                                            LayoutCachedTop =1077
+                                            LayoutCachedWidth =10301
+                                            LayoutCachedHeight =1332
+                                        End
+                                    End
+                                End
+                                Begin TextBox
+                                    CanGrow = NotDefault
+                                    AutoTab = NotDefault
+                                    EnterKeyBehavior = NotDefault
+                                    FELineBreak = NotDefault
+                                    ScrollBars =2
+                                    SpecialEffect =0
+                                    OldBorderStyle =1
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    Left =10441
+                                    Top =1764
+                                    Width =6237
+                                    Height =1134
+                                    FontSize =11
+                                    TabIndex =5
+                                    Name ="BemVGDet"
+                                    FontName ="Aptos"
+                                    OnChange ="[Event Procedure]"
+                                    ControlTipText ="Bemerkung zum Artikel\015\012Text kann editiert werden!"
+                                    AsianLineBreak =0
+                                    TextFormat =1
+
+                                    LayoutCachedLeft =10441
+                                    LayoutCachedTop =1764
+                                    LayoutCachedWidth =16678
+                                    LayoutCachedHeight =2898
+                                End
+                                Begin ComboBox
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    ListRows =30
+                                    ListWidth =2268
+                                    Left =10428
+                                    Top =3408
+                                    Width =6237
+                                    Height =255
+                                    TabIndex =6
+                                    Name ="WarengruppeDet"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="2268"
+                                    AfterUpdate ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Warengruppe auswählen aus Liste"
+
+                                    LayoutCachedLeft =10428
+                                    LayoutCachedTop =3408
+                                    LayoutCachedWidth =16665
+                                    LayoutCachedHeight =3663
+                                End
+                                Begin ComboBox
+                                    AllowAutoCorrect = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    ListRows =30
+                                    ListWidth =1134
+                                    Left =10433
+                                    Top =3759
+                                    Width =2268
+                                    Height =255
+                                    TabIndex =7
+                                    Name ="Sollkonto"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="1134"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Soll-Konto (Liste aus Warengruppen)"
+
+                                    LayoutCachedLeft =10433
+                                    LayoutCachedTop =3759
+                                    LayoutCachedWidth =12701
+                                    LayoutCachedHeight =4014
+                                End
+                                Begin ComboBox
+                                    AllowAutoCorrect = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    ListRows =30
+                                    ListWidth =1134
+                                    Left =10433
+                                    Top =4059
+                                    Width =2268
+                                    Height =255
+                                    TabIndex =8
+                                    Name ="Habenkonto"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="1134"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Haben-Konto (Liste aus Warengruppen)"
+
+                                    LayoutCachedLeft =10433
+                                    LayoutCachedTop =4059
+                                    LayoutCachedWidth =12701
+                                    LayoutCachedHeight =4314
+                                End
+                                Begin TextBox
+                                    AutoTab = NotDefault
+                                    FELineBreak = NotDefault
+                                    DecimalPlaces =1
+                                    SpecialEffect =0
+                                    OldBorderStyle =1
+                                    OverlapFlags =247
+                                    TextAlign =3
+                                    Left =18412
+                                    Top =1343
+                                    Width =1418
+                                    Height =255
+                                    TabIndex =9
+                                    Name ="RabattVG"
+                                    Format ="Standard"
+                                    BeforeUpdate ="[Event Procedure]"
+                                    DefaultValue ="0"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Rabatt"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =18412
+                                    LayoutCachedTop =1343
+                                    LayoutCachedWidth =19830
+                                    LayoutCachedHeight =1598
+                                End
+                                Begin TextBox
+                                    AutoTab = NotDefault
+                                    FELineBreak = NotDefault
+                                    DecimalPlaces =2
+                                    SpecialEffect =0
+                                    OldBorderStyle =1
+                                    OverlapFlags =247
+                                    TextAlign =3
+                                    Left =18412
+                                    Top =1665
+                                    Width =1418
+                                    Height =255
+                                    TabIndex =10
+                                    Name ="EinzelpreisVG"
+                                    Format ="Standard"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Einzelpreis"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =18412
+                                    LayoutCachedTop =1665
+                                    LayoutCachedWidth =19830
+                                    LayoutCachedHeight =1920
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =247
+                                            TextAlign =3
+                                            Left =17049
+                                            Top =1665
+                                            Width =1281
+                                            Height =255
+                                            BackColor =12632256
+                                            Name ="lblPreis"
+                                            Caption ="Preis"
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            LayoutCachedLeft =17049
+                                            LayoutCachedTop =1665
+                                            LayoutCachedWidth =18330
+                                            LayoutCachedHeight =1920
+                                        End
+                                    End
+                                End
+                                Begin ComboBox
+                                    LimitToList = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    ColumnCount =2
+                                    ListRows =20
+                                    ListWidth =1134
+                                    Left =18412
+                                    Top =2017
+                                    Width =1418
+                                    Height =255
+                                    TabIndex =11
+                                    Name ="VGWährungA"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="567;567"
+                                    AfterUpdate ="[Event Procedure]"
+                                    OnEnter ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    Tag ="VGDet"
+                                    ControlTipText ="Währung"
+
+                                    LayoutCachedLeft =18412
+                                    LayoutCachedTop =2017
+                                    LayoutCachedWidth =19830
+                                    LayoutCachedHeight =2272
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =247
+                                            TextAlign =3
+                                            Left =17049
+                                            Top =2017
+                                            Width =1281
+                                            Height =255
+                                            BackColor =12632256
+                                            Name ="Bezeichnungsfeld76"
+                                            Caption ="Währung"
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            LayoutCachedLeft =17049
+                                            LayoutCachedTop =2017
+                                            LayoutCachedWidth =18330
+                                            LayoutCachedHeight =2272
+                                        End
+                                    End
+                                End
+                                Begin ComboBox
+                                    TabStop = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    ListRows =30
+                                    ListWidth =3969
+                                    Left =10443
+                                    Top =390
+                                    Width =6522
+                                    Height =255
+                                    FontWeight =700
+                                    TabIndex =12
+                                    Name ="EinleitungDet"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="3969"
+                                    OnEnter ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Einleitungstext (Auswahlliste aus Lexikon, Gruppe muss heissen: Einleitungstext "
+                                        "Artikel)"
+
+                                    LayoutCachedLeft =10443
+                                    LayoutCachedTop =390
+                                    LayoutCachedWidth =16965
+                                    LayoutCachedHeight =645
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OldBorderStyle =1
+                                    OverlapFlags =247
+                                    TextAlign =2
+                                    BackStyle =0
+                                    Left =17051
+                                    Top =390
+                                    Width =1281
+                                    Height =255
+                                    TabIndex =13
+                                    Name ="Starttermin"
+                                    Format ="Short Date"
+                                    StatusBarText ="Starttermin"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Starttermin"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =17051
+                                    LayoutCachedTop =390
+                                    LayoutCachedWidth =18332
+                                    LayoutCachedHeight =645
                                 End
                                 Begin CommandButton
                                     Enabled = NotDefault
@@ -3284,7 +3697,7 @@ Begin Form
                                     Width =1418
                                     Height =516
                                     FontWeight =700
-                                    TabIndex =2
+                                    TabIndex =14
                                     ForeColor =5026082
                                     Name ="btnVGDetSave"
                                     Caption ="Speichern"
@@ -3341,12 +3754,34 @@ Begin Form
                                 Begin CommandButton
                                     TabStop = NotDefault
                                     OverlapFlags =247
+                                    Left =6000
+                                    Top =396
+                                    Width =1887
+                                    Height =321
+                                    FontWeight =700
+                                    TabIndex =15
+                                    ForeColor =0
+                                    Name ="btnArtikelAdd"
+                                    Caption ="Artikel hinzufügen"
+                                    OnClick ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    ControlTipText ="Artikel ergänzen (Popup-Menu wird geöffnet"
+
+                                    LayoutCachedLeft =6000
+                                    LayoutCachedTop =396
+                                    LayoutCachedWidth =7887
+                                    LayoutCachedHeight =717
+                                    Overlaps =1
+                                End
+                                Begin CommandButton
+                                    TabStop = NotDefault
+                                    OverlapFlags =247
                                     Left =7987
                                     Top =396
                                     Width =848
                                     Height =321
                                     FontWeight =700
-                                    TabIndex =3
+                                    TabIndex =16
                                     ForeColor =0
                                     Name ="btnArtikelCopy"
                                     Caption ="kopieren"
@@ -3364,80 +3799,65 @@ Begin Form
                                 Begin CommandButton
                                     TabStop = NotDefault
                                     OverlapFlags =247
-                                    Left =9167
-                                    Top =390
-                                    Width =1134
-                                    Height =321
+                                    Left =22373
+                                    Top =396
+                                    Height =516
                                     FontWeight =700
-                                    TabIndex =4
-                                    ForeColor =0
-                                    Name ="btnEinleitungDet"
-                                    Caption ="Einleitung"
+                                    TabIndex =17
+                                    ForeColor =5026082
+                                    Name ="btnRefresh"
+                                    Caption ="aktualisieren"
                                     OnClick ="[Event Procedure]"
+                                    PictureData = Begin
+                                        0x2800000010000000100000000100040000000000800000000000000000000000 ,
+                                        0x0000000000000000000000000000800000800000008080008000000080008000 ,
+                                        0x8080000080808000c0c0c0000000ff00c0c0c00000ffff00ff000000c0c0c000 ,
+                                        0xffff0000ffffff00dd0000ddd7227ddddd0ffd2d727727dd0f0ffd2727dd727d ,
+                                        0x0f0ffd227dddd72d0f0ffd2222dddddd0f0ffdddddd2222d0f0ffd27dddd722d ,
+                                        0x0f0ffd727dd7272d0f0fffd727727d2d0f0ffffd7227dddd0f0fffffd0000ddd ,
+                                        0x0f0ffffff0f08ddd0f0ffffff008dddd0f000000008ddddd0fffffffdddddddd ,
+                                        0x00000000dddddddd000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000
+                                    End
                                     FontName ="Arial"
+                                    ObjectPalette = Begin
+                                        0x000301000000000000000000
+                                    End
                                     Tag ="VGDET"
-                                    ControlTipText ="öffne Lexikon"
+                                    ControlTipText ="Refresh der Anzeige (ggf. nach löschen oder editieren drücken)"
 
-                                    LayoutCachedLeft =9167
-                                    LayoutCachedTop =390
-                                    LayoutCachedWidth =10301
-                                    LayoutCachedHeight =711
-                                    Overlaps =1
-                                End
-                                Begin ComboBox
-                                    TabStop = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    ListRows =30
-                                    ListWidth =3969
-                                    Left =10443
-                                    Top =390
-                                    Width =6522
-                                    Height =255
-                                    FontWeight =700
-                                    TabIndex =5
-                                    Name ="EinleitungDet"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="3969"
-                                    OnEnter ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Einleitungstext (Auswahlliste aus Lexikon, Gruppe muss heissen: Einleitungstext "
-                                        "Artikel)"
-
-                                    LayoutCachedLeft =10443
-                                    LayoutCachedTop =390
-                                    LayoutCachedWidth =16965
-                                    LayoutCachedHeight =645
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OldBorderStyle =1
-                                    OverlapFlags =247
-                                    TextAlign =2
-                                    BackStyle =0
-                                    Left =17051
-                                    Top =390
-                                    Width =1281
-                                    Height =255
-                                    TabIndex =6
-                                    Name ="Starttermin"
-                                    Format ="Short Date"
-                                    StatusBarText ="Starttermin"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Starttermin"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =17051
-                                    LayoutCachedTop =390
-                                    LayoutCachedWidth =18332
-                                    LayoutCachedHeight =645
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =396
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =912
+                                    PictureCaptionArrangement =5
+                                    HoverForeColor =5026082
+                                    PressedForeColor =5026082
                                 End
                                 Begin TextBox
                                     TabStop = NotDefault
@@ -3451,7 +3871,7 @@ Begin Form
                                     Top =674
                                     Width =1281
                                     Height =255
-                                    TabIndex =7
+                                    TabIndex =18
                                     Name ="Endtermin"
                                     Format ="Short Date"
                                     StatusBarText ="Endtermin"
@@ -3466,103 +3886,6 @@ Begin Form
                                     LayoutCachedWidth =18332
                                     LayoutCachedHeight =929
                                 End
-                                Begin ListBox
-                                    TabStop = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =255
-                                    ColumnCount =2
-                                    Left =6000
-                                    Top =801
-                                    Width =2835
-                                    Height =5103
-                                    TabIndex =8
-                                    BackColor =10092543
-                                    Name ="lstArtikelAct"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="0;2268"
-                                    AfterUpdate ="[Event Procedure]"
-                                    OnDblClick ="[Event Procedure]"
-                                    DefaultValue ="10"
-                                    FontName ="Arial"
-                                    ShortcutMenuBar ="cbEmpty"
-                                    ControlTipText ="Wählen sie die gewünschte Artikel-Aktion aus"
-
-                                    LayoutCachedLeft =6000
-                                    LayoutCachedTop =801
-                                    LayoutCachedWidth =8835
-                                    LayoutCachedHeight =5904
-                                End
-                                Begin ComboBox
-                                    TabStop = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =2
-                                    ListRows =30
-                                    Left =9167
-                                    Top =736
-                                    Width =636
-                                    Height =255
-                                    TabIndex =9
-                                    Name ="TitelNr"
-                                    RowSourceType ="Table/Query"
-                                    AfterUpdate ="[Event Procedure]"
-                                    DefaultValue ="0"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Titel-Nr."
-                                    Format ="00"
-
-                                    LayoutCachedLeft =9167
-                                    LayoutCachedTop =736
-                                    LayoutCachedWidth =9803
-                                    LayoutCachedHeight =991
-                                End
-                                Begin ComboBox
-                                    TabStop = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =2
-                                    ListRows =30
-                                    Left =10442
-                                    Top =736
-                                    Width =636
-                                    Height =255
-                                    TabIndex =10
-                                    Name ="Position"
-                                    RowSourceType ="Table/Query"
-                                    ValidationText ="Um eine 0 einzutragen, bitte  \"Titel hinzufügen\" benutzen"
-                                    DefaultValue ="1"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Position"
-
-                                    LayoutCachedLeft =10442
-                                    LayoutCachedTop =736
-                                    LayoutCachedWidth =11078
-                                    LayoutCachedHeight =991
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =247
-                                            TextAlign =3
-                                            Left =9938
-                                            Top =729
-                                            Width =390
-                                            Height =255
-                                            BackColor =12632256
-                                            Name ="Bezeichnungsfeld223"
-                                            Caption ="Pos."
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            ControlTipText ="ID"
-                                            LayoutCachedLeft =9938
-                                            LayoutCachedTop =729
-                                            LayoutCachedWidth =10328
-                                            LayoutCachedHeight =984
-                                        End
-                                    End
-                                End
                                 Begin CustomControl
                                     Enabled = NotDefault
                                     TabStop = NotDefault
@@ -3574,7 +3897,7 @@ Begin Form
                                     Width =264
                                     Height =309
                                     AutoActivate =1
-                                    TabIndex =11
+                                    TabIndex =19
                                     Name ="SpinButtonAnzahlVG"
                                     OleData = Begin
                                         0x00100000d0cf11e0a1b11ae1000000000000000000000000000000003e000300 ,
@@ -3716,6 +4039,32 @@ Begin Form
                                     LayoutCachedWidth =13345
                                     LayoutCachedHeight =1038
                                 End
+                                Begin ComboBox
+                                    TabStop = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =2
+                                    ListRows =30
+                                    Left =9167
+                                    Top =736
+                                    Width =636
+                                    Height =255
+                                    TabIndex =20
+                                    Name ="TitelNr"
+                                    RowSourceType ="Table/Query"
+                                    AfterUpdate ="[Event Procedure]"
+                                    DefaultValue ="0"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Titel-Nr."
+                                    Format ="00"
+
+                                    LayoutCachedLeft =9167
+                                    LayoutCachedTop =736
+                                    LayoutCachedWidth =9803
+                                    LayoutCachedHeight =991
+                                End
                                 Begin CommandButton
                                     TabStop = NotDefault
                                     OverlapFlags =247
@@ -3723,7 +4072,7 @@ Begin Form
                                     Top =736
                                     Width =711
                                     Height =321
-                                    TabIndex =12
+                                    TabIndex =21
                                     ForeColor =0
                                     Name ="btnLiefereinheit"
                                     Caption ="Einheit"
@@ -3738,901 +4087,31 @@ Begin Form
                                     LayoutCachedHeight =1057
                                     Overlaps =1
                                 End
-                                Begin ComboBox
-                                    LimitToList = NotDefault
+                                Begin ListBox
                                     TabStop = NotDefault
                                     SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =2
+                                    OverlapFlags =255
                                     ColumnCount =2
-                                    ListRows =20
-                                    ListWidth =3686
-                                    Left =14263
-                                    Top =736
-                                    Width =1404
-                                    Height =255
-                                    TabIndex =13
-                                    Name ="LiefereinheitVG"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="1134;2268"
-                                    BeforeUpdate ="[Event Procedure]"
-                                    DefaultValue ="\"Stk.\""
-                                    FontName ="Arial"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Liefereinheit"
-
-                                    LayoutCachedLeft =14263
-                                    LayoutCachedTop =736
-                                    LayoutCachedWidth =15667
-                                    LayoutCachedHeight =991
-                                End
-                                Begin TextBox
-                                    AutoTab = NotDefault
-                                    EnterKeyBehavior = NotDefault
-                                    FELineBreak = NotDefault
-                                    ScrollBars =2
-                                    SpecialEffect =0
-                                    OldBorderStyle =1
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    Left =10442
-                                    Top =1077
-                                    Width =6237
-                                    Height =600
-                                    TabIndex =14
-                                    Name ="ArtikelText"
-                                    OnDblClick ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Artikel-Text (frei wählbar)\015\012Mit Doppelclick Lexikon öffnen, um Vorgaben f"
-                                        "ür dieses Feld festzulegen"
-                                    ConditionalFormat = Begin
-                                        0x01000000d6000000010000000100000000000000000000003a00000001000000 ,
-                                        0x00000000ed1c2400000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x4c0065006600740028005b0041007200740069006b0065006c00740065007800 ,
-                                        0x74005d002c003300320029003d00270041005200540049004b0045004c002000 ,
-                                        0x49005300540020004e00490043004800540020004d0045004800520020005600 ,
-                                        0x450052004600dc004700420041005200270000000000
-                                    End
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =10442
-                                    LayoutCachedTop =1077
-                                    LayoutCachedWidth =16679
-                                    LayoutCachedHeight =1677
-                                    ConditionalFormat14 = Begin
-                                        0x01000100000001000000000000000100000000000000ed1c2400390000004c00 ,
-                                        0x65006600740028005b0041007200740069006b0065006c007400650078007400 ,
-                                        0x5d002c003300320029003d00270041005200540049004b0045004c0020004900 ,
-                                        0x5300540020004e00490043004800540020004d00450048005200200056004500 ,
-                                        0x52004600dc004700420041005200270000000000000000000000000000000000 ,
-                                        0x0000000000
-                                    End
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =247
-                                            TextAlign =1
-                                            Left =9167
-                                            Top =1077
-                                            Width =1134
-                                            Height =255
-                                            BackColor =12632256
-                                            Name ="Bezeichnungsfeld224"
-                                            Caption ="Artikel"
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            ControlTipText ="ID"
-                                            LayoutCachedLeft =9167
-                                            LayoutCachedTop =1077
-                                            LayoutCachedWidth =10301
-                                            LayoutCachedHeight =1332
-                                        End
-                                    End
-                                End
-                                Begin ComboBox
-                                    TabStop = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    ListRows =30
-                                    ListWidth =3969
-                                    Left =16693
-                                    Top =1287
-                                    Width =264
-                                    Height =255
-                                    FontWeight =700
-                                    TabIndex =15
-                                    Name ="comTitel"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="3969"
-                                    AfterUpdate ="[Event Procedure]"
-                                    OnEnter ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Titel (aus Lexikon auswählen, Gruppe muss heissen: Titel Vorgangsdetails)"
-
-                                    LayoutCachedLeft =16693
-                                    LayoutCachedTop =1287
-                                    LayoutCachedWidth =16957
-                                    LayoutCachedHeight =1542
-                                End
-                                Begin TextBox
-                                    AutoTab = NotDefault
-                                    FELineBreak = NotDefault
-                                    DecimalPlaces =1
-                                    SpecialEffect =0
-                                    OldBorderStyle =1
-                                    OverlapFlags =247
-                                    TextAlign =3
-                                    Left =18412
-                                    Top =1343
-                                    Width =1418
-                                    Height =255
-                                    TabIndex =16
-                                    Name ="RabattVG"
-                                    Format ="Standard"
-                                    BeforeUpdate ="[Event Procedure]"
-                                    DefaultValue ="0"
-                                    FontName ="Arial"
-                                    OnGotFocus ="[Event Procedure]"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Rabatt"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =18412
-                                    LayoutCachedTop =1343
-                                    LayoutCachedWidth =19830
-                                    LayoutCachedHeight =1598
-                                End
-                                Begin TextBox
-                                    AutoTab = NotDefault
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    DecimalPlaces =2
-                                    SpecialEffect =0
-                                    OldBorderStyle =1
-                                    OverlapFlags =247
-                                    TextAlign =3
-                                    Left =18412
-                                    Top =1665
-                                    Width =1418
-                                    Height =255
-                                    TabIndex =17
-                                    Name ="EinzelpreisVG"
-                                    Format ="Standard"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Einzelpreis"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =18412
-                                    LayoutCachedTop =1665
-                                    LayoutCachedWidth =19830
-                                    LayoutCachedHeight =1920
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =247
-                                            TextAlign =3
-                                            Left =17049
-                                            Top =1665
-                                            Width =1281
-                                            Height =255
-                                            BackColor =12632256
-                                            Name ="lblPreis"
-                                            Caption ="Preis"
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            LayoutCachedLeft =17049
-                                            LayoutCachedTop =1665
-                                            LayoutCachedWidth =18330
-                                            LayoutCachedHeight =1920
-                                        End
-                                    End
-                                End
-                                Begin TextBox
-                                    AutoTab = NotDefault
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    DecimalPlaces =2
-                                    SpecialEffect =0
-                                    OldBorderStyle =1
-                                    OverlapFlags =247
-                                    TextAlign =3
-                                    Left =18412
-                                    Top =2490
-                                    Width =1418
-                                    Height =255
-                                    TabIndex =18
-                                    ForeColor =255
-                                    Name ="MWSTDet"
-                                    Format ="Standard"
-                                    StatusBarText ="Rabatt"
-                                    BeforeUpdate ="[Event Procedure]"
-                                    OnDblClick ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="abweichende MWSt\015\012mit Doppleklick umschalten"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =18412
-                                    LayoutCachedTop =2490
-                                    LayoutCachedWidth =19830
-                                    LayoutCachedHeight =2745
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =247
-                                            TextAlign =3
-                                            Left =17049
-                                            Top =2490
-                                            Width =1281
-                                            Height =255
-                                            BackColor =12632256
-                                            Name ="Bezeichnungsfeld235"
-                                            Caption ="andere MWSt "
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            LayoutCachedLeft =17049
-                                            LayoutCachedTop =2490
-                                            LayoutCachedWidth =18330
-                                            LayoutCachedHeight =2745
-                                        End
-                                    End
-                                End
-                                Begin CommandButton
-                                    TabStop = NotDefault
-                                    OverlapFlags =247
-                                    Left =9167
-                                    Top =1756
-                                    Width =1134
-                                    Height =561
-                                    TabIndex =19
-                                    ForeColor =0
-                                    Name ="btnZoom"
-                                    Caption ="Zoome Bemerkungen"
-                                    OnClick ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    Tag ="VGDET"
-                                    ControlTipText ="zoome Bemerkungsfeld"
-
-                                    LayoutCachedLeft =9167
-                                    LayoutCachedTop =1756
-                                    LayoutCachedWidth =10301
-                                    LayoutCachedHeight =2317
-                                    Overlaps =1
-                                End
-                                Begin TextBox
-                                    CanGrow = NotDefault
-                                    AutoTab = NotDefault
-                                    TabStop = NotDefault
-                                    EnterKeyBehavior = NotDefault
-                                    FELineBreak = NotDefault
-                                    ScrollBars =2
-                                    SpecialEffect =0
-                                    OldBorderStyle =1
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    Left =10441
-                                    Top =1764
-                                    Width =6237
-                                    Height =1134
-                                    FontSize =11
-                                    TabIndex =20
-                                    Name ="BemVGDet"
-                                    FontName ="Aptos"
-                                    OnChange ="[Event Procedure]"
-                                    ControlTipText ="Bemerkung zum Artikel\015\012Text kann editiert werden!"
-                                    AsianLineBreak =0
-                                    TextFormat =1
-
-                                    LayoutCachedLeft =10441
-                                    LayoutCachedTop =1764
-                                    LayoutCachedWidth =16678
-                                    LayoutCachedHeight =2898
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =255
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =1473
-                                    Height =255
-                                    TabIndex =21
-                                    BackColor =12632256
-                                    ForeColor =8421504
-                                    Name ="NrArtikel"
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="ID des Artikels"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =1473
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =1728
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =255
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =963
-                                    Height =255
-                                    FontWeight =700
+                                    Left =6000
+                                    Top =801
+                                    Width =2835
+                                    Height =5103
                                     TabIndex =22
-                                    BackColor =12632256
-                                    ForeColor =8421504
-                                    Name ="NrVGDet"
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="ID NrVGDet"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =963
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =1218
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =255
-                                            TextAlign =1
-                                            Left =22148
-                                            Top =963
-                                            Width =225
-                                            Height =255
-                                            FontWeight =700
-                                            BackColor =12632256
-                                            Name ="lblNrVGDet"
-                                            Caption ="ID"
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            ControlTipText ="ID"
-                                            LayoutCachedLeft =22148
-                                            LayoutCachedTop =963
-                                            LayoutCachedWidth =22373
-                                            LayoutCachedHeight =1218
-                                        End
-                                    End
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =255
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =1728
-                                    Height =255
-                                    TabIndex =23
-                                    BackColor =12632256
-                                    ForeColor =8421504
-                                    Name ="NrVGDetBoss"
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="ID NrVGdetBoss"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =1728
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =1983
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =255
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =1983
-                                    Height =255
-                                    TabIndex =24
-                                    BackColor =8421504
-                                    ForeColor =9868950
-                                    Name ="LastUpdateDet"
-                                    Format ="General Date"
-                                    StatusBarText ="geändert am .."
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="letzte Änderung am.."
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =1983
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =2238
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    AllowAutoCorrect = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =255
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =2238
-                                    Height =255
-                                    TabIndex =25
-                                    BackColor =8421504
-                                    ForeColor =9868950
-                                    Name ="WhoUpdateDet"
-                                    DefaultValue ="Date()"
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Update von .."
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =2238
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =2493
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =255
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =2493
-                                    Height =255
-                                    TabIndex =26
-                                    BackColor =8421504
-                                    ForeColor =9868950
-                                    Name ="VGdetErfasst"
-                                    Format ="dd/mm/yy"
-                                    DefaultValue ="Date()"
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Erfasst am"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =2493
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =2748
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    DecimalPlaces =2
-                                    SpecialEffect =0
-                                    OldBorderStyle =1
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    Left =10433
-                                    Top =3009
-                                    Width =6237
-                                    Height =255
-                                    TabIndex =27
-                                    Name ="VGDetTxt1"
-                                    Format ="Standard"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Anlage-Nr."
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =10433
-                                    LayoutCachedTop =3009
-                                    LayoutCachedWidth =16670
-                                    LayoutCachedHeight =3264
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =247
-                                            TextAlign =3
-                                            Left =9167
-                                            Top =3009
-                                            Width =1134
-                                            Height =255
-                                            BackColor =12632256
-                                            Name ="DetTxt1"
-                                            Caption ="Anlage-Nr."
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            ControlTipText ="ID"
-                                            LayoutCachedLeft =9167
-                                            LayoutCachedTop =3009
-                                            LayoutCachedWidth =10301
-                                            LayoutCachedHeight =3264
-                                        End
-                                    End
-                                End
-                                Begin CommandButton
-                                    TabStop = NotDefault
-                                    OverlapFlags =247
-                                    Left =9167
-                                    Top =3322
-                                    Width =1134
-                                    Height =321
-                                    TabIndex =28
-                                    ForeColor =0
-                                    Name ="btnWarengruppe"
-                                    Caption ="Warengruppe"
-                                    OnClick ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    Tag ="VGDET"
-                                    ControlTipText ="zeige Warengruppe-Formular"
-
-                                    LayoutCachedLeft =9167
-                                    LayoutCachedTop =3322
-                                    LayoutCachedWidth =10301
-                                    LayoutCachedHeight =3643
-                                    Overlaps =1
-                                End
-                                Begin ComboBox
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    ListRows =30
-                                    ListWidth =2268
-                                    Left =10428
-                                    Top =3408
-                                    Width =6237
-                                    Height =255
-                                    TabIndex =29
-                                    Name ="WarengruppeDet"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="2268"
-                                    AfterUpdate ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Warengruppe auswählen aus Liste"
-
-                                    LayoutCachedLeft =10428
-                                    LayoutCachedTop =3408
-                                    LayoutCachedWidth =16665
-                                    LayoutCachedHeight =3663
-                                End
-                                Begin ComboBox
-                                    AllowAutoCorrect = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    ListRows =30
-                                    ListWidth =1134
-                                    Left =10433
-                                    Top =3759
-                                    Width =2268
-                                    Height =255
-                                    TabIndex =30
-                                    Name ="Sollkonto"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="1134"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Soll-Konto (Liste aus Warengruppen)"
-
-                                    LayoutCachedLeft =10433
-                                    LayoutCachedTop =3759
-                                    LayoutCachedWidth =12701
-                                    LayoutCachedHeight =4014
-                                End
-                                Begin ComboBox
-                                    AllowAutoCorrect = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    ListRows =30
-                                    ListWidth =1134
-                                    Left =10433
-                                    Top =4059
-                                    Width =2268
-                                    Height =255
-                                    TabIndex =31
-                                    Name ="Habenkonto"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="1134"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Haben-Konto (Liste aus Warengruppen)"
-
-                                    LayoutCachedLeft =10433
-                                    LayoutCachedTop =4059
-                                    LayoutCachedWidth =12701
-                                    LayoutCachedHeight =4314
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =255
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =2748
-                                    Height =255
-                                    TabIndex =32
-                                    BackColor =8421504
-                                    ForeColor =9868950
-                                    Name ="VGDetlng1"
-                                    DefaultValue ="Date()"
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Erfasst am"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =2748
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =3003
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    EnterKeyBehavior = NotDefault
-                                    FELineBreak = NotDefault
-                                    ScrollBars =2
-                                    SpecialEffect =0
-                                    OldBorderStyle =1
-                                    OverlapFlags =247
-                                    Left =12769
-                                    Top =3732
-                                    Width =3918
-                                    Height =516
-                                    TabIndex =33
-                                    BackColor =15132390
-                                    BorderColor =65535
-                                    Name ="VGDetInfo"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="interne Bemerkungen zu dieser Position\015\012\015\012(werden NICHT ausgedruckt)"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =12769
-                                    LayoutCachedTop =3732
-                                    LayoutCachedWidth =16687
-                                    LayoutCachedHeight =4248
-                                End
-                                Begin ComboBox
-                                    LimitToList = NotDefault
-                                    TabStop = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    ColumnCount =2
-                                    ListRows =20
-                                    ListWidth =2553
-                                    Left =18412
-                                    Top =2842
-                                    Width =2268
-                                    Height =255
-                                    TabIndex =34
-                                    ConditionalFormat = Begin
-                                        0x0100000066000000010000000000000002000000000000000200000001000000 ,
-                                        0x00000000ed1c2400000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x310000000000
-                                    End
-                                    Name ="VGDetPreis"
+                                    BackColor =10092543
+                                    Name ="lstArtikelAct"
                                     RowSourceType ="Table/Query"
                                     ColumnWidths ="0;2268"
                                     AfterUpdate ="[Event Procedure]"
                                     OnDblClick ="[Event Procedure]"
-                                    DefaultValue ="0"
+                                    DefaultValue ="10"
                                     FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="soll der Preis auf dem Ausdruck angezeigt werden?\015\012Standardwert : Preis an"
-                                        "zeigen\015\012Wenn \"Nicht anzeigen\" ausgewählt wird, wechselt die Hintergrundf"
-                                        "arbe auf ROT!\015\012Der gewählte Text wird in die Bemerkungen übernommen.\015\012"
-                                        "Mit Doppelclick das Lexikon öffnen"
-
-                                    LayoutCachedLeft =18412
-                                    LayoutCachedTop =2842
-                                    LayoutCachedWidth =20680
-                                    LayoutCachedHeight =3097
-                                    ConditionalFormat14 = Begin
-                                        0x01000100000000000000020000000100000000000000ed1c2400010000003100 ,
-                                        0x000000000000000000000000000000000000000000
-                                    End
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =247
-                                            TextAlign =3
-                                            Left =17049
-                                            Top =2842
-                                            Width =1281
-                                            Height =255
-                                            BackColor =12632256
-                                            Name ="Bezeichnungsfeld62"
-                                            Caption ="Preis anzeigen"
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            ControlTipText ="ID"
-                                            LayoutCachedLeft =17049
-                                            LayoutCachedTop =2842
-                                            LayoutCachedWidth =18330
-                                            LayoutCachedHeight =3097
-                                        End
-                                    End
-                                End
-                                Begin ComboBox
-                                    LimitToList = NotDefault
-                                    TabStop = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    ColumnCount =2
-                                    ListRows =20
-                                    ListWidth =2268
-                                    Left =18412
-                                    Top =3148
-                                    Width =2268
-                                    Height =255
-                                    TabIndex =35
-                                    BackColor =13828095
-                                    ConditionalFormat = Begin
-                                        0x0100000066000000010000000000000003000000000000000200000001000000 ,
-                                        0xffffff00c0504d00000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x300000000000
-                                    End
-                                    Name ="MoveRecord"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="0;1134"
-                                    AfterUpdate ="[Event Procedure]"
-                                    OnDblClick ="[Event Procedure]"
-                                    DefaultValue ="0"
-                                    FontName ="Arial"
-                                    OnChange ="[Event Procedure]"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Auf dem Ausdruck eine oder mehrere leere Linien oder einen ganzen Seitenumbruch "
-                                        "erzeugen\015\012Wenn kein Standard==>Feld erscheint dunkelrot mit weisser Schrif"
-                                        "t\015\012Doppelklick entfernt den Eintrag"
-
-                                    LayoutCachedLeft =18412
-                                    LayoutCachedTop =3148
-                                    LayoutCachedWidth =20680
-                                    LayoutCachedHeight =3403
-                                    ConditionalFormat14 = Begin
-                                        0x010001000000000000000300000001000000ffffff00c0504d00010000003000 ,
-                                        0x000000000000000000000000000000000000000000
-                                    End
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =247
-                                            TextAlign =3
-                                            Left =17049
-                                            Top =3148
-                                            Width =1281
-                                            Height =255
-                                            BackColor =12632256
-                                            Name ="Bezeichnungsfeld63"
-                                            Caption ="Layout"
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            ControlTipText ="ID"
-                                            LayoutCachedLeft =17049
-                                            LayoutCachedTop =3148
-                                            LayoutCachedWidth =18330
-                                            LayoutCachedHeight =3403
-                                        End
-                                    End
-                                End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =1218
-                                    Height =255
-                                    TabIndex =36
-                                    BackColor =12632256
-                                    ForeColor =8421504
-                                    Name ="IdVG"
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="ID des Vorgangs"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =1218
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =1473
-                                End
-                                Begin ListBox
-                                    ColumnHeads = NotDefault
-                                    OverlapFlags =247
-                                    IMESentenceMode =3
-                                    ColumnCount =13
-                                    Left =9167
-                                    Top =4361
-                                    Width =15066
-                                    Height =1582
-                                    TabIndex =37
-                                    BackColor =15066597
-                                    Name ="lstArtikel"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="0;0;567;851;567;3402;2268;1134;1134;567;567;567;567"
-                                    AfterUpdate ="[Event Procedure]"
-                                    OnDblClick ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    Tag ="VGDET"
                                     ShortcutMenuBar ="cbEmpty"
-                                    ControlTipText ="Liste der dem Vorgang zugeordneten Artikel\015\012Klick zeigt oben diesen Artike"
-                                        "l an\015\012Doppel-Klick öffnet den Artikel im Artikel-Formular"
+                                    ControlTipText ="Wählen sie die gewünschte Artikel-Aktion aus"
 
-                                    LayoutCachedLeft =9167
-                                    LayoutCachedTop =4361
-                                    LayoutCachedWidth =24233
-                                    LayoutCachedHeight =5943
-                                End
-                                Begin CommandButton
-                                    TabStop = NotDefault
-                                    OverlapFlags =247
-                                    Left =9167
-                                    Top =2545
-                                    Width =1134
-                                    Height =340
-                                    TabIndex =38
-                                    ForeColor =10040115
-                                    Name ="btnCheckVGArtikel"
-                                    Caption ="CHECK!"
-                                    OnClick ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    Tag ="VGDET"
-
-                                    LayoutCachedLeft =9167
-                                    LayoutCachedTop =2545
-                                    LayoutCachedWidth =10301
-                                    LayoutCachedHeight =2885
-                                    Overlaps =1
-                                End
-                                Begin Label
-                                    OverlapFlags =247
-                                    TextAlign =3
-                                    Left =9167
-                                    Top =4059
-                                    Width =1134
-                                    Height =255
-                                    BackColor =12632256
-                                    Name ="lblHabenkonto"
-                                    Caption ="Habenkonto"
-                                    FontName ="Arial"
-                                    Tag ="VGDET"
-                                    LayoutCachedLeft =9167
-                                    LayoutCachedTop =4059
-                                    LayoutCachedWidth =10301
-                                    LayoutCachedHeight =4314
-                                End
-                                Begin Label
-                                    OverlapFlags =247
-                                    TextAlign =3
-                                    Left =9167
-                                    Top =3759
-                                    Width =1134
-                                    Height =255
-                                    BackColor =12632256
-                                    Name ="lbloSollkonto"
-                                    Caption ="Sollkonto"
-                                    FontName ="Arial"
-                                    Tag ="VGDET"
-                                    ControlTipText ="ID"
-                                    LayoutCachedLeft =9167
-                                    LayoutCachedTop =3759
-                                    LayoutCachedWidth =10301
-                                    LayoutCachedHeight =4014
+                                    LayoutCachedLeft =6000
+                                    LayoutCachedTop =801
+                                    LayoutCachedWidth =8835
+                                    LayoutCachedHeight =5904
                                 End
                                 Begin CommandButton
                                     Enabled = NotDefault
@@ -4643,7 +4122,7 @@ Begin Form
                                     Width =1418
                                     Height =321
                                     FontWeight =700
-                                    TabIndex =39
+                                    TabIndex =23
                                     ForeColor =2366701
                                     Name ="btnVGDetEscape"
                                     Caption ="Abbrechen"
@@ -4697,6 +4176,103 @@ Begin Form
                                     PressedForeColor =5026082
                                     Overlaps =1
                                 End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =255
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =963
+                                    Height =255
+                                    FontWeight =700
+                                    TabIndex =24
+                                    BackColor =12632256
+                                    ForeColor =8421504
+                                    Name ="NrVGDet"
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="ID NrVGDet"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =963
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =1218
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =255
+                                            TextAlign =1
+                                            Left =22148
+                                            Top =963
+                                            Width =225
+                                            Height =255
+                                            FontWeight =700
+                                            BackColor =12632256
+                                            Name ="lblNrVGDet"
+                                            Caption ="ID"
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            ControlTipText ="ID"
+                                            LayoutCachedLeft =22148
+                                            LayoutCachedTop =963
+                                            LayoutCachedWidth =22373
+                                            LayoutCachedHeight =1218
+                                        End
+                                    End
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =255
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =1218
+                                    Height =255
+                                    TabIndex =25
+                                    BackColor =12632256
+                                    ForeColor =8421504
+                                    Name ="IdVG"
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="ID des Vorgangs"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =1218
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =1473
+                                End
+                                Begin ComboBox
+                                    TabStop = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    ListRows =30
+                                    ListWidth =3969
+                                    Left =16693
+                                    Top =1287
+                                    Width =264
+                                    Height =255
+                                    FontWeight =700
+                                    TabIndex =26
+                                    Name ="comTitel"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="3969"
+                                    AfterUpdate ="[Event Procedure]"
+                                    OnEnter ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Titel (aus Lexikon auswählen, Gruppe muss heissen: Titel Vorgangsdetails)"
+
+                                    LayoutCachedLeft =16693
+                                    LayoutCachedTop =1287
+                                    LayoutCachedWidth =16957
+                                    LayoutCachedHeight =1542
+                                End
                                 Begin CommandButton
                                     TabStop = NotDefault
                                     OverlapFlags =247
@@ -4704,7 +4280,7 @@ Begin Form
                                     Top =1303
                                     Width =1281
                                     Height =321
-                                    TabIndex =40
+                                    TabIndex =27
                                     ForeColor =0
                                     Name ="btnRabattVG"
                                     Caption ="% Rabatt"
@@ -4719,6 +4295,495 @@ Begin Form
                                     LayoutCachedHeight =1624
                                     Overlaps =1
                                 End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =255
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =1473
+                                    Height =255
+                                    TabIndex =28
+                                    BackColor =12632256
+                                    ForeColor =8421504
+                                    Name ="NrArtikel"
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="ID des Artikels"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =1473
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =1728
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =255
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =1728
+                                    Height =255
+                                    TabIndex =29
+                                    BackColor =12632256
+                                    ForeColor =8421504
+                                    Name ="NrVGDetBoss"
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="ID NrVGdetBoss"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =1728
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =1983
+                                End
+                                Begin CommandButton
+                                    TabStop = NotDefault
+                                    OverlapFlags =247
+                                    Left =9167
+                                    Top =1756
+                                    Width =1134
+                                    Height =561
+                                    TabIndex =30
+                                    ForeColor =0
+                                    Name ="btnZoom"
+                                    Caption ="Zoome Bemerkungen"
+                                    OnClick ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    Tag ="VGDET"
+                                    ControlTipText ="zoome Bemerkungsfeld"
+
+                                    LayoutCachedLeft =9167
+                                    LayoutCachedTop =1756
+                                    LayoutCachedWidth =10301
+                                    LayoutCachedHeight =2317
+                                    Overlaps =1
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =255
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =1983
+                                    Height =255
+                                    TabIndex =31
+                                    BackColor =8421504
+                                    ForeColor =9868950
+                                    Name ="LastUpdateDet"
+                                    Format ="General Date"
+                                    StatusBarText ="geändert am .."
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="letzte Änderung am.."
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =1983
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =2238
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    AllowAutoCorrect = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =255
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =2238
+                                    Height =255
+                                    TabIndex =32
+                                    BackColor =8421504
+                                    ForeColor =9868950
+                                    Name ="WhoUpdateDet"
+                                    DefaultValue ="Date()"
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Update von .."
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =2238
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =2493
+                                End
+                                Begin TextBox
+                                    AutoTab = NotDefault
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    DecimalPlaces =2
+                                    SpecialEffect =0
+                                    OldBorderStyle =1
+                                    OverlapFlags =247
+                                    TextAlign =3
+                                    Left =18412
+                                    Top =2490
+                                    Width =1418
+                                    Height =255
+                                    TabIndex =33
+                                    ForeColor =255
+                                    Name ="MWSTDet"
+                                    Format ="Standard"
+                                    StatusBarText ="Rabatt"
+                                    BeforeUpdate ="[Event Procedure]"
+                                    OnDblClick ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="abweichende MWSt\015\012mit Doppleklick umschalten"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =18412
+                                    LayoutCachedTop =2490
+                                    LayoutCachedWidth =19830
+                                    LayoutCachedHeight =2745
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =247
+                                            TextAlign =3
+                                            Left =17049
+                                            Top =2490
+                                            Width =1281
+                                            Height =255
+                                            BackColor =12632256
+                                            Name ="Bezeichnungsfeld235"
+                                            Caption ="andere MWSt "
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            LayoutCachedLeft =17049
+                                            LayoutCachedTop =2490
+                                            LayoutCachedWidth =18330
+                                            LayoutCachedHeight =2745
+                                        End
+                                    End
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =255
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =2493
+                                    Height =255
+                                    TabIndex =34
+                                    BackColor =8421504
+                                    ForeColor =9868950
+                                    Name ="VGdetErfasst"
+                                    Format ="dd/mm/yy"
+                                    DefaultValue ="Date()"
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Erfasst am"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =2493
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =2748
+                                End
+                                Begin CommandButton
+                                    TabStop = NotDefault
+                                    OverlapFlags =247
+                                    Left =9167
+                                    Top =2545
+                                    Width =1134
+                                    Height =340
+                                    TabIndex =35
+                                    ForeColor =10040115
+                                    Name ="btnCheckVGArtikel"
+                                    Caption ="CHECK!"
+                                    OnClick ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    Tag ="VGDET"
+
+                                    LayoutCachedLeft =9167
+                                    LayoutCachedTop =2545
+                                    LayoutCachedWidth =10301
+                                    LayoutCachedHeight =2885
+                                    Overlaps =1
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =255
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =2748
+                                    Height =255
+                                    TabIndex =36
+                                    BackColor =8421504
+                                    ForeColor =9868950
+                                    Name ="VGDetlng1"
+                                    DefaultValue ="Date()"
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Erfasst am"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =2748
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =3003
+                                End
+                                Begin ComboBox
+                                    LimitToList = NotDefault
+                                    TabStop = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    ColumnCount =2
+                                    ListRows =20
+                                    ListWidth =2553
+                                    Left =18412
+                                    Top =2842
+                                    Width =2268
+                                    Height =255
+                                    TabIndex =37
+                                    ConditionalFormat = Begin
+                                        0x0100000066000000010000000000000002000000000000000200000001000000 ,
+                                        0x00000000ed1c2400000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x310000000000
+                                    End
+                                    Name ="VGDetPreis"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="0;2268"
+                                    AfterUpdate ="[Event Procedure]"
+                                    OnDblClick ="[Event Procedure]"
+                                    DefaultValue ="0"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="soll der Preis auf dem Ausdruck angezeigt werden?\015\012Standardwert : Preis an"
+                                        "zeigen\015\012Wenn \"Nicht anzeigen\" ausgewählt wird, wechselt die Hintergrundf"
+                                        "arbe auf ROT!\015\012Der gewählte Text wird in die Bemerkungen übernommen.\015\012"
+                                        "Mit Doppelclick das Lexikon öffnen"
+
+                                    LayoutCachedLeft =18412
+                                    LayoutCachedTop =2842
+                                    LayoutCachedWidth =20680
+                                    LayoutCachedHeight =3097
+                                    ConditionalFormat14 = Begin
+                                        0x01000100000000000000020000000100000000000000ed1c2400010000003100 ,
+                                        0x000000000000000000000000000000000000000000
+                                    End
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =247
+                                            TextAlign =3
+                                            Left =17049
+                                            Top =2842
+                                            Width =1281
+                                            Height =255
+                                            BackColor =12632256
+                                            Name ="Bezeichnungsfeld62"
+                                            Caption ="Preis anzeigen"
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            ControlTipText ="ID"
+                                            LayoutCachedLeft =17049
+                                            LayoutCachedTop =2842
+                                            LayoutCachedWidth =18330
+                                            LayoutCachedHeight =3097
+                                        End
+                                    End
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    BackStyle =0
+                                    Left =22373
+                                    Top =3003
+                                    Height =255
+                                    TabIndex =38
+                                    BackColor =8421504
+                                    ForeColor =9868950
+                                    Name ="Markervgdet"
+                                    FontName ="Arial Narrow"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Marker in Vorgangsdetail"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =22373
+                                    LayoutCachedTop =3003
+                                    LayoutCachedWidth =24074
+                                    LayoutCachedHeight =3258
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    FELineBreak = NotDefault
+                                    DecimalPlaces =2
+                                    SpecialEffect =0
+                                    OldBorderStyle =1
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    Left =10433
+                                    Top =3009
+                                    Width =6237
+                                    Height =255
+                                    TabIndex =39
+                                    Name ="VGDetTxt1"
+                                    Format ="Standard"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Anlage-Nr."
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =10433
+                                    LayoutCachedTop =3009
+                                    LayoutCachedWidth =16670
+                                    LayoutCachedHeight =3264
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =247
+                                            TextAlign =3
+                                            Left =9167
+                                            Top =3009
+                                            Width =1134
+                                            Height =255
+                                            BackColor =12632256
+                                            Name ="DetTxt1"
+                                            Caption ="Anlage-Nr."
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            ControlTipText ="ID"
+                                            LayoutCachedLeft =9167
+                                            LayoutCachedTop =3009
+                                            LayoutCachedWidth =10301
+                                            LayoutCachedHeight =3264
+                                        End
+                                    End
+                                End
+                                Begin ComboBox
+                                    LimitToList = NotDefault
+                                    TabStop = NotDefault
+                                    SpecialEffect =0
+                                    OverlapFlags =247
+                                    TextAlign =1
+                                    ColumnCount =2
+                                    ListRows =20
+                                    ListWidth =2268
+                                    Left =18412
+                                    Top =3148
+                                    Width =2268
+                                    Height =255
+                                    TabIndex =40
+                                    BackColor =13828095
+                                    ConditionalFormat = Begin
+                                        0x0100000066000000010000000000000003000000000000000200000001000000 ,
+                                        0xffffff00c0504d00000000000000000000000000000000000000000000000000 ,
+                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
+                                        0x300000000000
+                                    End
+                                    Name ="MoveRecord"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="0;1134"
+                                    AfterUpdate ="[Event Procedure]"
+                                    OnDblClick ="[Event Procedure]"
+                                    DefaultValue ="0"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="Auf dem Ausdruck eine oder mehrere leere Linien oder einen ganzen Seitenumbruch "
+                                        "erzeugen\015\012Wenn kein Standard==>Feld erscheint dunkelrot mit weisser Schrif"
+                                        "t\015\012Doppelklick entfernt den Eintrag"
+
+                                    LayoutCachedLeft =18412
+                                    LayoutCachedTop =3148
+                                    LayoutCachedWidth =20680
+                                    LayoutCachedHeight =3403
+                                    ConditionalFormat14 = Begin
+                                        0x010001000000000000000300000001000000ffffff00c0504d00010000003000 ,
+                                        0x000000000000000000000000000000000000000000
+                                    End
+                                    Begin
+                                        Begin Label
+                                            OverlapFlags =247
+                                            TextAlign =3
+                                            Left =17049
+                                            Top =3148
+                                            Width =1281
+                                            Height =255
+                                            BackColor =12632256
+                                            Name ="Bezeichnungsfeld63"
+                                            Caption ="Layout"
+                                            FontName ="Arial"
+                                            Tag ="VGDET"
+                                            ControlTipText ="ID"
+                                            LayoutCachedLeft =17049
+                                            LayoutCachedTop =3148
+                                            LayoutCachedWidth =18330
+                                            LayoutCachedHeight =3403
+                                        End
+                                    End
+                                End
+                                Begin CommandButton
+                                    TabStop = NotDefault
+                                    OverlapFlags =247
+                                    Left =9167
+                                    Top =3322
+                                    Width =1134
+                                    Height =321
+                                    TabIndex =41
+                                    ForeColor =0
+                                    Name ="btnWarengruppe"
+                                    Caption ="Warengruppe"
+                                    OnClick ="[Event Procedure]"
+                                    FontName ="Arial"
+                                    Tag ="VGDET"
+                                    ControlTipText ="zeige Warengruppe-Formular"
+
+                                    LayoutCachedLeft =9167
+                                    LayoutCachedTop =3322
+                                    LayoutCachedWidth =10301
+                                    LayoutCachedHeight =3643
+                                    Overlaps =1
+                                End
+                                Begin TextBox
+                                    TabStop = NotDefault
+                                    EnterKeyBehavior = NotDefault
+                                    FELineBreak = NotDefault
+                                    ScrollBars =2
+                                    SpecialEffect =0
+                                    OldBorderStyle =1
+                                    OverlapFlags =247
+                                    Left =12769
+                                    Top =3732
+                                    Width =3918
+                                    Height =516
+                                    TabIndex =42
+                                    BackColor =15132390
+                                    BorderColor =65535
+                                    Name ="VGDetInfo"
+                                    FontName ="Arial"
+                                    OnChange ="[Event Procedure]"
+                                    Tag ="VGDET"
+                                    ControlTipText ="interne Bemerkungen zu dieser Position\015\012\015\012(werden NICHT ausgedruckt)"
+                                    AsianLineBreak =0
+
+                                    LayoutCachedLeft =12769
+                                    LayoutCachedTop =3732
+                                    LayoutCachedWidth =16687
+                                    LayoutCachedHeight =4248
+                                End
                                 Begin ListBox
                                     ColumnHeads = NotDefault
                                     Visible = NotDefault
@@ -4730,7 +4795,7 @@ Begin Form
                                     Top =3988
                                     Width =2835
                                     Height =2029
-                                    TabIndex =41
+                                    TabIndex =43
                                     BackColor =10092543
                                     Name ="lstArtikelVorgemerkt"
                                     RowSourceType ="Table/Query"
@@ -4746,138 +4811,67 @@ Begin Form
                                     LayoutCachedWidth =8835
                                     LayoutCachedHeight =6017
                                 End
-                                Begin TextBox
-                                    TabStop = NotDefault
-                                    FELineBreak = NotDefault
-                                    SpecialEffect =0
+                                Begin ListBox
+                                    ColumnHeads = NotDefault
                                     OverlapFlags =247
-                                    TextAlign =1
-                                    BackStyle =0
-                                    Left =22373
-                                    Top =3003
-                                    Height =255
-                                    TabIndex =42
-                                    BackColor =8421504
-                                    ForeColor =9868950
-                                    Name ="Markervgdet"
-                                    FontName ="Arial Narrow"
-                                    Tag ="VGDET"
-                                    ControlTipText ="Marker in Vorgangsdetail"
-                                    AsianLineBreak =0
-
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =3003
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =3258
-                                End
-                                Begin ComboBox
-                                    LimitToList = NotDefault
-                                    SpecialEffect =0
-                                    OverlapFlags =247
-                                    TextAlign =1
-                                    ColumnCount =2
-                                    ListRows =20
-                                    ListWidth =1134
-                                    Left =18412
-                                    Top =2017
-                                    Width =1418
-                                    Height =255
-                                    TabIndex =43
-                                    Name ="VGWährungA"
-                                    RowSourceType ="Table/Query"
-                                    ColumnWidths ="567;567"
-                                    AfterUpdate ="[Event Procedure]"
-                                    OnEnter ="[Event Procedure]"
-                                    FontName ="Arial"
-                                    Tag ="VGDet"
-                                    ControlTipText ="Währung"
-
-                                    LayoutCachedLeft =18412
-                                    LayoutCachedTop =2017
-                                    LayoutCachedWidth =19830
-                                    LayoutCachedHeight =2272
-                                    Begin
-                                        Begin Label
-                                            OverlapFlags =247
-                                            TextAlign =3
-                                            Left =17049
-                                            Top =2017
-                                            Width =1281
-                                            Height =255
-                                            BackColor =12632256
-                                            Name ="Bezeichnungsfeld76"
-                                            Caption ="Währung"
-                                            FontName ="Arial"
-                                            Tag ="VGDET"
-                                            LayoutCachedLeft =17049
-                                            LayoutCachedTop =2017
-                                            LayoutCachedWidth =18330
-                                            LayoutCachedHeight =2272
-                                        End
-                                    End
-                                End
-                                Begin CommandButton
-                                    TabStop = NotDefault
-                                    OverlapFlags =247
-                                    Left =22373
-                                    Top =396
-                                    Height =516
-                                    FontWeight =700
+                                    IMESentenceMode =3
+                                    ColumnCount =13
+                                    Left =9167
+                                    Top =4361
+                                    Width =15066
+                                    Height =1582
                                     TabIndex =44
-                                    ForeColor =5026082
-                                    Name ="btnRefresh"
-                                    Caption ="aktualisieren"
-                                    OnClick ="[Event Procedure]"
-                                    PictureData = Begin
-                                        0x2800000010000000100000000100040000000000800000000000000000000000 ,
-                                        0x0000000000000000000000000000800000800000008080008000000080008000 ,
-                                        0x8080000080808000c0c0c0000000ff00c0c0c00000ffff00ff000000c0c0c000 ,
-                                        0xffff0000ffffff00dd0000ddd7227ddddd0ffd2d727727dd0f0ffd2727dd727d ,
-                                        0x0f0ffd227dddd72d0f0ffd2222dddddd0f0ffdddddd2222d0f0ffd27dddd722d ,
-                                        0x0f0ffd727dd7272d0f0fffd727727d2d0f0ffffd7227dddd0f0fffffd0000ddd ,
-                                        0x0f0ffffff0f08ddd0f0ffffff008dddd0f000000008ddddd0fffffffdddddddd ,
-                                        0x00000000dddddddd000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-                                        0x0000000000000000
-                                    End
+                                    BackColor =15066597
+                                    Name ="lstArtikel"
+                                    RowSourceType ="Table/Query"
+                                    ColumnWidths ="0;0;567;851;567;3402;2268;1134;1134;567;567;567;567"
+                                    AfterUpdate ="[Event Procedure]"
+                                    OnDblClick ="[Event Procedure]"
                                     FontName ="Arial"
-                                    ObjectPalette = Begin
-                                        0x000301000000000000000000
-                                    End
                                     Tag ="VGDET"
-                                    ControlTipText ="Refresh der Anzeige (ggf. nach löschen oder editieren drücken)"
+                                    ShortcutMenuBar ="cbEmpty"
+                                    ControlTipText ="Liste der dem Vorgang zugeordneten Artikel\015\012Klick zeigt oben diesen Artike"
+                                        "l an\015\012Doppel-Klick öffnet den Artikel im Artikel-Formular"
 
-                                    LayoutCachedLeft =22373
-                                    LayoutCachedTop =396
-                                    LayoutCachedWidth =24074
-                                    LayoutCachedHeight =912
-                                    PictureCaptionArrangement =5
-                                    HoverForeColor =5026082
-                                    PressedForeColor =5026082
+                                    LayoutCachedLeft =9167
+                                    LayoutCachedTop =4361
+                                    LayoutCachedWidth =24233
+                                    LayoutCachedHeight =5943
+                                End
+                                Begin Label
+                                    OverlapFlags =247
+                                    TextAlign =3
+                                    Left =9167
+                                    Top =4059
+                                    Width =1134
+                                    Height =255
+                                    BackColor =12632256
+                                    Name ="lblHabenkonto"
+                                    Caption ="Habenkonto"
+                                    FontName ="Arial"
+                                    Tag ="VGDET"
+                                    LayoutCachedLeft =9167
+                                    LayoutCachedTop =4059
+                                    LayoutCachedWidth =10301
+                                    LayoutCachedHeight =4314
+                                End
+                                Begin Label
+                                    OverlapFlags =247
+                                    TextAlign =3
+                                    Left =9167
+                                    Top =3759
+                                    Width =1134
+                                    Height =255
+                                    BackColor =12632256
+                                    Name ="lbloSollkonto"
+                                    Caption ="Sollkonto"
+                                    FontName ="Arial"
+                                    Tag ="VGDET"
+                                    ControlTipText ="ID"
+                                    LayoutCachedLeft =9167
+                                    LayoutCachedTop =3759
+                                    LayoutCachedWidth =10301
+                                    LayoutCachedHeight =4014
                                 End
                             End
                         End

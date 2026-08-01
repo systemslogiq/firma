@@ -43,7 +43,6 @@ On Error GoTo ErrMsg
     Dim Result As String
 
     strSQL = "EXEC spa_eRechnung_ExportToXML @NrVG = " & NrVG
-OH_C strSQL
     OH_r r
 
     If r.BOF = True Then
@@ -429,7 +428,6 @@ On Error GoTo ErrMsg
 
     ' XML aus DB ziehen
     strSQL = "EXEC spa_eRechnung_ExportToXML @NrVG = " & NrVG
-OH_C strSQL
     OH_r r
 For i = 0 To r.Fields.count - 1
     Debug.Print i & ": [" & r.Fields(i).Name & "] Type=" & r.Fields(i).Type

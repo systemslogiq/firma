@@ -870,7 +870,7 @@ ErrM:
         "Überprüfen Sie bitte ihre Filtereinstellungen!" & vbNewLine & _
         strLinkBookmark & strErr
 
-    SysCmd acSysCmdSetStatus, s
+    SysCmd acSysCmdSetStatus, "Der Datensatz konnte nicht gefunden werden!"
     If blMldg Then
         MsgBox s, vbCritical, t
     End If
@@ -2283,7 +2283,7 @@ nochmalEmail:
             GoTo ErrM
         End Select
     End Select
-    SysCmd acSysCmdSetStatus, strST & ": neuer Eintrag in Stichworten"
+    SysCmd acSysCmdSetStatus, strST & ": " & t
 ErrEnd:
     DoCmd.Hourglass False
     Exit Function

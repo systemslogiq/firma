@@ -18,15 +18,15 @@ Begin Form
     Width =7500
     DatasheetFontHeight =10
     ItemSuffix =83
-    Left =-7306
-    Top =3030
-    Right =20609
-    Bottom =15225
+    Left =-31231
+    Top =3015
+    Right =-23821
+    Bottom =14910
     Tag ="Stichwort"
     RecSrcDt = Begin
         0xf6f92943f6cde140
     End
-    Caption ="Speichern"
+    Caption ="Stichworte - Ohnemus - Philipp"
     OnClose ="[Event Procedure]"
     DatasheetFontName ="Arial"
     OnLoad ="[Event Procedure]"
@@ -718,7 +718,7 @@ Begin Form
                                     ForeColor =-2147483630
                                     Name ="ID"
                                     FontName ="Arial"
-                                    Tag ="nrBegriff"
+                                    Tag ="nrFunktion"
 
                                     LayoutCachedLeft =5045
                                     LayoutCachedTop =1845

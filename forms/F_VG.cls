@@ -17,6 +17,7 @@ Dim lgTitelNr As Long
 Dim lgPosition As Long
 Dim strS As String
 Dim lgVGdet As Long
+Dim lgVGActual As Long
 Dim lgLstdet As Long
 Dim strFileBearbeitung As String
 Dim strPathBearbeitung As String
@@ -2024,8 +2025,8 @@ On Error GoTo ErrMsg
         s = "bitte Vorgang schliessen und nochmal öffnen"
         GoTo ErrM
     End If
-    If Me!btnVGDetSave.Enabled Then
-        btnVGDetSave_Click
+    If OH_goBackToSaveDetail Then
+        GoTo ErrEnd
     End If
     lgVGdet = Nz(ctlLst.column(0), 0)
     If lgVGdet = 0 Then
@@ -5133,6 +5134,9 @@ On Error GoTo ErrMsg
     Dim strFN As String
     Dim lgCount As Long
     Dim lgact As Long
+    If OH_goBackToSaveDetail Then
+        GoTo ErrEnd
+    End If
     If OH_CheckAbschluss Then
         GoTo ErrEnd
     End If
@@ -5148,10 +5152,6 @@ On Error GoTo ErrMsg
         lgVGdet = Nz(Me!LstArtikel, 0)
     Else
         lgVGdet = 0
-    End If
-    If Me!btnVGDetSave.Enabled Then
-        btnVGDetSave_Click
-        Me!LstArtikelAct.SetFocus
     End If
     strQ = strS & "lstArtikelAct'" & _
         ",@i = " & Nz(Me!NrVG, 0) & _
@@ -5414,8 +5414,8 @@ On Error GoTo ErrMsg
     Case 200 'Check-Formular öffnen'
         DoCmd.openForm "pfrmCheckVG"
     Case 210
-        If Me!btnVGDetSave.Enabled Then
-            btnVGDetSave_Click
+        If OH_goBackToSaveDetail Then
+            GoTo ErrEnd
         End If
         s = Me!projektNr
         strQ = "Exec dbo.spa_VG " & _
@@ -6888,12 +6888,6 @@ ErrMsg:
     MsgBox Err & " " & Err.Description, vbCritical, "TitelNr_AfterUpdate"
     Resume ErrEnd
 End Sub
-Private Sub RabattVG_GotFocus()
-    If Me!btnVGDetSave.Enabled Then
-        btnVGDetSave_Click
-        Me!RabattVG.SetFocus
-    End If
-End Sub
 Private Sub RabattVG_BeforeUpdate(Cancel As Integer)
 On Error GoTo ErrMsg
     t = Me!RabattVG & " % Rabatt gewähren"
@@ -7146,6 +7140,10 @@ On Error GoTo ErrMsg
     End If
     Me!btnVGDetSave.Enabled = blC
     Me!btnVGDetEscape.Enabled = blC
+    If blC Then
+        lgVGdet = Nz(Me!nrVGDet, 0)
+        lgVGActual = Nz(Me!NrVG, 0)
+    End If
 ErrEnd:
     Exit Function
 ErrMsg:
@@ -7355,8 +7353,9 @@ ErrEnd:
 ErrMsg:
     Select Case Err
     Case Else
-        MsgBox Err.number & " " & Err.Description, vbCritical, "F_VG.OH_Filter_vwID"
-        Resume ErrEnd
+        s = Err.number & " " & Err.Description
+        t = "F_VG.OH_Filter_vwID"
+        Resume ErrM
     End Select
 ErrM:
     MsgBox s, vbCritical, t
@@ -7379,3 +7378,45 @@ ErrM:
     MsgBox s, vbCritical, strT
     GoTo ErrEnd
 End Sub
+Public Function OH_goBackToSaveDetail() As Boolean
+On Error GoTo ErrMsg '260716
+    DoCmd.Hourglass True
+    t = "ungespeicherte Details im Artikel"
+    If Not Me!btnVGDetSave.Enabled Then
+        OH_goBackToSaveDetail = False
+        GoTo ErrEnd
+    End If
+    s = "ID Vorgang = " & lgVGActual & vbNewLine & _
+      "ID Detail  = " & lgVGdet & vbNewLine & vbNewLine & _
+      "Sie sollten die Detail-Artikel-Daten zuerst speichern (siehe grüner Button Speichern)!"
+    If MsgBox(s, vbExclamation + vbYesNo, t) = vbNo Then
+        OH_goBackToSaveDetail = False
+        Me!btnVGDetSave.Enabled = False
+        Me!btnVGDetEscape.Enabled = False
+        GoTo ErrEnd
+    End If
+    OH_goBackToSaveDetail = True
+    If Me!LstArtikel = lgVGdet Then
+        GoTo ErrEnd
+    End If
+    If Me!NrVG = lgVGActual Then
+        Me!nrVGDet.SetFocus
+        Me!LstArtikel = lgVGdet
+    Else
+        OH_SetRS Me, lgVGActual
+        OH_setLst Me!lstDet, lgVGActual
+    End If
+ErrEnd:
+    DoCmd.Hourglass False
+    Exit Function
+ErrMsg:
+    Select Case Err
+    Case Else
+        s = Err.number & " " & Err.Description
+        t = "F_VG.OH_goBackToSaveDetail"
+        Resume ErrM
+    End Select
+ErrM:
+    MsgBox s, vbCritical, t
+    GoTo ErrEnd
+End Function

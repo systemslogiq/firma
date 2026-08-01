@@ -14,8 +14,8 @@ Begin Form
     GridY =10
     Width =27497
     ItemSuffix =385
-    Right =28170
-    Bottom =11865
+    Right =27915
+    Bottom =11085
     OnUnload ="[Event Procedure]"
     BeforeDelConfirm ="[Event Procedure]"
     Tag ="Funktion"

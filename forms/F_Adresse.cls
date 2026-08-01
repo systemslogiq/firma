@@ -43,7 +43,7 @@ On Error GoTo ErrMsg
         "Zum Erfassen / Ändern / Löschen"
     s = "Handling zum Filtern der Stichworte" & vbNewLine & _
         "Doppelklick entfernt / setzt Filter." & vbNewLine & _
-        "Wenn ein Filter gesetzt ist , erscheint ein Grüner Rand!"
+        "Wenn ein Filter gesetzt ist , erscheint ein GRÜNER (Daten vorhanden) oder ROTER (Keine Daten) Rand!"
     Me!comStichwortFilter.ControlTipText = s
     s = "Handling der (markierten) Stichworte" & vbNewLine & _
         "Oft benutzte Stichworte im Lexikon ablegen in Gruppe <Stichworte Adresse>" & vbNewLine & _
@@ -2049,16 +2049,6 @@ On Error GoTo ErrMsg
             ",@fi = '" & strFilter & "'"
     OH_A "comStichwortFilter", strSQL, Me
     regD_Change
-    If strFilter = "" Then
-        lgcolor = Me!lstStichwortAct.BackColor
-    Else
-        If Me!lstStichwort.ListCount < 1 Then
-            lgcolor = vbRed
-        Else
-            lgcolor = vbGreen
-        End If
-    End If
-    Me!comStichwortFilter.BackColor = lgcolor
 ErrEnd:
     Exit Sub
 ErrMsg:
@@ -3677,6 +3667,7 @@ On Error GoTo ErrMsg
         If strf = "" Then
             Me!lstStichwort.BorderColor = vbBlack
             Me!lstStichwort.BorderWidth = 1
+            Me!comStichwortFilter.BackColor = Me!lstStichwortAct.BackColor
         Else
             If Me!lstStichwort.ListCount < 1 Then
                 Me!lstStichwort.BorderColor = vbRed
@@ -3684,6 +3675,7 @@ On Error GoTo ErrMsg
                 Me!lstStichwort.BorderColor = vbGreen
             End If
             Me!lstStichwort.BorderWidth = 5
+            Me!comStichwortFilter.BackColor = Me!lstStichwort.BorderColor
         End If
     Case 1
         OH_A "lstKontaktAct", , Me
@@ -5128,6 +5120,9 @@ On Error GoTo ErrMsg
                 s = "<br>und VIEL ERFOLG im neuen Jahr " & i & "!"
                 Me!txtMemo = Me!txtMemo & s
             End If
+        End If
+        If Me!DuSie = 1 Then
+            Me!txtMemo = Replace(Me!txtMemo, " VAM ", " Ti ") '260515 Input Helmut VAM = Sie TI = DU
         End If
         GoTo ErrEnd
     End If

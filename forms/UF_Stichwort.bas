@@ -23,7 +23,6 @@ Begin Form
     RecSrcDt = Begin
         0x0e10f3dfd0d0e540
     End
-    UniqueTable ="T_Stichwort"
     Caption ="Stichwort"
     OnCurrent ="[Event Procedure]"
     BeforeUpdate ="[Event Procedure]"

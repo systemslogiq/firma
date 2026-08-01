@@ -41,11 +41,11 @@
       "Type": 4
     },
     "AppIcon": {
-      "Value": "rel:Firma.ico",
+      "Value": "C:\\Firma\\Firma.ico",
       "Type": 10
     },
     "AppTitle": {
-      "Value": "Firma_260511",
+      "Value": "Firma_260718",
       "Type": 10
     },
     "Auto Compact": {
@@ -93,7 +93,7 @@
       "Type": 3
     },
     "Name": {
-      "Value": "rel:firma.accdb",
+      "Value": "rel:Firma - Kopie (2).ACCDB",
       "Type": 12
     },
     "NavPane Category": {
